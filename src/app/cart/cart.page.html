@@ -1,0 +1,33 @@
+<ion-content>
+    <app-background-layout slot="fixed" title="Bestellung" [isCart]="true"></app-background-layout>
+    <app-side-navigation slot="fixed"></app-side-navigation>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col size="9" offset="1.5">
+                <ion-list *ngFor="let item of loadedOrder">
+                    <app-order-card [item]="item" (click)="onShowDetail(item)"></app-order-card>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="loadedOrder.length > 0">
+            <ion-col size="6" offset="3" class="order-col">
+                <ion-button size="large" (click)="order()">
+                    <h2>Bestellung abschließen</h2>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="loadedOrder.length === 0" class="text-row">
+            <ion-col size="6" offset="3" class="order-col">
+                <ion-label>
+                    <h3>Die Bestellung ist leer.</h3>
+                    <h3>Bitte füge Getränke oder Speisen hinzu.</h3>
+                </ion-label>
+                <ion-col class="order-col space">
+                    <ion-button size="large" class="navbtn" [routerLink]="['/','categories','categories-beverages', 'false']">Getränke</ion-button>
+                    <ion-button size="large" class="navbtn" [routerLink]="['/','categories','categories-food', 'true']">Speisen</ion-button>
+                </ion-col>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

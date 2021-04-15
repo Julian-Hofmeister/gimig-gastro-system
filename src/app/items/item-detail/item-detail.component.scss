@@ -1,0 +1,101 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+// ion-col {
+//     border: crimson 1px solid;
+// }
+// ion-row {
+//     border: cornflowerblue 1px solid;
+// }
+img {
+    height: 20rem;
+    object-fit: cover;
+    border-radius: 8rem 20px 6em 22rem;
+}
+
+.image-col {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.content-col {
+    padding-top: 3rem;
+    padding-left: 3rem;
+}
+
+.menu-col {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 3rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.button-col {
+    padding-right: 3rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    justify-items: end;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: rgb(47, 47, 47);
+}
+
+p {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.menu-fab {
+    margin-right: 30px;
+    --box-shadow: none;
+    --background: coral;
+}
+
+.delete-fab {
+    margin-right: 0px;
+    --box-shadow: none;
+    --background: coral;
+}
+
+.close-fab {
+    --box-shadow: none;
+    --background: none
+}
+
+.close-fab>ion-icon {
+    font-size: 2.5rem;
+}
+
+ion-button {
+    padding: 0;
+    width: 15rem;
+    --box-shadow: none;
+    --border-radius: 100px;
+    --background: coral;
+}
+
+#warning {
+    font-size: 1rem;
+    color: rgb(102, 102, 102);
+    margin-left: 3rem;
+    margin-top: 1.5rem;
+}
+
+.vertical-line {
+    width: 1px;
+    height: 40px;
+    background: rgb(199, 199, 199);
+    margin: 0 30px;
+}

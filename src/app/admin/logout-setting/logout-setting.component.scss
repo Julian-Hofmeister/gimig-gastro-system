@@ -1,0 +1,34 @@
+ion-grid {
+    width: 100%;
+    height: 100%;
+}
+
+ion-row {
+    width: 100%;
+    height: 100%;
+    align-content: center;
+}
+
+ion-col {
+    justify-content: center;
+    text-align: center;
+}
+
+p {
+    margin-bottom: 3rem;
+}
+
+ion-button {
+    width: 15rem;
+    margin: 20px 20px;
+    // letter-spacing: 1px;
+    --border-radius: 100px;
+    --box-shadow: none;
+    --background: coral;
+}
+
+.btn-outline {
+    --background: none;
+    --border-color: coral;
+    --color: rgb(34, 34, 34);
+}

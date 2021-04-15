@@ -1,0 +1,46 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+ion-card {
+    margin: 10px 0;
+    width: 60rem;
+    height: 11rem;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: none;
+}
+
+img {
+    width: 9rem;
+    height: 11rem;
+    border-radius: 15px;
+    object-fit: cover;
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    padding: 15px;
+}
+
+.bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 20px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: rgb(82, 82, 82);
+}
+
+p {
+    font-size: 1.2rem;
+    letter-spacing: 0.8px;
+    color: rgb(82, 82, 82);
+}

@@ -1,0 +1,8 @@
+<ion-item lines="none" [ngStyle]="{ opacity: category.isVisible ? 1 : 0.4 }" *ngIf="category.imagePath | async; let url" [@simpleFadeAnimation]="'in'">
+    <ion-card (click)="openContent(category)">
+        <img [src]="url" />
+        <div class="category-label">
+            <h2>{{ category.name }}</h2>
+        </div>
+    </ion-card>
+</ion-item>

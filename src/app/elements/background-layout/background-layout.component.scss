@@ -1,0 +1,32 @@
+.background-layout {
+    background-color: rgb(255, 154, 117);
+    position: fixed;
+    right: 0;
+    height: 100%;
+}
+
+.cartClass {
+    background-color: rgb(117, 158, 255);
+}
+
+.container {
+    width: 5rem;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+
+.upright-text {
+    font-family: 'Lato';
+    font-size: 1.8rem;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: black;
+    opacity: 0.2;
+    writing-mode: tb-rl;
+    transform: rotate(-180deg);
+}

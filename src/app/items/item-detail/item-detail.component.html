@@ -1,0 +1,46 @@
+<ion-content [ngStyle]="{ opacity: item.isVisible ? 1 : 0.4 }" *ngIf="item.imagePath | async; let url" [@simpleFadeAnimation]="'in'">
+    <ion-grid>
+        <ion-row>
+            <ion-col class="content-col">
+                <ion-label>
+                    <h1>{{ item.name }}</h1>
+                    <p>{{ item.description }}</p>
+                </ion-label>
+            </ion-col>
+            <ion-col class="image-col">
+                <img [src]="url" alt="" />
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <p id="warning" [ngStyle]="{ opacity: inOrder && !isCart ? 1 : 0 }">
+                    Dieses Item befindet sich bereits im Einkaufswagen.
+                </p>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="7" class="menu-col">
+                <ion-fab-button class="delete-fab" (click)="delete()" *ngIf="inOrder">
+                    <ion-icon name="trash-outline"></ion-icon>
+                </ion-fab-button>
+                <div class="vertical-line" *ngIf="inOrder"></div>
+                <ion-fab-button class="menu-fab" (click)="add()">
+                    <ion-icon name="add-outline"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-button class="menu-fab" (click)="remove()">
+                    <ion-icon name="remove-outline"></ion-icon>
+                </ion-fab-button>
+                <h2>Anzahl: {{ item.amount }}x</h2>
+            </ion-col>
+            <ion-col size="5" class="menu-col button-col">
+                <ion-button size="large" (click)="addItem()">{{ inOrder ? "Speichern" : "Hinzufügen" }}
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-fab vertical="top" horizontal="end" slot="fixed">
+        <ion-fab-button class="close-fab" (click)="close()">
+            <ion-icon name="close"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>

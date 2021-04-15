@@ -1,0 +1,23 @@
+<ion-content>
+    <ion-row>
+        <ion-col>
+            <ion-button size="large" [ngClass]="{ selected: paysTogether === 'true' }" (click)="onChangePaysTogether('true')">Zusammen</ion-button>
+        </ion-col>
+        <ion-col>
+            <ion-button size="large" [ngClass]="{ selected: paysTogether === 'false' }" (click)="onChangePaysTogether('false')">Getrennt</ion-button>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <ion-button size="large" [ngClass]="{ selected: paysCache === 'true' }" (click)="onChangePaysCache('true')">Bar</ion-button>
+        </ion-col>
+        <ion-col>
+            <ion-button size="large" [ngClass]="{ selected: paysCache === 'false' }" (click)="onChangePaysCache('false')">Karte</ion-button>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <ion-button size="large" class="submit" [disabled]="paysTogether === null && paysCache === null" (click)="onCall()">bedienung zum Zahlen rufen</ion-button>
+        </ion-col>
+    </ion-row>
+</ion-content>

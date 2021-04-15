@@ -1,0 +1,16 @@
+<div class="background-layout float-right"></div>
+
+<ion-content>
+    <app-background-layout slot="fixed" title="Speisen"></app-background-layout>
+    <app-side-navigation slot="fixed"></app-side-navigation>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col size="8" offset="2">
+                <ion-list *ngFor="let category of categories">
+                    <app-category-card [category]="category"></app-category-card>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
