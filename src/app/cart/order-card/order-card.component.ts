@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Item } from 'src/app/items/item.model';
 
 @Component({
   selector: 'app-order-card',
@@ -6,7 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./order-card.component.scss'],
 })
 export class OrderCardComponent implements OnInit {
-  @Input() item;
+  @Input() item: Item;
+  @Input() disabled = false;
 
   constructor() {}
 

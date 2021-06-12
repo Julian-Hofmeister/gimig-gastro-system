@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
 import {
   animate,
   state,
@@ -6,6 +9,8 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+
+registerLocaleData(localeFr, 'fr');
 
 @Component({
   selector: 'app-item-card',
@@ -21,7 +26,14 @@ import {
 export class ItemCardComponent implements OnInit {
   @Input() item;
 
+  price: any;
+
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.price = new Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'EUR',
+    }).format(this.item.price);
+  }
 }

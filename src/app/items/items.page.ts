@@ -16,6 +16,8 @@ export class ItemsPage implements OnInit {
   id: string;
   hasFood: string;
 
+  isLoading = false;
+
   items: Item[];
 
   private streamSub: Subscription;
@@ -29,6 +31,8 @@ export class ItemsPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.isLoading = true;
+    console.log(this.isLoading);
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('id')) {
         this.navCtrl.navigateBack('/home');
@@ -67,6 +71,8 @@ export class ItemsPage implements OnInit {
           if (fetchedItem.isVisible == true) {
             this.items.push(fetchedItem);
           }
+          this.isLoading = false;
+          console.log(this.isLoading);
         }
       });
   }

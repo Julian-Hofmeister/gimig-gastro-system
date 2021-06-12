@@ -26,7 +26,9 @@ export class CategoryCardComponent implements OnInit {
 
   constructor(private navCtrl: NavController, private route: ActivatedRoute) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.category);
+  }
 
   openContent(category: Category) {
     if (category.hasCategories) {

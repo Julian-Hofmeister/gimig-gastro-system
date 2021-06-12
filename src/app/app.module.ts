@@ -11,6 +11,7 @@ import { SideNavigationComponent } from './elements/side-navigation/side-navigat
 import { environment } from 'src/environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoadingSpinnerComponent } from './elements/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [AppComponent],

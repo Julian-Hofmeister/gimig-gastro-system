@@ -17,6 +17,8 @@ export class CategoriesPage implements OnInit, OnDestroy {
   isFood: any;
   pathAttachment: string;
 
+  isLoading = false;
+
   // SUBS
   private streamSub: Subscription;
 
@@ -31,6 +33,7 @@ export class CategoriesPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.isLoading = true;
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('id')) {
         this.navCtrl.navigateBack('/home');
@@ -72,6 +75,7 @@ export class CategoriesPage implements OnInit, OnDestroy {
 
           this.categories.push(fetchedCategory);
         }
+        this.isLoading = false;
       });
   }
 

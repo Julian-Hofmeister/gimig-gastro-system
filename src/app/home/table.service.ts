@@ -26,7 +26,7 @@ export class TableService {
   constructor(public afs: AngularFirestore) {}
 
   getTableStatus() {
-    this.tableDocument = this.path.collection('tables').doc('10');
+    this.tableDocument = this.path.collection('tables').doc(this.tableNumber);
 
     this.table = this.tableDocument.snapshotChanges().pipe(
       map((a) => {
@@ -40,20 +40,22 @@ export class TableService {
   }
 
   sendServiceRequest() {
-    this.tableDocument = this.path.collection('tables').doc('10');
+    this.tableDocument = this.path.collection('tables').doc(this.tableNumber);
 
     this.tableDocument.update({
       serviceRequest: true,
+      serviceTimestamp: Date.now(),
     });
   }
 
   sendPayRequest(paysCache: boolean, paysTogether: boolean) {
-    this.tableDocument = this.path.collection('tables').doc('10');
+    this.tableDocument = this.path.collection('tables').doc(this.tableNumber);
 
     this.tableDocument.update({
       payRequest: true,
       paysCache: paysCache,
-      paysTogehter: paysTogether,
+      paysTogether: paysTogether,
+      payRequestTimestamp: Date.now(),
     });
   }
 }

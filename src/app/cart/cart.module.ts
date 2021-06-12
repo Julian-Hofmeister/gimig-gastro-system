@@ -11,6 +11,7 @@ import { BackgroundLayoutModule } from '../elements/background-layout/background
 import { SideNavigationModule } from '../elements/side-navigation/side-navigation.module';
 import { OrderCardComponent } from './order-card/order-card.component';
 import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
+import { OrderSuccesComponent } from './order-succes/order-succes.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,11 @@ import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
     BackgroundLayoutModule,
     SideNavigationModule,
   ],
-  declarations: [CartPage, OrderCardComponent, OrderConfirmComponent],
+  declarations: [
+    CartPage,
+    OrderCardComponent,
+    OrderConfirmComponent,
+    OrderSuccesComponent,
+  ],
 })
 export class CartPageModule {}

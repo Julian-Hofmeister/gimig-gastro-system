@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { CartService } from '../cart.service';
+import { OrderSuccesComponent } from '../order-succes/order-succes.component';
 
 @Component({
   selector: 'app-order-confirm',
@@ -10,7 +11,8 @@ import { CartService } from '../cart.service';
 export class OrderConfirmComponent implements OnInit {
   constructor(
     private cartService: CartService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {}
@@ -18,5 +20,15 @@ export class OrderConfirmComponent implements OnInit {
   onOrder() {
     this.cartService.order();
     this.modalCtrl.dismiss();
+    this.navCtrl.navigateBack('/home');
+
+    this.modalCtrl
+      .create({
+        component: OrderSuccesComponent,
+        cssClass: 'item-confirm-css',
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
   }
 }

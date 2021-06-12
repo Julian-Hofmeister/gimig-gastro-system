@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { TableService } from '../table.service';
 
 @Component({
@@ -10,7 +11,10 @@ export class SendPayRequestComponent implements OnInit {
   paysTogether: string = null;
   paysCache: string = null;
 
-  constructor(private tableService: TableService) {}
+  constructor(
+    private tableService: TableService,
+    private modalCtrl: ModalController
+  ) {}
 
   ngOnInit() {}
 
@@ -25,5 +29,6 @@ export class SendPayRequestComponent implements OnInit {
     const paysCache: boolean = this.paysCache == 'true' ? true : false;
     const paysTogether: boolean = this.paysTogether == 'true' ? true : false;
     this.tableService.sendPayRequest(paysCache, paysTogether);
+    this.modalCtrl.dismiss();
   }
 }

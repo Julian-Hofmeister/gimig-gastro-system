@@ -46,10 +46,16 @@ h3 {
 }
 
 .navbtn {
-    width: 80%;
-    height: 3rem;
-    margin: 20px 20px;
+    width: 100%;
     // letter-spacing: 1px;
     --border-radius: 100px;
     --background: rgb(117, 158, 255);
+}
+
+p {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgb(139, 139, 139);
+    margin-left: 1rem;
+    margin-bottom: 0;
 }

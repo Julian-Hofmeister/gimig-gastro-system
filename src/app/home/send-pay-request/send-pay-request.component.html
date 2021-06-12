@@ -17,7 +17,9 @@
     </ion-row>
     <ion-row>
         <ion-col>
-            <ion-button size="large" class="submit" [disabled]="paysTogether === null && paysCache === null" (click)="onCall()">bedienung zum Zahlen rufen</ion-button>
+            <ion-button size="large" class="submit" (click)="onCall()">Bedienung zum Zahlen rufen</ion-button>
         </ion-col>
     </ion-row>
 </ion-content>
+
+<!-- [disabled]="paysTogether === null || paysCache === null" -->

@@ -12,6 +12,8 @@ import { SideNavigationModule } from '../elements/side-navigation/side-navigatio
 import { BackgroundLayoutModule } from '../elements/background-layout/background-layout.module';
 import { ItemDetailComponent } from './item-detail/item-detail.component';
 import { ItemConfirmComponent } from './item-confirm/item-confirm.component';
+import '@angular/common/locales/global/en-GB';
+import { LoadingSpinnerModule } from '../elements/loading-spinner/loading-spinner.module';
 
 @NgModule({
   imports: [
@@ -21,6 +23,7 @@ import { ItemConfirmComponent } from './item-confirm/item-confirm.component';
     ItemsPageRoutingModule,
     SideNavigationModule,
     BackgroundLayoutModule,
+    LoadingSpinnerModule,
   ],
   declarations: [
     ItemsPage,

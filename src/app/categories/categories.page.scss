@@ -1,3 +1,16 @@
 ion-content {
     --ion-background-color: whitesmoke
 }
+
+.spin {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+ion-spinner {
+    transform: scale(2);
+    stroke: rgb(255, 154, 117);
+    fill: rgb(255, 154, 117);
+}

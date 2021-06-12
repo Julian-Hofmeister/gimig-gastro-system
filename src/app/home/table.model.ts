@@ -8,10 +8,12 @@ export class Table {
     public serviceRequest: boolean,
 
     public orderTime: Date,
+    public serviceTimestamp: number,
+    public payRequestTimestamp: number,
     public status: string,
 
     public ableToPay: boolean,
-    public paysTogehter: boolean,
+    public paysTogether: boolean,
     public paysCache: boolean,
 
     public isServed: boolean,

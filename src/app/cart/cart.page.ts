@@ -13,6 +13,7 @@ import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
 })
 export class CartPage implements OnInit {
   loadedOrder: Item[] = [];
+  orderedItems: Item[] = [];
 
   constructor(
     private modalCtrl: ModalController,
@@ -21,6 +22,7 @@ export class CartPage implements OnInit {
 
   ngOnInit() {
     this.loadedOrder = this.cartService.orderList;
+    this.orderedItems = this.cartService.orderedItems;
   }
 
   onShowDetail(item: any) {
@@ -38,7 +40,7 @@ export class CartPage implements OnInit {
   order() {
     this.modalCtrl
       .create({
-        component: LogoutSettingComponent,
+        component: OrderConfirmComponent,
         cssClass: 'confirm-css',
       })
       .then((modalEl) => {

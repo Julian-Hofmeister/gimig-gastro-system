@@ -6,3 +6,13 @@ ion-col {
 ion-item {
     margin-top: 1.2rem;
 }
+
+ion-fab-button {
+    margin: 20px;
+    --box-shadow: none;
+    --background: white;
+}
+
+ion-icon {
+    color: rgb(44, 44, 44);
+}

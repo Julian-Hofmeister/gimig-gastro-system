@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { LogoutSettingComponent } from './logout-setting/logout-setting.component';
 import { TableNumberSettingComponent } from './table-number-setting/table-number-setting.component';
@@ -11,7 +12,8 @@ import { TableNumberSettingComponent } from './table-number-setting/table-number
 export class AdminPage implements OnInit {
   constructor(
     private navCtrl: NavController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -36,5 +38,9 @@ export class AdminPage implements OnInit {
       .then((modalEl) => {
         modalEl.present();
       });
+  }
+
+  closeSettings() {
+    this.router.navigate(['/', 'home']);
   }
 }

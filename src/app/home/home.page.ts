@@ -15,6 +15,7 @@ import { TableService } from './table.service';
 export class HomePage implements OnInit {
   tableSub: Observable<Table>;
   table: Table;
+  tableNumber = localStorage.getItem('tableNumber');
 
   ableToPay = false;
   serviceRequest = false;
@@ -36,6 +37,10 @@ export class HomePage implements OnInit {
     });
   }
 
+  ionViewWillEnter() {
+    this.tableNumber = localStorage.getItem('tableNumber');
+  }
+
   openCategory(content: string) {
     console.log(content);
     this.router.navigate(['/', 'categories', content]);
@@ -46,7 +51,7 @@ export class HomePage implements OnInit {
   }
 
   openAdmin() {
-    this.router.navigate(['/', 'authentication']);
+    this.router.navigate(['/', 'admin']);
   }
 
   sendServiceRequest() {

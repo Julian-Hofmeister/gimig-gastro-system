@@ -7,6 +7,7 @@ import { Item } from '../items/item.model';
 })
 export class CartService {
   orderList: Item[] = [];
+  orderedItems: Item[] = [];
 
   tableNumber = localStorage.getItem('tableNumber');
   // userEmail = JSON.parse(localStorage.getItem('user')).email;
@@ -44,7 +45,14 @@ export class CartService {
     this.path.collection('tables').doc(this.tableNumber.toString()).update({
       isOrdered: true,
       isAccepted: false,
+      orderRequest: true,
       timestamp: Date.now(),
     });
+    for (let item of this.orderList) {
+      this.orderedItems.push(item);
+    }
+    this.orderList = [];
+    console.log('this.orderedItems');
+    console.log(this.orderedItems);
   }
 }
