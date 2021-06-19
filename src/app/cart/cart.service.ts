@@ -10,9 +10,9 @@ export class CartService {
   orderedItems: Item[] = [];
 
   tableNumber = localStorage.getItem('tableNumber');
-  // userEmail = JSON.parse(localStorage.getItem('user')).email;
-  // path = this.afs.collection('restaurants').doc(this.userEmail);
-  path = this.afs.collection('restaurants').doc('julian@web.de');
+
+  userEmail = JSON.parse(localStorage.getItem('user')).email;
+  path = this.afs.collection('restaurants').doc(this.userEmail);
 
   constructor(public afs: AngularFirestore) {}
 
@@ -34,7 +34,7 @@ export class CartService {
         isServerd: false,
         isPaid: false,
 
-        timestamp: Date.now(),
+        orderTimestamp: Date.now(),
 
         // METADATA
         parentId: item.parentId,
@@ -54,5 +54,10 @@ export class CartService {
     this.orderList = [];
     console.log('this.orderedItems');
     console.log(this.orderedItems);
+  }
+
+  resetCart() {
+    this.orderList = [];
+    this.orderedItems = [];
   }
 }

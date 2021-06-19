@@ -1,5 +1,7 @@
 {
   "name": "gimig-gastro-system",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

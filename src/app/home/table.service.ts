@@ -3,8 +3,10 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
+import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CartService } from '../cart/cart.service';
 import { Table } from './table.model';
 
 @Injectable({
@@ -12,18 +14,22 @@ import { Table } from './table.model';
 })
 export class TableService {
   tableNumber = localStorage.getItem('tableNumber');
+
   ableToPay = new Observable<boolean>();
   status: string;
   isOrdered: boolean;
   isAccepted: boolean;
-
   table: Observable<Table>;
-
   tableDocument: AngularFirestoreDocument<Table>;
 
-  path = this.afs.collection('restaurants').doc('julian@web.de');
+  userEmail = JSON.parse(localStorage.getItem('user')).email;
+  path = this.afs.collection('restaurants').doc(this.userEmail);
 
-  constructor(public afs: AngularFirestore) {}
+  constructor(
+    public afs: AngularFirestore,
+    private cartService: CartService,
+    private navCtrl: NavController
+  ) {}
 
   getTableStatus() {
     this.tableDocument = this.path.collection('tables').doc(this.tableNumber);
@@ -35,7 +41,6 @@ export class TableService {
         return data;
       })
     );
-    console.log(this.table);
     return this.table;
   }
 
@@ -57,5 +62,16 @@ export class TableService {
       paysTogether: paysTogether,
       payRequestTimestamp: Date.now(),
     });
+  }
+
+  resetTable() {
+    this.tableDocument = this.path.collection('tables').doc(this.tableNumber);
+
+    this.tableDocument.update({
+      resetRequest: false,
+    });
+
+    this.cartService.resetCart();
+    this.navCtrl.navigateBack('/home');
   }
 }

@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { CategoryService } from './category.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Category } from './category.model';
-import { ImageService } from './image.service';
 
 @Component({
   selector: 'app-categories',
@@ -28,8 +27,7 @@ export class CategoriesPage implements OnInit, OnDestroy {
     private navCtrl: NavController,
     private route: ActivatedRoute,
     private categoryService: CategoryService,
-    private afStorage: AngularFireStorage,
-    private imageService: ImageService
+    private afStorage: AngularFireStorage
   ) {}
 
   ngOnInit() {
@@ -39,7 +37,6 @@ export class CategoriesPage implements OnInit, OnDestroy {
         this.navCtrl.navigateBack('/home');
         return;
       }
-      console.log(paramMap.get('id'));
       this.id = paramMap.get('id');
       this.isFood = paramMap.get('hasFood');
       // this.id = 'categories';

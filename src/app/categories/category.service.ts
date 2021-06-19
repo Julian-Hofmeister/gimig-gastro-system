@@ -4,13 +4,8 @@ import { map } from 'rxjs/operators';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
-  AngularFirestoreDocument,
 } from '@angular/fire/firestore';
-import {
-  AngularFireStorage,
-  AngularFireStorageReference,
-  AngularFireUploadTask,
-} from '@angular/fire/storage';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -18,17 +13,12 @@ import { Observable } from 'rxjs';
 })
 export class CategoryService {
   categories: Observable<any[]>;
-
   categoryCollection: AngularFirestoreCollection<Category>;
 
-  // userEmail = JSON.parse(localStorage.getItem('user')).email;
-  userEmail = 'julian@web.de';
+  userEmail = JSON.parse(localStorage.getItem('user')).email;
   path = this.afs.collection('restaurants').doc(this.userEmail);
 
-  constructor(
-    public afs: AngularFirestore,
-    private afStorage: AngularFireStorage
-  ) {}
+  constructor(public afs: AngularFirestore) {}
 
   // GET CATEGORIES
   getCategories(id: string, pathAttachment: string) {
@@ -38,8 +28,8 @@ export class CategoryService {
       (ref) => ref.where('parentId', '==', id)
     );
 
-    console.log(id);
-    console.log(pathAttachment);
+    // console.log(id);
+    // console.log(pathAttachment);
 
     // GETS CATEGORIES
     this.categories = this.categoryCollection.snapshotChanges().pipe(

@@ -32,13 +32,12 @@ export class ItemsPage implements OnInit {
 
   ngOnInit() {
     this.isLoading = true;
-    console.log(this.isLoading);
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('id')) {
         this.navCtrl.navigateBack('/home');
         return;
       }
-      console.log(paramMap.get('id'));
+
       this.id = paramMap.get('id');
       this.hasFood = paramMap.get('hasFood');
     });
@@ -52,7 +51,6 @@ export class ItemsPage implements OnInit {
 
         // DEFINE NEW ITEM
         for (let item of items) {
-          console.log(item.imagePath);
           const imagePath = this.afStorage.ref(item.imagePath).getDownloadURL();
 
           const fetchedItem = new Item(
@@ -72,7 +70,6 @@ export class ItemsPage implements OnInit {
             this.items.push(fetchedItem);
           }
           this.isLoading = false;
-          console.log(this.isLoading);
         }
       });
   }
