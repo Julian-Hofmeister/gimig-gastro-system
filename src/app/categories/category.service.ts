@@ -5,7 +5,6 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -25,7 +24,7 @@ export class CategoryService {
     // GETS REFERENCE
     this.categoryCollection = this.path.collection(
       '/' + pathAttachment,
-      (ref) => ref.where('parentId', '==', id)
+      (ref) => ref.where('parentId', '==', id).orderBy('id')
     );
 
     // console.log(id);

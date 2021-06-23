@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Item } from '../items/item.model';
 
@@ -12,14 +12,14 @@ export class CartService {
   tableNumber = localStorage.getItem('tableNumber');
 
   userEmail = JSON.parse(localStorage.getItem('user')).email;
-  path = this.afs.collection('restaurants').doc(this.userEmail);
+  path = this.afs.collection('restaurants');
 
   constructor(public afs: AngularFirestore) {}
 
   order() {
     console.log(this.orderList);
     this.orderList.forEach((item) => {
-      this.path.collection('orders').add({
+      this.path.doc(this.userEmail).collection('orders').add({
         // ITEM DETAILS
         name: item.name,
         price: item.price,
@@ -42,12 +42,16 @@ export class CartService {
         isVisible: item.isVisible,
       });
     });
-    this.path.collection('tables').doc(this.tableNumber.toString()).update({
-      isOrdered: true,
-      isAccepted: false,
-      orderRequest: true,
-      timestamp: Date.now(),
-    });
+    this.path
+      .doc(this.userEmail)
+      .collection('tables')
+      .doc(this.tableNumber.toString())
+      .update({
+        isOrdered: true,
+        isAccepted: false,
+        orderRequest: true,
+        timestamp: Date.now(),
+      });
     for (let item of this.orderList) {
       this.orderedItems.push(item);
     }

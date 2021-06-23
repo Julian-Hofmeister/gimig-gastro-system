@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import {
   AngularFirestore,
+  AngularFirestoreCollection,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { NavController } from '@ionic/angular';
@@ -8,6 +9,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CartService } from '../cart/cart.service';
 import { Table } from './table.model';
+import { User } from './user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +23,12 @@ export class TableService {
   isAccepted: boolean;
   table: Observable<Table>;
   tableDocument: AngularFirestoreDocument<Table>;
+  tableCollection: AngularFirestoreCollection;
 
   userEmail = JSON.parse(localStorage.getItem('user')).email;
-  path = this.afs.collection('restaurants').doc(this.userEmail);
+  path = this.afs.collection('restaurants');
+
+  user: Observable<User>;
 
   constructor(
     public afs: AngularFirestore,
@@ -32,7 +37,10 @@ export class TableService {
   ) {}
 
   getTableStatus() {
-    this.tableDocument = this.path.collection('tables').doc(this.tableNumber);
+    this.tableDocument = this.path
+      .doc(this.userEmail)
+      .collection('tables')
+      .doc(this.tableNumber);
 
     this.table = this.tableDocument.snapshotChanges().pipe(
       map((a) => {
@@ -44,8 +52,24 @@ export class TableService {
     return this.table;
   }
 
+  getUser() {
+    this.user = this.path
+      .doc(this.userEmail)
+      .snapshotChanges()
+      .pipe(
+        map((a) => {
+          const data = a.payload.data() as User;
+          return data;
+        })
+      );
+    return this.user;
+  }
+
   sendServiceRequest() {
-    this.tableDocument = this.path.collection('tables').doc(this.tableNumber);
+    this.tableDocument = this.path
+      .doc(this.userEmail)
+      .collection('tables')
+      .doc(this.tableNumber);
 
     this.tableDocument.update({
       serviceRequest: true,
@@ -54,7 +78,10 @@ export class TableService {
   }
 
   sendPayRequest(paysCache: boolean, paysTogether: boolean) {
-    this.tableDocument = this.path.collection('tables').doc(this.tableNumber);
+    this.tableDocument = this.path
+      .doc(this.userEmail)
+      .collection('tables')
+      .doc(this.tableNumber);
 
     this.tableDocument.update({
       payRequest: true,
@@ -65,7 +92,10 @@ export class TableService {
   }
 
   resetTable() {
-    this.tableDocument = this.path.collection('tables').doc(this.tableNumber);
+    this.tableDocument = this.path
+      .doc(this.userEmail)
+      .collection('tables')
+      .doc(this.tableNumber);
 
     this.tableDocument.update({
       resetRequest: false,
@@ -73,5 +103,18 @@ export class TableService {
 
     this.cartService.resetCart();
     this.navCtrl.navigateBack('/home');
+  }
+
+  setTable(tableNumber: number) {
+    this.tableCollection = this.path.doc(this.userEmail).collection('tables');
+
+    this.tableCollection.doc(tableNumber.toString()).set({
+      tableNumber: tableNumber,
+    });
+  }
+
+  getAllTables() {
+    this.tableCollection = this.path.doc(this.userEmail).collection('tables');
+    this.tableCollection.get;
   }
 }

@@ -6,6 +6,7 @@ import { CallServiceComponent } from './call-service/call-service.component';
 import { SendPayRequestComponent } from './send-pay-request/send-pay-request.component';
 import { Table } from './table.model';
 import { TableService } from './table.service';
+import { User } from './user.model';
 
 @Component({
   selector: 'app-home',
@@ -15,10 +16,14 @@ import { TableService } from './table.service';
 export class HomePage implements OnInit {
   tableSub: Observable<Table>;
   table: Table;
+  userSub: Observable<User>;
+  user: User;
   tableNumber = localStorage.getItem('tableNumber');
 
   ableToPay = false;
   serviceRequest = false;
+
+  backgroundImage: any;
 
   constructor(
     private router: Router,
@@ -28,12 +33,16 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.tableSub = this.tableService.getTableStatus();
-    console.log(this.tableSub);
+    this.userSub = this.tableService.getUser();
+
     this.tableSub.subscribe((doc) => {
       this.table = doc;
-
       this.ableToPay = this.table.ableToPay;
       this.serviceRequest = this.table.serviceRequest;
+    });
+    this.userSub.subscribe((doc) => {
+      this.user = doc;
+      // this.backgroundImage = this.user.backgroundImage;
     });
   }
 

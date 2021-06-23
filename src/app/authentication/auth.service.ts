@@ -32,6 +32,8 @@ export class AuthService {
       email: string;
     } = JSON.parse(localStorage.getItem('user'));
     if (!user) {
+      this.router.navigate(['/authentication']);
+      console.log('No User');
       return null;
     }
 
@@ -43,7 +45,7 @@ export class AuthService {
   logout() {
     this.firebaseAuth.signOut();
     localStorage.removeItem('user');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/authentication']);
   }
 
   public handleError(errorRes: string) {

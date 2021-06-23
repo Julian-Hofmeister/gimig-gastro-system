@@ -24,7 +24,7 @@ export class ItemService {
     const pathAttachment = hasFood == 'true' ? 'items-food' : 'items-beverages';
     // GETS REFERENCE
     this.itemCollection = this.path.collection('/' + pathAttachment, (ref) =>
-      ref.where('parentId', '==', id)
+      ref.where('parentId', '==', id).orderBy('name')
     );
 
     // GETS ITEMS

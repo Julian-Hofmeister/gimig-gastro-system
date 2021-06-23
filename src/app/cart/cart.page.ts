@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { LogoutSettingComponent } from '../admin/logout-setting/logout-setting.component';
 import { ItemDetailComponent } from '../items/item-detail/item-detail.component';
 import { Item } from '../items/item.model';
 import { CartService } from './cart.service';
