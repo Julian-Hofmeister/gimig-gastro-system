@@ -1,7 +1,8 @@
 {
   "name": "gimig-gastro-system",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }

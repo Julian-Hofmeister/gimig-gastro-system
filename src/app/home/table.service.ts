@@ -25,7 +25,8 @@ export class TableService {
   tableDocument: AngularFirestoreDocument<Table>;
   tableCollection: AngularFirestoreCollection;
 
-  userEmail = JSON.parse(localStorage.getItem('user')).email;
+  // userEmail = JSON.parse(localStorage.getItem('user')).email;
+  userEmail = 'hello@gimig.de';
   path = this.afs.collection('restaurants');
 
   user: Observable<User>;

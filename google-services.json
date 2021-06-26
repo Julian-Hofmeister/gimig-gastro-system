@@ -1,0 +1,148 @@
+{
+    "project_info": {
+        "project_number": "1050763491393",
+        "firebase_url": "https://gimig-gastronomie-software.firebaseio.com",
+        "project_id": "gimig-gastronomie-software",
+        "storage_bucket": "gimig-gastronomie-software.appspot.com"
+    },
+    "client": [{
+            "client_info": {
+                "mobilesdk_app_id": "1:1050763491393:android:51f9c82c2d78b115d46ec0",
+                "android_client_info": {
+                    "package_name": "com.example.gimig_gastro_image_upload"
+                }
+            },
+            "oauth_client": [{
+                "client_id": "1050763491393-c2if3b3voah5pm5d56lr574o21shhtff.apps.googleusercontent.com",
+                "client_type": 3
+            }],
+            "api_key": [{
+                "current_key": "AIzaSyBqZf_ZCmW4anNE5XsF5tOF_gG7NQ6N-GE"
+            }],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [{
+                        "client_id": "1050763491393-c2if3b3voah5pm5d56lr574o21shhtff.apps.googleusercontent.com",
+                        "client_type": 3
+                    }]
+                }
+            }
+        },
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:1050763491393:android:01bec8b58754565bd46ec0",
+                "android_client_info": {
+                    "package_name": "com.example.gimig_menu_automation"
+                }
+            },
+            "oauth_client": [{
+                "client_id": "1050763491393-c2if3b3voah5pm5d56lr574o21shhtff.apps.googleusercontent.com",
+                "client_type": 3
+            }],
+            "api_key": [{
+                "current_key": "AIzaSyBqZf_ZCmW4anNE5XsF5tOF_gG7NQ6N-GE"
+            }],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [{
+                        "client_id": "1050763491393-c2if3b3voah5pm5d56lr574o21shhtff.apps.googleusercontent.com",
+                        "client_type": 3
+                    }]
+                }
+            }
+        },
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:1050763491393:android:51f1363ebc6f322fd46ec0",
+                "android_client_info": {
+                    "package_name": "com.ju.gimig_gastro_master"
+                }
+            },
+            "oauth_client": [{
+                "client_id": "1050763491393-c2if3b3voah5pm5d56lr574o21shhtff.apps.googleusercontent.com",
+                "client_type": 3
+            }],
+            "api_key": [{
+                "current_key": "AIzaSyBqZf_ZCmW4anNE5XsF5tOF_gG7NQ6N-GE"
+            }],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [{
+                        "client_id": "1050763491393-c2if3b3voah5pm5d56lr574o21shhtff.apps.googleusercontent.com",
+                        "client_type": 3
+                    }]
+                }
+            }
+        },
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:1050763491393:android:2d8c93ad7d5e4ea5d46ec0",
+                "android_client_info": {
+                    "package_name": "ju.gimig_gastro_application"
+                }
+            },
+            "oauth_client": [{
+                "client_id": "1050763491393-c2if3b3voah5pm5d56lr574o21shhtff.apps.googleusercontent.com",
+                "client_type": 3
+            }],
+            "api_key": [{
+                "current_key": "AIzaSyBqZf_ZCmW4anNE5XsF5tOF_gG7NQ6N-GE"
+            }],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [{
+                        "client_id": "1050763491393-c2if3b3voah5pm5d56lr574o21shhtff.apps.googleusercontent.com",
+                        "client_type": 3
+                    }]
+                }
+            }
+        },
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:1050763491393:android:eb8c8c457d966db3d46ec0",
+                "android_client_info": {
+                    "package_name": "ju.gimiggastromaster"
+                }
+            },
+            "oauth_client": [{
+                "client_id": "1050763491393-c2if3b3voah5pm5d56lr574o21shhtff.apps.googleusercontent.com",
+                "client_type": 3
+            }],
+            "api_key": [{
+                "current_key": "AIzaSyBqZf_ZCmW4anNE5XsF5tOF_gG7NQ6N-GE"
+            }],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [{
+                        "client_id": "1050763491393-c2if3b3voah5pm5d56lr574o21shhtff.apps.googleusercontent.com",
+                        "client_type": 3
+                    }]
+                }
+            }
+        },
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:1050763491393:android:227a45af4d297250d46ec0",
+                "android_client_info": {
+                    "package_name": "ju.gimiggastronomiesoftware"
+                }
+            },
+            "oauth_client": [{
+                "client_id": "1050763491393-c2if3b3voah5pm5d56lr574o21shhtff.apps.googleusercontent.com",
+                "client_type": 3
+            }],
+            "api_key": [{
+                "current_key": "AIzaSyBqZf_ZCmW4anNE5XsF5tOF_gG7NQ6N-GE"
+            }],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [{
+                        "client_id": "1050763491393-c2if3b3voah5pm5d56lr574o21shhtff.apps.googleusercontent.com",
+                        "client_type": 3
+                    }]
+                }
+            }
+        }
+    ],
+    "configuration_version": "1"
+}

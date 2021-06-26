@@ -14,7 +14,9 @@ export class CategoryService {
   categories: Observable<any[]>;
   categoryCollection: AngularFirestoreCollection<Category>;
 
-  userEmail = JSON.parse(localStorage.getItem('user')).email;
+  // userEmail = JSON.parse(localStorage.getItem('user')).email;
+  userEmail = 'hello@gimig.de';
+
   path = this.afs.collection('restaurants').doc(this.userEmail);
 
   constructor(public afs: AngularFirestore) {}
@@ -24,7 +26,8 @@ export class CategoryService {
     // GETS REFERENCE
     this.categoryCollection = this.path.collection(
       '/' + pathAttachment,
-      (ref) => ref.where('parentId', '==', id).orderBy('id')
+      (ref) => ref.where('parentId', '==', id)
+      // .orderBy('id')
     );
 
     // console.log(id);

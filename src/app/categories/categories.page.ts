@@ -45,6 +45,7 @@ export class CategoriesPage implements OnInit, OnDestroy {
     this.pathAttachment =
       this.isFood == 'true' ? 'categories-food' : 'categories-beverages';
 
+    console.log(this.pathAttachment);
     // GET CATEGORIES
     this.streamSub = this.categoryService
       .getCategories(this.id, this.pathAttachment)

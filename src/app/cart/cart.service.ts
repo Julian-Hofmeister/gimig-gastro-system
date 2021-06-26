@@ -11,12 +11,15 @@ export class CartService {
 
   tableNumber = localStorage.getItem('tableNumber');
 
-  userEmail = JSON.parse(localStorage.getItem('user')).email;
+  // userEmail = JSON.parse(localStorage.getItem('user')).email;
+  userEmail = 'hello@gimig.de';
   path = this.afs.collection('restaurants');
 
   constructor(public afs: AngularFirestore) {}
 
   order() {
+    // this.userEmail = JSON.parse(localStorage.getItem('user')).email;
+
     console.log(this.orderList);
     this.orderList.forEach((item) => {
       this.path.doc(this.userEmail).collection('orders').add({
