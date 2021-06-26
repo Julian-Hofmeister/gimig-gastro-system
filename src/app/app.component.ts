@@ -56,14 +56,14 @@ export class AppComponent implements OnInit {
         });
     }
 
-    this.tableSub = this.tableService.getTableStatus();
-    this.tableSub.subscribe((doc) => {
-      this.table = doc;
+    // this.tableSub = this.tableService.getTableStatus();
+    // this.tableSub.subscribe((doc) => {
+    //   this.table = doc;
 
-      if (doc.resetRequest) {
-        console.log('is resetting');
-        this.tableService.resetTable();
-      }
-    });
+    //   if (doc.resetRequest) {
+    //     console.log('is resetting');
+    //     this.tableService.resetTable();
+    //   }
+    // });
   }
 }

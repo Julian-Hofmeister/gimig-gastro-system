@@ -22,6 +22,7 @@ export class HomePage implements OnInit {
 
   ableToPay = false;
   serviceRequest = false;
+  resetRequest = false;
 
   backgroundImage: any;
 
@@ -39,6 +40,11 @@ export class HomePage implements OnInit {
       this.table = doc;
       this.ableToPay = this.table.ableToPay;
       this.serviceRequest = this.table.serviceRequest;
+      this.resetRequest = this.table.resetRequest;
+
+      if (this.resetRequest) {
+        this.tableService.resetTable();
+      }
     });
     this.userSub.subscribe((doc) => {
       this.user = doc;
