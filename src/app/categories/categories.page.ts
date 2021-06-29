@@ -12,54 +12,54 @@ import { Category } from './category.model';
   styleUrls: ['./categories.page.scss'],
 })
 export class CategoriesPage implements OnInit, OnDestroy {
-  id: string;
-  isFood: any;
-  pathAttachment: string;
-
-  isLoading = false;
-
-  // SUBS
+  // # SUBSCRIPTIONS
   private streamSub: Subscription;
 
+  // # LISTS
   categories: Category[] = [];
 
+  // # PROPERTIES
+  id: string;
+  pathAttachment: string;
+  isLoading = false;
+
+  // # CONSTRUCTOR
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
-    private categoryService: CategoryService,
-    private afStorage: AngularFireStorage
+    private afStorage: AngularFireStorage,
+    // # SERVICES
+    private categoryService: CategoryService
   ) {}
 
+  // # On INIT
   ngOnInit() {
+    // * ACTIVATE LOADING INDICAtOR
     this.isLoading = true;
+
+    // * GET URL DATA
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('id')) {
         this.navCtrl.navigateBack('/home');
         return;
       }
       this.id = paramMap.get('id');
-      this.isFood = paramMap.get('hasFood');
-      // this.id = 'categories';
+      const isFood = paramMap.get('hasFood');
+      this.pathAttachment =
+        isFood == 'true' ? 'categories-food' : 'categories-beverages';
     });
 
-    this.pathAttachment =
-      this.isFood == 'true' ? 'categories-food' : 'categories-beverages';
-
-    console.log(this.pathAttachment);
-    // GET CATEGORIES
+    // * GET CATEGORIES
     this.streamSub = this.categoryService
       .getCategories(this.id, this.pathAttachment)
       .subscribe((categories) => {
-        // EMPTY LOCAL CATEGORIES
         this.categories = [];
 
-        // DEFINE NEW CATEGORY
+        // * DEFINE NEW CATEGORY
         for (let category of categories) {
           const imagePath = this.afStorage
             .ref(category.imagePath)
             .getDownloadURL();
-
-          // this.imageService.storeImage(imagePath);
 
           const fetchedCategory = new Category(
             category.name,
@@ -71,18 +71,22 @@ export class CategoriesPage implements OnInit, OnDestroy {
             category.parentId
           );
 
-          this.categories.push(fetchedCategory);
+          if (fetchedCategory.isVisible) {
+            this.categories.push(fetchedCategory);
+          }
         }
+        // * DEACTIVATE LOADING INDICAtOR
         this.isLoading = false;
       });
   }
 
+  // # FUNCTIONS
   openCategory(name: string) {
     this.navCtrl.navigateForward(['/', 'items', name]);
   }
 
+  // # ON DESTROY
   ngOnDestroy() {
-    // DESTROY SUBS
     this.streamSub.unsubscribe();
   }
 }

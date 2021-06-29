@@ -9,6 +9,7 @@ import { AdminPageRoutingModule } from './admin-routing.module';
 import { AdminPage } from './admin.page';
 import { TableNumberSettingComponent } from './table-number-setting/table-number-setting.component';
 import { LogoutSettingComponent } from './logout-setting/logout-setting.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, AdminPageRoutingModule],
@@ -16,6 +17,7 @@ import { LogoutSettingComponent } from './logout-setting/logout-setting.componen
     AdminPage,
     TableNumberSettingComponent,
     LogoutSettingComponent,
+    AdminLoginComponent,
   ],
 })
 export class AdminPageModule {}

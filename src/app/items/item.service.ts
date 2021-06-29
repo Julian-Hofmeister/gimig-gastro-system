@@ -11,24 +11,27 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ItemService {
+  // # OBSERVABLES
   items: Observable<any[]>;
-  itemCollection: AngularFirestoreCollection<Item>;
 
-  userEmail = JSON.parse(localStorage.getItem('user')).email;
+  // # LOCALSTORAGE VARIABLES
+  userEmail = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')).email
+    : null;
+
+  // # FIRESTORE REFERENCES
   path = this.afs.collection('restaurants').doc(this.userEmail);
 
+  // # CONSTRUCTOR
   constructor(public afs: AngularFirestore) {}
 
-  // GET ITEMS
+  // # FUNCTIONS
   getItems(id: string, hasFood: string) {
     const pathAttachment = hasFood == 'true' ? 'items-food' : 'items-beverages';
-    // GETS REFERENCE
-    this.itemCollection = this.path.collection('/' + pathAttachment, (ref) =>
+    const itemCollection = this.path.collection('/' + pathAttachment, (ref) =>
       ref.where('parentId', '==', id).orderBy('name')
     );
-
-    // GETS ITEMS
-    this.items = this.itemCollection.snapshotChanges().pipe(
+    this.items = itemCollection.snapshotChanges().pipe(
       map((changes) => {
         return changes.map((a) => {
           const data = a.payload.doc.data() as Item;

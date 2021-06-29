@@ -20,26 +20,26 @@
         </ion-row>
         <ion-row>
             <ion-col size="7" class="menu-col">
-                <ion-fab-button class="delete-fab" (click)="delete()" *ngIf="inOrder">
+                <ion-fab-button class="delete-fab" (click)="deleteItemInCart()" *ngIf="inOrder">
                     <ion-icon name="trash-outline"></ion-icon>
                 </ion-fab-button>
                 <div class="vertical-line" *ngIf="inOrder"></div>
-                <ion-fab-button class="menu-fab" (click)="add()">
+                <ion-fab-button class="menu-fab" (click)="increaseAmountByOne()">
                     <ion-icon name="add-outline"></ion-icon>
                 </ion-fab-button>
-                <ion-fab-button class="menu-fab" (click)="remove()">
+                <ion-fab-button class="menu-fab" (click)="decreaseAmountByOne()">
                     <ion-icon name="remove-outline"></ion-icon>
                 </ion-fab-button>
                 <h2>Anzahl: {{ item.amount }}x</h2>
             </ion-col>
             <ion-col size="5" class="menu-col button-col">
-                <ion-button size="large" (click)="addItem()">{{ inOrder ? "Speichern" : "Hinzufügen" }}
+                <ion-button size="large" (click)="addItemToCart()">{{ inOrder ? "Speichern" : "Hinzufügen" }}
                 </ion-button>
             </ion-col>
         </ion-row>
     </ion-grid>
     <ion-fab vertical="top" horizontal="end" slot="fixed">
-        <ion-fab-button class="close-fab" (click)="close()">
+        <ion-fab-button class="close-fab" (click)="closeModal()">
             <ion-icon name="close"></ion-icon>
         </ion-fab-button>
     </ion-fab>

@@ -1,40 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Category } from './category.model';
 import { map } from 'rxjs/operators';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-} from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
+  // # OBSERVABLES
   categories: Observable<any[]>;
-  categoryCollection: AngularFirestoreCollection<Category>;
 
-  // userEmail = JSON.parse(localStorage.getItem('user')).email;
-  userEmail = 'hello@gimig.de';
+  // # LOCALSTORAGE VARIABLES
+  userEmail = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')).email
+    : null;
 
+  // # FIRESTORE REFERENCES
   path = this.afs.collection('restaurants').doc(this.userEmail);
 
+  // # CONSTRUCTOR
   constructor(public afs: AngularFirestore) {}
 
-  // GET CATEGORIES
+  // # FUNCTIONS
   getCategories(id: string, pathAttachment: string) {
-    // GETS REFERENCE
-    this.categoryCollection = this.path.collection(
+    const categoryCollection = this.path.collection(
       '/' + pathAttachment,
       (ref) => ref.where('parentId', '==', id)
       // .orderBy('id')
     );
-
-    // console.log(id);
-    // console.log(pathAttachment);
-
-    // GETS CATEGORIES
-    this.categories = this.categoryCollection.snapshotChanges().pipe(
+    this.categories = categoryCollection.snapshotChanges().pipe(
       map((changes) => {
         return changes.map((a) => {
           const data = a.payload.doc.data() as Category;
@@ -43,7 +38,6 @@ export class CategoryService {
         });
       })
     );
-
     return this.categories;
   }
 }

@@ -11,6 +11,7 @@ export class Item {
   public id: string;
   public parentId: string;
   public amount?: number;
+  public isOrdered?: boolean;
 
   constructor(
     name: string,
@@ -23,7 +24,8 @@ export class Item {
     isFood: boolean,
     id: string,
     parentId: string,
-    amount?: number
+    amount?: number,
+    isOrdered?: boolean
   ) {
     this.name = name;
     this.description = description;
@@ -34,6 +36,7 @@ export class Item {
     this.isFood = isFood;
     this.id = id;
     this.parentId = parentId;
-    this.amount = 1;
+    this.amount = amount ? amount : 1;
+    this.isOrdered = isOrdered ? isOrdered : false;
   }
 }

@@ -13,15 +13,18 @@ import { AngularFireStorage } from '@angular/fire/storage';
   styleUrls: ['./items.page.scss'],
 })
 export class ItemsPage implements OnInit {
-  id: string;
-  hasFood: string;
-
-  isLoading = false;
-
-  items: Item[];
-
+  // # SUBSCRITPIONS
   private streamSub: Subscription;
 
+  // # LISTS
+  items: Item[];
+
+  // # PROPERTIES
+  id: string;
+  hasFood: string;
+  isLoading = false;
+
+  // # CONSTRUCTOR
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
@@ -30,26 +33,28 @@ export class ItemsPage implements OnInit {
     private afStorage: AngularFireStorage
   ) {}
 
+  // # On INIT
   ngOnInit() {
+    // * ACTIVATE LOADING INDICAtOR
     this.isLoading = true;
+
+    // * GET URL DATA
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('id')) {
         this.navCtrl.navigateBack('/home');
         return;
       }
-
       this.id = paramMap.get('id');
       this.hasFood = paramMap.get('hasFood');
     });
 
-    // GET ITEMS
+    // * GET ITEMS
     this.streamSub = this.itemService
       .getItems(this.id, this.hasFood)
       .subscribe((items) => {
-        // EMPTY LOCAL ITEMS
         this.items = [];
 
-        // DEFINE NEW ITEM
+        // * DEFINE NEW ITEM
         for (let item of items) {
           const imagePath = this.afStorage.ref(item.imagePath).getDownloadURL();
 
@@ -65,15 +70,16 @@ export class ItemsPage implements OnInit {
             item.parentId
           );
 
-          // PUSH NEW ITEM
-          if (fetchedItem.isVisible == true) {
+          if (fetchedItem.isVisible) {
             this.items.push(fetchedItem);
           }
+          // * DEACTIVATE LOADING INDICAtOR
           this.isLoading = false;
         }
       });
   }
 
+  // # FUNCTIONS
   onShowDetail(item: any) {
     this.modalCtrl
       .create({
@@ -84,5 +90,10 @@ export class ItemsPage implements OnInit {
       .then((modalEl) => {
         modalEl.present();
       });
+  }
+
+  // # ON DESTROY
+  ngOnDestroy() {
+    this.streamSub.unsubscribe();
   }
 }

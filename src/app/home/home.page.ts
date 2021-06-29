@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { AdminLoginComponent } from '../admin/admin-login/admin-login.component';
 import { CallServiceComponent } from './call-service/call-service.component';
 import { SendPayRequestComponent } from './send-pay-request/send-pay-request.component';
 import { Table } from './table.model';
@@ -14,50 +15,52 @@ import { User } from './user.model';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  tableSub: Observable<Table>;
+  // # OBJECTS
   table: Table;
-  userSub: Observable<User>;
   user: User;
-  tableNumber = localStorage.getItem('tableNumber');
 
+  // # OBSERVABLES
+  tableSub: Observable<Table>;
+
+  // # LOCALSTORAGE VARIABLES
+  tableNumber = localStorage.getItem('tableNumber');
+  userEmail = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')).email
+    : null;
+
+  // # PROPERTIES
   ableToPay = false;
   serviceRequest = false;
   resetRequest = false;
 
-  backgroundImage: any;
-
+  // # CONSTRUCTOR
   constructor(
     private router: Router,
     private tableService: TableService,
     private modalCtrl: ModalController
   ) {}
 
+  // # On INIT
   ngOnInit() {
-    this.tableSub = this.tableService.getTableStatus();
-    this.userSub = this.tableService.getUser();
+    if (this.userEmail) {
+      this.tableSub = this.tableService.getTableData();
 
-    this.tableSub.subscribe((doc) => {
-      this.table = doc;
-      this.ableToPay = this.table.ableToPay;
-      this.serviceRequest = this.table.serviceRequest;
-      this.resetRequest = this.table.resetRequest;
+      this.tableSub.subscribe((doc) => {
+        this.table = doc;
+        this.ableToPay = this.table.ableToPay;
+        this.serviceRequest = this.table.serviceRequest;
+        this.resetRequest = this.table.resetRequest;
 
-      if (this.resetRequest) {
-        this.tableService.resetTable();
-      }
-    });
-    this.userSub.subscribe((doc) => {
-      this.user = doc;
-      // this.backgroundImage = this.user.backgroundImage;
-    });
+        if (this.resetRequest) {
+          console.log('RESETTING..');
+          this.tableService.onResetTable();
+        }
+      });
+    }
   }
 
-  ionViewWillEnter() {
-    this.tableNumber = localStorage.getItem('tableNumber');
-  }
-
+  // # FUNCTIONS
   openCategory(content: string) {
-    console.log(content);
     this.router.navigate(['/', 'categories', content]);
   }
 
@@ -66,37 +69,38 @@ export class HomePage implements OnInit {
   }
 
   openAdmin() {
-    this.router.navigate(['/', 'admin']);
+    // this.router.navigate(['/', 'admin']);
+    this.modalCtrl
+      .create({
+        component: AdminLoginComponent,
+        cssClass: 'admin-login-css',
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
   }
 
-  sendServiceRequest() {
-    if (!this.serviceRequest) {
-      // this.tableService.callService();
-      this.modalCtrl
-        .create({
-          component: CallServiceComponent,
-          cssClass: 'confirm-css',
-          componentProps: { message: 'Bedienung Rufen' },
-        })
-        .then((modalEl) => {
-          modalEl.present();
-        });
-      console.log('CALLED SERVICE');
-    } else {
-      this.modalCtrl
-        .create({
-          component: CallServiceComponent,
-          cssClass: 'confirm-css',
-          componentProps: { message: 'Bedienung wurde bereits gerufen' },
-        })
-        .then((modalEl) => {
-          modalEl.present();
-        });
-      console.log('ALREADY DONE');
-    }
+  openFeedback() {
+    this.router.navigate(['/', 'feedback']);
   }
 
-  sendPayRequest() {
+  openServiceRequestModal() {
+    this.modalCtrl
+      .create({
+        component: CallServiceComponent,
+        cssClass: 'confirm-css',
+        componentProps: {
+          message: !this.serviceRequest
+            ? 'Bedienung Rufen'
+            : 'Bedienung wurde bereits gerufen',
+        },
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
+  }
+
+  openPayRequestModal() {
     this.modalCtrl
       .create({
         component: SendPayRequestComponent,

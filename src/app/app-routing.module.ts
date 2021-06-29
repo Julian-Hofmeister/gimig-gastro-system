@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'authentication',
     pathMatch: 'full',
   },
   {
@@ -32,11 +32,25 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminPageModule),
+  },
+  {
+    path: 'feedback',
+    loadChildren: () =>
+      import('./feedback/feedback.module').then((m) => m.FeedbackPageModule),
   },
   {
     path: 'authentication',
-    loadChildren: () => import('./authentication/authentication.module').then( m => m.AuthenticationPageModule)
+    loadChildren: () =>
+      import('./authentication/authentication.module').then(
+        (m) => m.AuthenticationPageModule
+      ),
+  },
+  {
+    path: 'feedback',
+    loadChildren: () =>
+      import('./feedback/feedback.module').then((m) => m.FeedbackPageModule),
   },
 ];
 

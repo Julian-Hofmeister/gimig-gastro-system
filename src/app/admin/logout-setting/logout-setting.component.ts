@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/authentication/auth.service';
 
@@ -8,15 +7,15 @@ import { AuthService } from 'src/app/authentication/auth.service';
   templateUrl: './logout-setting.component.html',
   styleUrls: ['./logout-setting.component.scss'],
 })
-export class LogoutSettingComponent implements OnInit {
+export class LogoutSettingComponent {
+  // # CONTRUCTOR
   constructor(
     private modalCtrl: ModalController,
-    private authService: AuthService,
-    private router: Router
+    // # SERVICES
+    private authService: AuthService
   ) {}
 
-  ngOnInit() {}
-
+  // # FUNCTIONS
   onLogout() {
     console.log('LOGGING OUT...');
     this.authService.logout();

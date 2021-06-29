@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-order-succes',
@@ -8,17 +7,17 @@ import { delay } from 'rxjs/operators';
   styleUrls: ['./order-succes.component.scss'],
 })
 export class OrderSuccesComponent implements OnInit {
+  // # CONTRUCTOR
   constructor(private modalCtrl: ModalController) {}
 
+  // # ON INIT
   async ngOnInit() {
-    console.log('start delay');
     setTimeout(() => {
-      /*Your Code*/
-      console.log('end delay');
-      this.dismiss();
+      this.modalCtrl.dismiss();
     }, 6000);
   }
 
+  // # FUNCTIONS
   dismiss() {
     this.modalCtrl.dismiss();
   }

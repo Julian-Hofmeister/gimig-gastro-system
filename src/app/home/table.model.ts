@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs';
-
 export class Table {
   constructor(
     public tableNumber: string,

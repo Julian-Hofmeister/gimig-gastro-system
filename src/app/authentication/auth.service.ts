@@ -3,16 +3,23 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { User } from './user.model';
+import { map } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  isLoggedIn = false;
+  // # OBJECTS
   user = new BehaviorSubject<User>(null);
 
+  // # PROPERTIES
+  isLoggedIn = false;
+
+  // # CONTRUCTOR
   constructor(private firebaseAuth: AngularFireAuth, private router: Router) {}
 
+  // # FUNCTIONS
   async signInUser(email: string, password: string) {
     await this.firebaseAuth
       .signInWithEmailAndPassword(email, password)
@@ -36,10 +43,8 @@ export class AuthService {
       console.log('No User');
       return null;
     }
-
     const loadedUser = new User(user.email);
     this.user.next(loadedUser);
-    // this.router.navigate(['/home']);
   }
 
   logout() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { CartService } from '../cart.service';
 import { OrderSuccesComponent } from '../order-succes/order-succes.component';
@@ -8,15 +8,15 @@ import { OrderSuccesComponent } from '../order-succes/order-succes.component';
   templateUrl: './order-confirm.component.html',
   styleUrls: ['./order-confirm.component.scss'],
 })
-export class OrderConfirmComponent implements OnInit {
+export class OrderConfirmComponent {
+  // # CONTRUCTOR
   constructor(
     private cartService: CartService,
     private modalCtrl: ModalController,
     private navCtrl: NavController
   ) {}
 
-  ngOnInit() {}
-
+  // # FUNCTIONS
   onOrder() {
     this.cartService.order();
     this.modalCtrl.dismiss();

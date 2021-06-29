@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Table } from 'src/app/home/table.model';
 import { TableService } from 'src/app/home/table.service';
@@ -8,23 +8,25 @@ import { TableService } from 'src/app/home/table.service';
   templateUrl: './table-number-setting.component.html',
   styleUrls: ['./table-number-setting.component.scss'],
 })
-export class TableNumberSettingComponent implements OnInit {
-  tableNumber: number = 1;
-
+export class TableNumberSettingComponent {
+  // # OBJECTS
   table: Table;
 
+  // # PROPERTIES
+  tableNumber: number = 1;
+
+  // # CONTRUCTOR
   constructor(
     private modalCtrl: ModalController,
     private tableService: TableService
   ) {}
 
-  ngOnInit() {}
-
+  // # FUNCTIONS
   setTablenumber() {
     localStorage.setItem('tableNumber', this.tableNumber.toString());
     console.log('TABLENUMBER ' + localStorage.getItem('tableNumber'));
     this.modalCtrl.dismiss();
 
-    this.tableService.setTable(this.tableNumber);
+    this.tableService.setTableData(this.tableNumber);
   }
 }

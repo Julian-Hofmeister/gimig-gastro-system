@@ -23,16 +23,21 @@ import {
   ],
 })
 export class ItemDetailComponent implements OnInit {
+  // # INPUT
   @Input() isCart: boolean = false;
   @Input() item: Item;
 
+  // # PROPERTIES
   inOrder: boolean = false;
 
+  // # CONSTRUCTOR
   constructor(
     private modalCtrl: ModalController,
+    // # SERVICES
     private cartService: CartService
   ) {}
 
+  // # ON INIT
   ngOnInit() {
     if (this.cartService.orderList.indexOf(this.item) != -1) {
       this.inOrder = true;
@@ -40,46 +45,45 @@ export class ItemDetailComponent implements OnInit {
     }
   }
 
-  add() {
+  // # FUNCTIONS
+  increaseAmountByOne() {
     if (this.item.amount < 25) {
       this.item.amount = this.item.amount + 1;
     }
   }
-  remove() {
+  decreaseAmountByOne() {
     if (this.item.amount > 1) {
       this.item.amount = this.item.amount - 1;
     }
   }
 
-  close() {
+  closeModal() {
     this.modalCtrl.dismiss({
       dismissed: true,
     });
   }
 
-  delete() {
-    // DELETE ITEM
-    const index: number = this.cartService.orderList.indexOf(this.item);
-    if (index !== -1) {
-      this.cartService.orderList.splice(index, 1);
-    }
-    // CLOSE DETAIL MODAL
+  deleteItemInCart() {
+    this.cartService.deleteItemInCart(this.item);
+
     this.modalCtrl.dismiss({
       dismissed: true,
     });
   }
 
-  addItem() {
-    // ADD ITEM TO ORDER LIST
-    if (this.cartService.orderList.indexOf(this.item) == -1) {
-      this.cartService.orderList.push(this.item);
+  addItemToCart() {
+    // * CHECK IF ITEM ALREADY IN CART
+    if (this.cartService.orderList.indexOf(this.item) != -1) {
+      this.cartService.updateItemInCart(this.item);
+      console.log('UPDATEEE');
+    } else {
+      this.cartService.addItemToCart(this.item);
     }
-
-    // CLOSE DETAIL MODAL
+    // * CLOSE DETAIL MODAL
     this.modalCtrl.dismiss({
       dismissed: true,
     });
-    // IF NOT FROM CART OPEN CONFIRM MODAL
+    // * IF NOT FROM CART OPEN CONFIRM MODAL
     if (this.isCart === false) {
       this.modalCtrl
         .create({

@@ -8,15 +8,19 @@ import { AuthService } from './auth.service';
   styleUrls: ['./authentication.page.scss'],
 })
 export class AuthenticationPage implements OnInit {
+  // # PROPERTIES
+  loginForm: FormGroup;
   email: string;
   password: string;
-
-  loginForm: FormGroup;
-
   error: string;
 
-  constructor(private authService: AuthService) {}
+  // # CONTRUCTOR
+  constructor(
+    // # SERVICES
+    private authService: AuthService
+  ) {}
 
+  // # ON INIT
   ngOnInit() {
     this.loginForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
@@ -27,11 +31,10 @@ export class AuthenticationPage implements OnInit {
     });
   }
 
+  // # FUNCTIONS
   submit() {
     this.email = this.loginForm.value.email;
     this.password = this.loginForm.value.password;
-
-    console.log(this.email + this.password);
 
     this.authService.signInUser(this.email, this.password).catch((e) => {
       this.error = this.authService.handleError(e.code);

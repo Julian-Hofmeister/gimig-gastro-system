@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { LogoutSettingComponent } from './logout-setting/logout-setting.component';
 import { TableNumberSettingComponent } from './table-number-setting/table-number-setting.component';
 
@@ -9,16 +9,12 @@ import { TableNumberSettingComponent } from './table-number-setting/table-number
   templateUrl: './admin.page.html',
   styleUrls: ['./admin.page.scss'],
 })
-export class AdminPage implements OnInit {
-  constructor(
-    private navCtrl: NavController,
-    private modalCtrl: ModalController,
-    private router: Router
-  ) {}
+export class AdminPage {
+  // # CONSTRUCTOR
+  constructor(private modalCtrl: ModalController, private router: Router) {}
 
-  ngOnInit() {}
-
-  opentableNumberSetting() {
+  // # FUNCTIONS
+  openTableNumberModal() {
     this.modalCtrl
       .create({
         component: TableNumberSettingComponent,
@@ -29,7 +25,7 @@ export class AdminPage implements OnInit {
       });
   }
 
-  openLogoutSetting() {
+  openLogoutConfirmationModal() {
     this.modalCtrl
       .create({
         component: LogoutSettingComponent,

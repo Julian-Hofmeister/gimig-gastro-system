@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { TableService } from '../table.service';
 
@@ -7,16 +8,17 @@ import { TableService } from '../table.service';
   templateUrl: './send-pay-request.component.html',
   styleUrls: ['./send-pay-request.component.scss'],
 })
-export class SendPayRequestComponent implements OnInit {
+export class SendPayRequestComponent {
+  // # PROPERTIES
   paysTogether: string = null;
   paysCache: string = null;
 
+  // # CONSTRUCTOR
   constructor(
     private tableService: TableService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private router: Router
   ) {}
-
-  ngOnInit() {}
 
   onChangePaysTogether(selection: string) {
     this.paysTogether = selection;
@@ -30,5 +32,13 @@ export class SendPayRequestComponent implements OnInit {
     const paysTogether: boolean = this.paysTogether == 'true' ? true : false;
     this.tableService.sendPayRequest(paysCache, paysTogether);
     this.modalCtrl.dismiss();
+
+    this.openFeedbackPage();
+  }
+
+  openFeedbackPage() {
+    setTimeout(() => {
+      this.router.navigate(['/', 'feedback']);
+    }, 6000);
   }
 }

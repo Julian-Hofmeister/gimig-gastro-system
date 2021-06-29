@@ -3,9 +3,9 @@ import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { TableNumberSettingComponent } from './admin/table-number-setting/table-number-setting.component';
 import { AuthService } from './authentication/auth.service';
+import { ConnectionService } from './connection.service';
 import { ConnectionModalComponent } from './elements/connection-modal/connection-modal.component';
 import { Table } from './home/table.model';
-import { TableService } from './home/table.service';
 
 @Component({
   selector: 'app-root',
@@ -13,57 +13,44 @@ import { TableService } from './home/table.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  tableNumber: string = null;
-
-  tableSub: Observable<Table>;
+  // # OBJECTS
   table: Table;
 
+  // # OBSERVABLES
+  tableSub: Observable<Table>;
+
+  // # LOCALSTORAGE VARIABLES
+  tableNumber = localStorage.getItem('tableNumber');
+
+  // # CONSTRUCTOR
   constructor(
     private modalCtrl: ModalController,
+    // # SERVICES
     private authService: AuthService,
-    private tableService: TableService
+    private connectionService: ConnectionService
   ) {
-    window.addEventListener('offline', () => {
-      console.log('APPLICATION WENT OFFLINE');
-      this.modalCtrl
-        .create({
-          component: ConnectionModalComponent,
-          cssClass: 'item-confirm-css',
-          backdropDismiss: false,
-        })
-        .then((modalEl) => {
-          modalEl.present();
-        });
-    });
-    window.addEventListener('online', () => {
-      console.log('APPLICATION WENT ONLINE');
-      this.modalCtrl.dismiss();
-    });
+    // # FUNCTIONS
+    this.connectionService.checkConnection();
   }
 
+  // # ON INIT
   ngOnInit() {
-    this.authService.autoSignIn();
-
-    this.tableNumber = localStorage.getItem('tableNumber');
     if (this.tableNumber == null) {
-      this.modalCtrl
-        .create({
-          component: TableNumberSettingComponent,
-          cssClass: 'table-setting-css',
-        })
-        .then((modalEl) => {
-          modalEl.present();
-        });
+      this.openTableNumberModal();
     }
 
-    // this.tableSub = this.tableService.getTableStatus();
-    // this.tableSub.subscribe((doc) => {
-    //   this.table = doc;
+    this.authService.autoSignIn();
+  }
 
-    //   if (doc.resetRequest) {
-    //     console.log('is resetting');
-    //     this.tableService.resetTable();
-    //   }
-    // });
+  // # FUNCTIONS
+  openTableNumberModal() {
+    this.modalCtrl
+      .create({
+        component: TableNumberSettingComponent,
+        cssClass: 'table-setting-css',
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
   }
 }

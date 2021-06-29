@@ -14,7 +14,7 @@
                     </ion-row>
                     <ion-row>
                         <ion-col>
-                            <ion-button size="large" color="light" [disabled]="!ableToPay" (click)="sendPayRequest()">Zahlen</ion-button>
+                            <ion-button size="large" color="light" [disabled]="!ableToPay" (click)="openPayRequestModal()">Zahlen</ion-button>
                         </ion-col>
                     </ion-row>
                 </ion-col>
@@ -22,13 +22,13 @@
         </ion-grid>
     </div>
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button color="light" (click)="sendServiceRequest()">
+        <ion-fab-button color="light" (click)="openServiceRequestModal()">
             <ion-icon name="notifications-outline" *ngIf="!serviceRequest"></ion-icon>
             <ion-icon name="checkmark-done-outline" *ngIf="serviceRequest"></ion-icon>
         </ion-fab-button>
     </ion-fab>
     <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-        <ion-fab-button color="light" (click)="openCart()">
+        <ion-fab-button color="light" (click)="openFeedback()">
             <ion-icon name="cart-outline"></ion-icon>
         </ion-fab-button>
     </ion-fab>
