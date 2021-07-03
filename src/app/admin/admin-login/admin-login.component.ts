@@ -8,16 +8,40 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./admin-login.component.scss'],
 })
 export class AdminLoginComponent {
-  // # PROPERTIES
+  //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   passwordInput: string = '';
   passwordArray: string[] = [];
   adminPassword = '301';
+  //#endregion
 
-  // # CONSTRUCTOR
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(private router: Router, private modalCtrl: ModalController) {}
 
-  // # FUNCTIONS
-  inputNumber(number: string) {
+  //#endregion
+
+  //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+  public inputNumber(number: string) {
     this.passwordArray.push(number);
     this.passwordInput = this.passwordInput + number;
 
@@ -26,7 +50,7 @@ export class AdminLoginComponent {
     }
   }
 
-  onSubmit(autoSubmit: boolean) {
+  public onSubmit(autoSubmit: boolean) {
     if (this.passwordInput != this.adminPassword) {
       console.log('PASSWORD IS INCORRECT');
       if ((autoSubmit && this.passwordArray.length > 3) || !autoSubmit) {
@@ -38,4 +62,13 @@ export class AdminLoginComponent {
       this.router.navigate(['/', 'admin']);
     }
   }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

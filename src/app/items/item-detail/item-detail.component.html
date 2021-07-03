@@ -13,17 +13,17 @@
         </ion-row>
         <ion-row>
             <ion-col>
-                <p id="warning" [ngStyle]="{ opacity: inOrder && !isCart ? 1 : 0 }">
+                <p id="warning" [ngStyle]="{ opacity: itemInCart && !modalOpenedFromCart ? 1 : 0 }">
                     Dieses Item befindet sich bereits im Einkaufswagen.
                 </p>
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col size="7" class="menu-col">
-                <ion-fab-button class="delete-fab" (click)="deleteItemInCart()" *ngIf="inOrder">
+                <ion-fab-button class="delete-fab" (click)="deleteItemInCart()" *ngIf="itemInCart">
                     <ion-icon name="trash-outline"></ion-icon>
                 </ion-fab-button>
-                <div class="vertical-line" *ngIf="inOrder"></div>
+                <div class="vertical-line" *ngIf="itemInCart"></div>
                 <ion-fab-button class="menu-fab" (click)="increaseAmountByOne()">
                     <ion-icon name="add-outline"></ion-icon>
                 </ion-fab-button>
@@ -33,7 +33,7 @@
                 <h2>Anzahl: {{ item.amount }}x</h2>
             </ion-col>
             <ion-col size="5" class="menu-col button-col">
-                <ion-button size="large" (click)="addItemToCart()">{{ inOrder ? "Speichern" : "Hinzufügen" }}
+                <ion-button size="large" (click)="addItemToCart()">{{ itemInCart ? "Speichern" : "Hinzufügen" }}
                 </ion-button>
             </ion-col>
         </ion-row>

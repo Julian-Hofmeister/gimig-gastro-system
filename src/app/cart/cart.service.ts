@@ -8,10 +8,12 @@ import { Item } from '../items/item.model';
   providedIn: 'root',
 })
 export class CartService {
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   // # LISTS
   orderList: Item[] = [];
   orderedList: Item[] = [];
   cartList: Observable<any[]>;
+  cartIdList: string[] = [];
 
   // # LOCALSTORAGE DATA
   tableNumber = localStorage.getItem('tableNumber');
@@ -31,34 +33,88 @@ export class CartService {
     .collection('tables')
     .doc(this.tableNumber)
     .collection('cart');
+  //#endregion
 
-  // # CONSTRUCTOR
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(public afs: AngularFirestore) {}
+  //#endregion
 
-  // # FUNCTIONS
-
-  // # GET FUNCTIONS
-  getCart() {
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+  public getCart() {
     this.cartList = this.cartCollection.snapshotChanges().pipe(
       map((changes) => {
         return changes.map((a) => {
           const data = a.payload.doc.data() as Item;
           data.id = a.payload.doc.id;
 
-          console.log(data.amount);
+          // console.log(data);
           return data;
         });
       })
     );
+
     return this.cartList;
   }
 
-  // # SET FUNCTIONS
-  order() {
-    // DEBUG
-    console.log(this.orderList);
+  public order() {
+    this.addOrdersToFirestore();
 
-    // * CREAE ITEMS IN FIRESTORE
+    this.updateTableToOrdered();
+
+    this.markItemsInCartAsOrdered();
+  }
+
+  public addItemToCart(item: Item) {
+    this.addIdToIdList(item.id);
+    this.cartCollection.add({
+      // - ITEM DETAILS
+      name: item.name,
+      price: item.price,
+      amount: item.amount,
+      isFood: item.isFood,
+      imagePath: item.imageRef,
+      itemId: item.id,
+      isOrdered: false,
+
+      // - FURTHER INFORMATION
+      tableNumber: this.tableNumber,
+      // - METADATA
+      parentId: item.parentId,
+      description: item.description,
+      isVisible: item.isVisible,
+    });
+  }
+
+  public updateItemInCart(item: Item) {
+    this.cartCollection.doc(item.id).update({
+      amount: item.amount,
+    });
+  }
+
+  public deleteItemInCart(item: Item) {
+    this.cartCollection.doc(item.id).delete();
+  }
+
+  public resetCart() {
+    // * CLEAR ORDER LIST
+    this.orderList.forEach((item) => {
+      console.log(item.id);
+      this.cartCollection.doc(item.id).delete();
+    });
+    // * CLEAR OREDERED LIST
+    this.orderedList.forEach((item) => {
+      console.log(item.id);
+      this.cartCollection.doc(item.id).delete();
+    });
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  private addOrdersToFirestore() {
     this.orderList.forEach((item) => {
       this.orderCollection.add({
         // - ITEM DETAILS
@@ -67,6 +123,7 @@ export class CartService {
         amount: item.amount,
         isFood: item.isFood,
         imagePath: item.imageRef,
+        id: item.id,
         // - FURTHER INFORMATION
         tableNumber: this.tableNumber,
         isOrdered: true,
@@ -80,67 +137,36 @@ export class CartService {
         isVisible: item.isVisible,
       });
     });
+  }
 
-    // * UPDATE CART
-    this.orderList.forEach((item) => {
-      this.cartCollection.doc(item.id).update({
-        isOrdered: true,
-      });
-    });
-
-    // * UPDATE TABLE
+  private updateTableToOrdered() {
     this.tableDocument.update({
       isOrdered: true,
       isAccepted: false,
       orderRequest: true,
       timestamp: Date.now(),
     });
+  }
 
-    // * MARK ITEMS AS ORDERED
+  private markItemsInCartAsOrdered() {
+    this.orderList.forEach((item) => {
+      this.cartCollection.doc(item.id).update({
+        isOrdered: true,
+      });
+    });
+
     for (let item of this.orderList) {
       this.orderedList.push(item);
     }
     this.orderList = [];
   }
 
-  addItemToCart(item: Item) {
-    this.cartCollection.add({
-      // - ITEM DETAILS
-      name: item.name,
-      price: item.price,
-      amount: item.amount,
-      isFood: item.isFood,
-      imagePath: item.imageRef,
-      isOrdered: false,
-      // - FURTHER INFORMATION
-      tableNumber: this.tableNumber,
-      // - METADATA
-      parentId: item.parentId,
-      description: item.description,
-      isVisible: item.isVisible,
-    });
+  public addIdToIdList(id: string) {
+    console.log('ITEM ID: ' + id);
+    this.cartIdList.push(id);
+    console.log(this.cartIdList);
   }
+  // ----------------------------------------------------------------------------------------------
 
-  updateItemInCart(item: Item) {
-    this.cartCollection.doc(item.id).update({
-      amount: item.amount,
-    });
-  }
-
-  deleteItemInCart(item: Item) {
-    this.cartCollection.doc(item.id).delete();
-  }
-
-  resetCart() {
-    // * CLEAR ORDER LIST
-    this.orderList.forEach((item) => {
-      console.log(item.id);
-      this.cartCollection.doc(item.id).delete();
-    });
-    // * CLEAR OREDERED LIST
-    this.orderedList.forEach((item) => {
-      console.log(item.id);
-      this.cartCollection.doc(item.id).delete();
-    });
-  }
+  //#endregion
 }

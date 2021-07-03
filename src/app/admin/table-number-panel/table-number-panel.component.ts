@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { AuthService } from 'src/app/authentication/auth.service';
+import { TableService } from 'src/app/home/table.service';
 
 @Component({
-  selector: 'app-logout-setting',
-  templateUrl: './logout-setting.component.html',
-  styleUrls: ['./logout-setting.component.scss'],
+  selector: 'app-table-number-panel',
+  templateUrl: './table-number-panel.component.html',
+  styleUrls: ['./table-number-panel.component.scss'],
 })
-export class LogoutSettingComponent {
+export class TableNumberPanelComponent {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
   //#endregion
@@ -17,15 +18,14 @@ export class LogoutSettingComponent {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-
+  tableNumberInput: string = '';
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(
     private modalCtrl: ModalController,
-    private authService: AuthService
+    private tableService: TableService
   ) {}
-
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
@@ -41,14 +41,19 @@ export class LogoutSettingComponent {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public onLogout() {
-    console.log('LOGGING OUT...');
-    this.authService.logout();
-    this.onDismiss();
+  public inputNumber(number: string) {
+    this.tableNumberInput = this.tableNumberInput + number;
+    console.log(this.tableNumberInput);
   }
 
-  public onDismiss() {
-    this.modalCtrl.dismiss();
+  public onSubmit() {
+    if (this.tableNumberInput != '') {
+      localStorage.setItem('tableNumber', this.tableNumberInput);
+      console.log('TABLENUMBER ' + localStorage.getItem('tableNumber'));
+      this.modalCtrl.dismiss();
+
+      this.tableService.setTableData(this.tableNumberInput);
+    }
   }
   // ----------------------------------------------------------------------------------------------
 

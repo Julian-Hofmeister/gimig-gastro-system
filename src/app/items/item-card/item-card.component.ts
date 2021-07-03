@@ -9,6 +9,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { Item } from '../item.model';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -24,16 +25,20 @@ registerLocaleData(localeFr, 'fr');
   ],
 })
 export class ItemCardComponent implements OnInit {
-  @Input() item;
+  //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+  @Input() item: Item;
+  //#endregion
 
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   price: any;
+  //#endregion
 
-  constructor() {}
-
+  //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
   ngOnInit() {
     this.price = new Intl.NumberFormat('en-GB', {
       style: 'currency',
       currency: 'EUR',
     }).format(this.item.price);
   }
+  //#endregion
 }

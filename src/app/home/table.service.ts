@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
@@ -10,6 +10,8 @@ import { Table } from './table.model';
   providedIn: 'root',
 })
 export class TableService {
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   // # OBSERVABLES
   table: Observable<Table>;
 
@@ -27,18 +29,19 @@ export class TableService {
   tablePath = this.userEmail
     ? this.path.doc(this.userEmail).collection('tables').doc(this.tableNumber)
     : null;
+  //#endregion
 
-  // # CONSTRUCTOR
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(
     public afs: AngularFirestore,
     private navCtrl: NavController,
-
-    // # SERVICES
     private cartService: CartService
   ) {}
+  //#endregion
 
-  // # GET FUNCTIONS
-  getTableData() {
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+
+  public getTableData() {
     if (this.userEmail) {
       this.table = this.tablePath.snapshotChanges().pipe(
         map((a) => {
@@ -53,11 +56,7 @@ export class TableService {
     }
   }
 
-  getAllTables() {
-    this.tableCollection.get;
-  }
-
-  onResetTable() {
+  public onResetTable() {
     this.tablePath.update({
       resetRequest: false,
       ableToPay: false,
@@ -77,15 +76,14 @@ export class TableService {
     this.navCtrl.navigateBack('/home');
   }
 
-  // # SET FUNCTIONS
-  sendServiceRequest() {
+  public sendServiceRequest() {
     this.tablePath.update({
       serviceRequest: true,
       serviceTimestamp: Date.now(),
     });
   }
 
-  sendPayRequest(paysCache: boolean, paysTogether: boolean) {
+  public sendPayRequest(paysCache: boolean, paysTogether: boolean) {
     this.tablePath.update({
       payRequest: true,
       paysCache: paysCache,
@@ -94,9 +92,9 @@ export class TableService {
     });
   }
 
-  setTableData(tableNumber: number) {
-    this.tableCollection.doc(tableNumber.toString()).set({
-      tableNumber: tableNumber,
+  public setTableData(tableNumber: string) {
+    this.tableCollection.doc(tableNumber).set({
+      tableNumber: Number(tableNumber),
       resetRequest: false,
       ableToPay: false,
       orderRequest: false,
@@ -111,4 +109,13 @@ export class TableService {
       payRequestTimestamp: null,
     });
   }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

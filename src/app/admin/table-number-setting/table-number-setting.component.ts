@@ -9,24 +9,54 @@ import { TableService } from 'src/app/home/table.service';
   styleUrls: ['./table-number-setting.component.scss'],
 })
 export class TableNumberSettingComponent {
-  // # OBJECTS
+  //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   table: Table;
 
-  // # PROPERTIES
   tableNumber: number = 1;
+  //#endregion
 
-  // # CONTRUCTOR
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(
     private modalCtrl: ModalController,
     private tableService: TableService
   ) {}
+  //#endregion
 
-  // # FUNCTIONS
-  setTablenumber() {
+  //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+  public setTablenumber() {
     localStorage.setItem('tableNumber', this.tableNumber.toString());
     console.log('TABLENUMBER ' + localStorage.getItem('tableNumber'));
     this.modalCtrl.dismiss();
 
-    this.tableService.setTableData(this.tableNumber);
+    this.tableService.setTableData(this.tableNumber.toString());
   }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

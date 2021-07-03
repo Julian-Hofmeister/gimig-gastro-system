@@ -8,22 +8,22 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CategoryService {
-  // # OBSERVABLES
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   categories: Observable<any[]>;
 
-  // # LOCALSTORAGE VARIABLES
   userEmail = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')).email
     : null;
 
-  // # FIRESTORE REFERENCES
   path = this.afs.collection('restaurants').doc(this.userEmail);
+  //#endregion
 
-  // # CONSTRUCTOR
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(public afs: AngularFirestore) {}
+  //#endregion
 
-  // # FUNCTIONS
-  getCategories(id: string, pathAttachment: string) {
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+  public getCategories(id: string, pathAttachment: string) {
     const categoryCollection = this.path.collection(
       '/' + pathAttachment,
       (ref) => ref.where('parentId', '==', id)
@@ -40,4 +40,13 @@ export class CategoryService {
     );
     return this.categories;
   }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

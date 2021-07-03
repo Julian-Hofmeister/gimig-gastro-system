@@ -10,6 +10,7 @@ import { AdminPage } from './admin.page';
 import { TableNumberSettingComponent } from './table-number-setting/table-number-setting.component';
 import { LogoutSettingComponent } from './logout-setting/logout-setting.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { TableNumberPanelComponent } from './table-number-panel/table-number-panel.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, AdminPageRoutingModule],
@@ -18,6 +19,7 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
     TableNumberSettingComponent,
     LogoutSettingComponent,
     AdminLoginComponent,
+    TableNumberPanelComponent,
   ],
 })
 export class AdminPageModule {}

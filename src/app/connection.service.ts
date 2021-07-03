@@ -6,13 +6,22 @@ import { ConnectionModalComponent } from './elements/connection-modal/connection
   providedIn: 'root',
 })
 export class ConnectionService {
-  // # CONSTRUCTOR
-  constructor(private modalCtrl: ModalController) {}
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  // # FUNCTIONS
+  //#endregion
+
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+  constructor(private modalCtrl: ModalController) {}
+  //#endregion
+
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
   checkConnection() {
     window.addEventListener('offline', () => {
       console.log('APPLICATION WENT OFFLINE');
+
+      if (this.modalCtrl) {
+        this.modalCtrl.dismiss();
+      }
       this.modalCtrl
         .create({
           component: ConnectionModalComponent,
@@ -24,8 +33,19 @@ export class ConnectionService {
         });
     });
     window.addEventListener('online', () => {
-      console.log('APPLICATION WENT ONLINE');
-      this.modalCtrl.dismiss();
+      setTimeout(() => {
+        console.log('APPLICATION WENT ONLINE');
+        this.modalCtrl.dismiss();
+      }, 1000);
     });
   }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

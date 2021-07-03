@@ -13,18 +13,25 @@ import { AngularFireStorage } from '@angular/fire/storage';
   styleUrls: ['./items.page.scss'],
 })
 export class ItemsPage implements OnInit {
-  // # SUBSCRITPIONS
-  private streamSub: Subscription;
+  //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
-  // # LISTS
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+  private itemSub: Subscription;
+
   items: Item[];
 
-  // # PROPERTIES
   id: string;
   hasFood: string;
   isLoading = false;
+  //#endregion
 
-  // # CONSTRUCTOR
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
@@ -32,55 +39,30 @@ export class ItemsPage implements OnInit {
     private itemService: ItemService,
     private afStorage: AngularFireStorage
   ) {}
+  //#endregion
 
-  // # On INIT
+  //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
   ngOnInit() {
-    // * ACTIVATE LOADING INDICAtOR
-    this.isLoading = true;
+    this.getUrlData();
 
-    // * GET URL DATA
-    this.route.paramMap.subscribe((paramMap) => {
-      if (!paramMap.has('id')) {
-        this.navCtrl.navigateBack('/home');
-        return;
-      }
-      this.id = paramMap.get('id');
-      this.hasFood = paramMap.get('hasFood');
-    });
-
-    // * GET ITEMS
-    this.streamSub = this.itemService
-      .getItems(this.id, this.hasFood)
-      .subscribe((items) => {
-        this.items = [];
-
-        // * DEFINE NEW ITEM
-        for (let item of items) {
-          const imagePath = this.afStorage.ref(item.imagePath).getDownloadURL();
-
-          const fetchedItem = new Item(
-            item.name,
-            item.description,
-            item.price,
-            imagePath,
-            item.imagePath,
-            item.isVisible,
-            item.isFood,
-            item.id,
-            item.parentId
-          );
-
-          if (fetchedItem.isVisible) {
-            this.items.push(fetchedItem);
-          }
-          // * DEACTIVATE LOADING INDICAtOR
-          this.isLoading = false;
-        }
-      });
+    this.fetchItemsFromFirestore();
   }
 
-  // # FUNCTIONS
-  onShowDetail(item: any) {
+  ngOnDestroy() {
+    this.itemSub.unsubscribe();
+  }
+  //#endregion
+
+  //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+  public onShowDetail(item: any) {
     this.modalCtrl
       .create({
         component: ItemDetailComponent,
@@ -91,9 +73,67 @@ export class ItemsPage implements OnInit {
         modalEl.present();
       });
   }
+  // ----------------------------------------------------------------------------------------------
 
-  // # ON DESTROY
-  ngOnDestroy() {
-    this.streamSub.unsubscribe();
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  private getUrlData() {
+    this.route.paramMap.subscribe((paramMap) => {
+      if (!paramMap.has('id')) {
+        this.navCtrl.navigateBack('/home');
+        return;
+      }
+      this.id = paramMap.get('id');
+      this.hasFood = paramMap.get('hasFood');
+    });
   }
+
+  private fetchItemsFromFirestore() {
+    this.isLoading = true;
+    this.itemSub = this.itemService
+      .getItems(this.id, this.hasFood)
+      .subscribe((items) => {
+        this.items = [];
+
+        // * DEFINE NEW ITEM
+        for (let item of items) {
+          const imagePath = this.afStorage.ref(item.imagePath).getDownloadURL();
+
+          // const fetchedItem = new Item(
+          //   item.name,
+          //   item.description,
+          //   item.price,
+          //   imagePath,
+          //   item.imagePath,
+          //   item.isVisible,
+          //   item.isFood,
+          //   item.id,
+          //   item.parentId
+          // );
+
+          const fetchedItem: Item = {
+            name: item.name,
+            description: item.description,
+            price: item.price,
+
+            imagePath: imagePath,
+            imageRef: item.imagePath,
+            isVisible: item.isVisible,
+            isFood: item.isFood,
+            id: item.id,
+            parentId: item.parentId,
+          };
+
+          if (fetchedItem.isVisible) {
+            this.items.push(fetchedItem);
+          }
+          this.isLoading = false;
+        }
+      });
+  }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

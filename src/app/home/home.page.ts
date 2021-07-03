@@ -15,33 +15,100 @@ import { User } from './user.model';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  // # OBJECTS
+  //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   table: Table;
   user: User;
 
-  // # OBSERVABLES
   tableSub: Observable<Table>;
 
-  // # LOCALSTORAGE VARIABLES
   tableNumber = localStorage.getItem('tableNumber');
   userEmail = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')).email
     : null;
 
-  // # PROPERTIES
   ableToPay = false;
   serviceRequest = false;
   resetRequest = false;
+  //#endregion
 
-  // # CONSTRUCTOR
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(
     private router: Router,
     private tableService: TableService,
     private modalCtrl: ModalController
   ) {}
+  //#endregion
 
-  // # On INIT
+  //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
   ngOnInit() {
+    this.fetchTableDataFromFireStore();
+  }
+  //#endregion
+
+  //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+  public openAdmin() {
+    this.modalCtrl
+      .create({
+        component: AdminLoginComponent,
+        cssClass: 'admin-login-css',
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
+  }
+
+  public openFeedback() {
+    this.router.navigate(['/', 'feedback']);
+  }
+
+  public openServiceRequestModal() {
+    this.modalCtrl
+      .create({
+        component: CallServiceComponent,
+        cssClass: 'confirm-css',
+        componentProps: {
+          message: !this.serviceRequest
+            ? 'Bedienung Rufen'
+            : 'Bedienung wurde bereits gerufen',
+        },
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
+  }
+
+  public openPayRequestModal() {
+    this.modalCtrl
+      .create({
+        component: SendPayRequestComponent,
+        cssClass: 'send-pay-request-css',
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
+  }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+  private fetchTableDataFromFireStore() {
     if (this.userEmail) {
       this.tableSub = this.tableService.getTableData();
 
@@ -58,56 +125,7 @@ export class HomePage implements OnInit {
       });
     }
   }
+  // ----------------------------------------------------------------------------------------------
 
-  // # FUNCTIONS
-  openCategory(content: string) {
-    this.router.navigate(['/', 'categories', content]);
-  }
-
-  openCart() {
-    this.router.navigate(['/', 'cart']);
-  }
-
-  openAdmin() {
-    // this.router.navigate(['/', 'admin']);
-    this.modalCtrl
-      .create({
-        component: AdminLoginComponent,
-        cssClass: 'admin-login-css',
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
-  }
-
-  openFeedback() {
-    this.router.navigate(['/', 'feedback']);
-  }
-
-  openServiceRequestModal() {
-    this.modalCtrl
-      .create({
-        component: CallServiceComponent,
-        cssClass: 'confirm-css',
-        componentProps: {
-          message: !this.serviceRequest
-            ? 'Bedienung Rufen'
-            : 'Bedienung wurde bereits gerufen',
-        },
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
-  }
-
-  openPayRequestModal() {
-    this.modalCtrl
-      .create({
-        component: SendPayRequestComponent,
-        cssClass: 'send-pay-request-css',
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
-  }
+  //#endregions
 }

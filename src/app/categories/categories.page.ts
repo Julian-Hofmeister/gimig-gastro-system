@@ -12,32 +12,61 @@ import { Category } from './category.model';
   styleUrls: ['./categories.page.scss'],
 })
 export class CategoriesPage implements OnInit, OnDestroy {
-  // # SUBSCRIPTIONS
-  private streamSub: Subscription;
+  //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
-  // # LISTS
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   categories: Category[] = [];
 
-  // # PROPERTIES
   id: string;
   pathAttachment: string;
   isLoading = false;
 
-  // # CONSTRUCTOR
+  private categorySub: Subscription;
+  //#endregion
+
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
     private afStorage: AngularFireStorage,
-    // # SERVICES
     private categoryService: CategoryService
   ) {}
+  //#endregion
 
-  // # On INIT
+  //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
   ngOnInit() {
-    // * ACTIVATE LOADING INDICAtOR
-    this.isLoading = true;
+    this.gertUrlData();
 
-    // * GET URL DATA
+    this.fetchCategoriesFromFirestore();
+  }
+
+  ngOnDestroy() {
+    this.categorySub.unsubscribe();
+  }
+  //#endregion
+
+  //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+  private gertUrlData() {
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('id')) {
         this.navCtrl.navigateBack('/home');
@@ -48,45 +77,40 @@ export class CategoriesPage implements OnInit, OnDestroy {
       this.pathAttachment =
         isFood == 'true' ? 'categories-food' : 'categories-beverages';
     });
+  }
 
-    // * GET CATEGORIES
-    this.streamSub = this.categoryService
+  private fetchCategoriesFromFirestore() {
+    this.isLoading = true;
+
+    this.categorySub = this.categoryService
       .getCategories(this.id, this.pathAttachment)
       .subscribe((categories) => {
         this.categories = [];
 
-        // * DEFINE NEW CATEGORY
         for (let category of categories) {
           const imagePath = this.afStorage
             .ref(category.imagePath)
             .getDownloadURL();
 
-          const fetchedCategory = new Category(
-            category.name,
-            category.hasCategories,
-            category.hasFood,
-            imagePath,
-            category.isVisible,
-            category.id,
-            category.parentId
-          );
+          const fetchedCategory: Category = {
+            name: category.name,
+            hasCategories: category.hasCategories,
+            hasFood: category.hasFood,
+            imagePath: imagePath,
+            isVisible: category.isVisible,
+            id: category.id,
+            parentId: category.parentId,
+          };
 
           if (fetchedCategory.isVisible) {
             this.categories.push(fetchedCategory);
           }
         }
-        // * DEACTIVATE LOADING INDICAtOR
+
         this.isLoading = false;
       });
   }
+  // ----------------------------------------------------------------------------------------------
 
-  // # FUNCTIONS
-  openCategory(name: string) {
-    this.navCtrl.navigateForward(['/', 'items', name]);
-  }
-
-  // # ON DESTROY
-  ngOnDestroy() {
-    this.streamSub.unsubscribe();
-  }
+  //#endregion
 }

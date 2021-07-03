@@ -10,17 +10,17 @@ import { AngularFirestore } from '@angular/fire/firestore';
   providedIn: 'root',
 })
 export class AuthService {
-  // # OBJECTS
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   user = new BehaviorSubject<User>(null);
-
-  // # PROPERTIES
   isLoggedIn = false;
+  //#endregion
 
-  // # CONTRUCTOR
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(private firebaseAuth: AngularFireAuth, private router: Router) {}
+  //#endregion
 
-  // # FUNCTIONS
-  async signInUser(email: string, password: string) {
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+  public async signInUser(email: string, password: string) {
     await this.firebaseAuth
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
@@ -34,7 +34,7 @@ export class AuthService {
       });
   }
 
-  autoSignIn() {
+  public autoSignIn() {
     const user: {
       email: string;
     } = JSON.parse(localStorage.getItem('user'));
@@ -47,7 +47,7 @@ export class AuthService {
     this.user.next(loadedUser);
   }
 
-  logout() {
+  public logout() {
     this.firebaseAuth.signOut();
     localStorage.removeItem('user');
     this.router.navigate(['/authentication']);
@@ -71,4 +71,13 @@ export class AuthService {
     }
     return errorMessage;
   }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { TableNumberSettingComponent } from './admin/table-number-setting/table-number-setting.component';
+import { TableNumberPanelComponent } from './admin/table-number-panel/table-number-panel.component';
 import { AuthService } from './authentication/auth.service';
 import { ConnectionService } from './connection.service';
-import { ConnectionModalComponent } from './elements/connection-modal/connection-modal.component';
 import { Table } from './home/table.model';
 
 @Component({
@@ -13,44 +12,67 @@ import { Table } from './home/table.model';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  // # OBJECTS
+  //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   table: Table;
 
-  // # OBSERVABLES
   tableSub: Observable<Table>;
 
-  // # LOCALSTORAGE VARIABLES
   tableNumber = localStorage.getItem('tableNumber');
+  //#endregion
 
-  // # CONSTRUCTOR
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(
     private modalCtrl: ModalController,
-    // # SERVICES
     private authService: AuthService,
     private connectionService: ConnectionService
   ) {
-    // # FUNCTIONS
     this.connectionService.checkConnection();
   }
+  //#endregion
 
-  // # ON INIT
+  //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
   ngOnInit() {
     if (this.tableNumber == null) {
       this.openTableNumberModal();
     }
-
     this.authService.autoSignIn();
   }
+  //#endregion
 
-  // # FUNCTIONS
-  openTableNumberModal() {
+  //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+  private openTableNumberModal() {
     this.modalCtrl
       .create({
-        component: TableNumberSettingComponent,
-        cssClass: 'table-setting-css',
+        component: TableNumberPanelComponent,
+        cssClass: 'table-number-panel-css',
       })
       .then((modalEl) => {
         modalEl.present();
       });
   }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

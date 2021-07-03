@@ -1,0 +1,48 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ion-button {
+    --border-radius: 100px;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 1rem;
+}
+
+ion-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ion-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ion-grid {
+    margin: 2rem;
+}
+
+.confirm {
+    width: 100%;
+    margin: 0 2rem;
+    --box-shadow: none;
+    color: white;
+}
+
+ion-icon {
+    color: coral;
+    margin: 0 10px;
+}
+
+p {
+    color: coral;
+    font-size: 1.5rem;
+}
+
+.hint {
+    opacity: 0.4;
+}

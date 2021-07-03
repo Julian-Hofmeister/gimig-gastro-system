@@ -9,14 +9,39 @@ import { OrderSuccesComponent } from '../order-succes/order-succes.component';
   styleUrls: ['./order-confirm.component.scss'],
 })
 export class OrderConfirmComponent {
-  // # CONTRUCTOR
+  //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(
     private cartService: CartService,
     private modalCtrl: ModalController,
     private navCtrl: NavController
   ) {}
+  //#endregion
 
-  // # FUNCTIONS
+  //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
   onOrder() {
     this.cartService.order();
     this.modalCtrl.dismiss();
@@ -31,4 +56,13 @@ export class OrderConfirmComponent {
         modalEl.present();
       });
   }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

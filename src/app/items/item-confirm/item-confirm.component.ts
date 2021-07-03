@@ -8,21 +8,26 @@ import { Item } from '../item.model';
   templateUrl: './item-confirm.component.html',
   styleUrls: ['./item-confirm.component.scss'],
 })
-export class ItemConfirmComponent implements OnInit {
+export class ItemConfirmComponent {
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(
     private navCtrl: NavController,
     private modalCtrl: ModalController
   ) {}
 
-  ngOnInit() {}
+  //#endregion
 
-  dismiss() {
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+  public dismiss() {
     this.modalCtrl.dismiss();
   }
 
-  confirm() {
-    this.modalCtrl.dismiss();
+  public confirm() {
+    this.dismiss();
 
     this.navCtrl.navigateForward(['/', 'cart']);
   }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

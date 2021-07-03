@@ -9,25 +9,48 @@ import { TableService } from '../table.service';
   styleUrls: ['./send-pay-request.component.scss'],
 })
 export class SendPayRequestComponent {
-  // # PROPERTIES
+  //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   paysTogether: string = null;
   paysCache: string = null;
+  //#endregion
 
-  // # CONSTRUCTOR
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(
     private tableService: TableService,
     private modalCtrl: ModalController,
     private router: Router
   ) {}
+  //#endregion
 
-  onChangePaysTogether(selection: string) {
+  //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+  public onChangePaysTogether(selection: string) {
     this.paysTogether = selection;
   }
-  onChangePaysCache(selection: string) {
+  public onChangePaysCache(selection: string) {
     this.paysCache = selection;
   }
 
-  onCall() {
+  public onCall() {
     const paysCache: boolean = this.paysCache == 'true' ? true : false;
     const paysTogether: boolean = this.paysTogether == 'true' ? true : false;
     this.tableService.sendPayRequest(paysCache, paysTogether);
@@ -36,9 +59,17 @@ export class SendPayRequestComponent {
     this.openFeedbackPage();
   }
 
-  openFeedbackPage() {
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+  private openFeedbackPage() {
     setTimeout(() => {
       this.router.navigate(['/', 'feedback']);
     }, 6000);
   }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-} from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Item } from './item.model';
 import { map } from 'rxjs/operators';
 
@@ -11,6 +8,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ItemService {
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   // # OBSERVABLES
   items: Observable<any[]>;
 
@@ -21,12 +19,14 @@ export class ItemService {
 
   // # FIRESTORE REFERENCES
   path = this.afs.collection('restaurants').doc(this.userEmail);
+  //#endregion
 
-  // # CONSTRUCTOR
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(public afs: AngularFirestore) {}
+  //#endregion
 
-  // # FUNCTIONS
-  getItems(id: string, hasFood: string) {
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+  public getItems(id: string, hasFood: string) {
     const pathAttachment = hasFood == 'true' ? 'items-food' : 'items-beverages';
     const itemCollection = this.path.collection('/' + pathAttachment, (ref) =>
       ref.where('parentId', '==', id).orderBy('name')
@@ -42,4 +42,13 @@ export class ItemService {
     );
     return this.items;
   }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

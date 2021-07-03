@@ -8,19 +8,26 @@ import { AuthService } from './auth.service';
   styleUrls: ['./authentication.page.scss'],
 })
 export class AuthenticationPage implements OnInit {
-  // # PROPERTIES
+  //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   loginForm: FormGroup;
   email: string;
   password: string;
   error: string;
+  //#endregion
 
-  // # CONTRUCTOR
-  constructor(
-    // # SERVICES
-    private authService: AuthService
-  ) {}
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+  constructor(private authService: AuthService) {}
+  //#endregion
 
-  // # ON INIT
+  //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
   ngOnInit() {
     this.loginForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
@@ -30,8 +37,17 @@ export class AuthenticationPage implements OnInit {
       ]),
     });
   }
+  //#endregion
 
-  // # FUNCTIONS
+  //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
   submit() {
     this.email = this.loginForm.value.email;
     this.password = this.loginForm.value.password;
@@ -44,4 +60,13 @@ export class AuthenticationPage implements OnInit {
   resetError() {
     this.error = null;
   }
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }
