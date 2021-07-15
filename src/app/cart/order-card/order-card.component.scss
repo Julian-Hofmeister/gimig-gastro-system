@@ -14,7 +14,7 @@ ion-card {
 }
 
 img {
-    width: 9rem;
+    width: 10rem;
     height: 11rem;
     border-radius: 15px;
     object-fit: cover;
@@ -38,14 +38,19 @@ img {
 h2 {
     font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     color: rgb(82, 82, 82);
+}
+
+ion-label {
+    overflow-wrap: break-word;
 }
 
 p {
     font-size: 1.2rem;
     letter-spacing: 0.8px;
     color: rgb(82, 82, 82);
+    overflow-wrap: break-word;
 }
 
 ion-fab-button {

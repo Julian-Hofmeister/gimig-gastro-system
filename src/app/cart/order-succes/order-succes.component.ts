@@ -27,7 +27,9 @@ export class OrderSuccesComponent implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
   async ngOnInit() {
     setTimeout(() => {
-      this.modalCtrl.dismiss();
+      if (this.modalCtrl) {
+        this.modalCtrl.dismiss();
+      }
     }, 6000);
   }
   //#endregion

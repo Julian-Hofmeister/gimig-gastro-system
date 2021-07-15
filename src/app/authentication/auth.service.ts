@@ -40,11 +40,12 @@ export class AuthService {
     } = JSON.parse(localStorage.getItem('user'));
     if (!user) {
       this.router.navigate(['/authentication']);
-      console.log('No User');
+      console.log('NO USER FOUND');
       return null;
     }
     const loadedUser = new User(user.email);
     this.user.next(loadedUser);
+    // this.router.navigate(['/home']);
   }
 
   public logout() {

@@ -79,18 +79,18 @@
 }
 
 .item-detail-css .modal-wrapper {
-    height: 80%;
-    width: 80%;
-    top: 10%;
+    height: 85%;
+    width: 85%;
+    top: 7.5%;
     border-radius: 20px;
     position: absolute;
     display: block;
 }
 
 .item-confirm-css .modal-wrapper {
-    height: 60%;
-    width: 60%;
-    top: 20%;
+    height: 70%;
+    width: 70%;
+    top: 15%;
     border-radius: 20px;
     position: absolute;
     display: block;
@@ -133,20 +133,27 @@
 }
 
 .admin-login-css .modal-wrapper {
-    height: 80%;
+    height: 95%;
     width: 40%;
-    top: 10%;
-    // left: 30%;
+    top: 2.5%;
     border-radius: 20px;
     position: absolute;
     display: block;
 }
 
 .table-number-panel-css .modal-wrapper {
-    height: 80%;
+    height: 95%;
     width: 40%;
-    top: 10%;
-    // left: 30%;
+    top: 2.5%;
+    border-radius: 20px;
+    position: absolute;
+    display: block;
+}
+
+.order-succes-modal-css .modal-wrapper {
+    height: 60%;
+    width: 60%;
+    top: 20%;
     border-radius: 20px;
     position: absolute;
     display: block;

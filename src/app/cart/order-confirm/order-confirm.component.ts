@@ -50,7 +50,7 @@ export class OrderConfirmComponent {
     this.modalCtrl
       .create({
         component: OrderSuccesComponent,
-        cssClass: 'item-confirm-css',
+        cssClass: 'order-succes-modal-css',
       })
       .then((modalEl) => {
         modalEl.present();

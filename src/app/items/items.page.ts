@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { ItemDetailComponent } from './item-detail/item-detail.component';
-import { Item } from './item.model';
 import { ItemService } from './item.service';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { CartService } from '../cart/cart.service';
+import { Item } from './item.model';
 
 @Component({
   selector: 'app-items',
@@ -22,13 +23,16 @@ export class ItemsPage implements OnInit {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-  private itemSub: Subscription;
-
-  items: Item[];
+  loadedItemList: Item[];
+  cartItemList: Item[];
 
   id: string;
   hasFood: string;
   isLoading = false;
+
+  private itemSub: Subscription;
+  private cartSub: Subscription;
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -37,6 +41,7 @@ export class ItemsPage implements OnInit {
     private route: ActivatedRoute,
     private modalCtrl: ModalController,
     private itemService: ItemService,
+    private cartService: CartService,
     private afStorage: AngularFireStorage
   ) {}
   //#endregion
@@ -46,10 +51,12 @@ export class ItemsPage implements OnInit {
     this.getUrlData();
 
     this.fetchItemsFromFirestore();
+    this.fetchCartFromFirestore();
   }
 
   ngOnDestroy() {
     this.itemSub.unsubscribe();
+    this.cartSub.unsubscribe();
   }
   //#endregion
 
@@ -62,11 +69,21 @@ export class ItemsPage implements OnInit {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public onShowDetail(item: any) {
+  public onShowDetail(item: Item) {
+    var itemInCart = false;
+    for (let cartItem of this.cartItemList) {
+      if (item.id == cartItem.id) {
+        console.log('IN CART');
+        item = cartItem;
+        itemInCart = true;
+      } else {
+        console.log('clean');
+      }
+    }
     this.modalCtrl
       .create({
         component: ItemDetailComponent,
-        componentProps: { item: item },
+        componentProps: { item: item, itemInCart: itemInCart },
         cssClass: 'item-detail-css',
       })
       .then((modalEl) => {
@@ -95,44 +112,64 @@ export class ItemsPage implements OnInit {
     this.itemSub = this.itemService
       .getItems(this.id, this.hasFood)
       .subscribe((items) => {
-        this.items = [];
+        this.loadedItemList = [];
 
         // * DEFINE NEW ITEM
-        for (let item of items) {
-          const imagePath = this.afStorage.ref(item.imagePath).getDownloadURL();
-
-          // const fetchedItem = new Item(
-          //   item.name,
-          //   item.description,
-          //   item.price,
-          //   imagePath,
-          //   item.imagePath,
-          //   item.isVisible,
-          //   item.isFood,
-          //   item.id,
-          //   item.parentId
-          // );
+        for (let currentItem of items) {
+          const imagePath = this.afStorage
+            .ref(currentItem.imagePath)
+            .getDownloadURL();
 
           const fetchedItem: Item = {
-            name: item.name,
-            description: item.description,
-            price: item.price,
+            name: currentItem.name,
+            description: currentItem.description,
+            price: currentItem.price,
 
             imagePath: imagePath,
-            imageRef: item.imagePath,
-            isVisible: item.isVisible,
-            isFood: item.isFood,
-            id: item.id,
-            parentId: item.parentId,
+            imageRef: currentItem.imagePath,
+            isVisible: currentItem.isVisible,
+            isFood: currentItem.isFood,
+            id: currentItem.id,
+            parentId: currentItem.parentId,
           };
 
           if (fetchedItem.isVisible) {
-            this.items.push(fetchedItem);
+            this.loadedItemList.push(fetchedItem);
           }
           this.isLoading = false;
         }
       });
   }
+
+  private fetchCartFromFirestore() {
+    this.cartSub = this.cartService.getCart().subscribe((cartItems) => {
+      this.cartItemList = [];
+
+      // * DEFINE NEW ITEM
+      for (let cartItem of cartItems) {
+        const imagePath = this.afStorage
+          .ref(cartItem.imagePath)
+          .getDownloadURL();
+
+        const fetchedCartItem: Item = {
+          name: cartItem.name,
+          description: cartItem.description,
+          price: cartItem.price,
+          amount: cartItem.amount,
+
+          imagePath: imagePath,
+          imageRef: cartItem.imagePath,
+          isVisible: cartItem.isVisible,
+          isFood: cartItem.isFood,
+          id: cartItem.id,
+          parentId: cartItem.parentId,
+        };
+
+        this.cartItemList.push(fetchedCartItem);
+      }
+    });
+  }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

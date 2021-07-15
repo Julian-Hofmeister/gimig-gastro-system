@@ -24,12 +24,13 @@
                     <ion-icon name="trash-outline"></ion-icon>
                 </ion-fab-button>
                 <div class="vertical-line" *ngIf="itemInCart"></div>
-                <ion-fab-button class="menu-fab" (click)="increaseAmountByOne()">
-                    <ion-icon name="add-outline"></ion-icon>
-                </ion-fab-button>
                 <ion-fab-button class="menu-fab" (click)="decreaseAmountByOne()">
                     <ion-icon name="remove-outline"></ion-icon>
                 </ion-fab-button>
+                <ion-fab-button class="menu-fab" (click)="increaseAmountByOne()">
+                    <ion-icon name="add-outline"></ion-icon>
+                </ion-fab-button>
+
                 <h2>Anzahl: {{ item.amount }}x</h2>
             </ion-col>
             <ion-col size="5" class="menu-col button-col">

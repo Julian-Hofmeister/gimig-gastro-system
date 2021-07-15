@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,9 +11,9 @@ export class CartService {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   // # LISTS
   orderList: Item[] = [];
-  orderedList: Item[] = [];
+  orderedList: string[] = [];
   cartList: Observable<any[]>;
-  cartIdList: string[] = [];
+  orderedCartList: Observable<any[]>;
 
   // # LOCALSTORAGE DATA
   tableNumber = localStorage.getItem('tableNumber');
@@ -22,17 +22,21 @@ export class CartService {
     : null;
 
   // # FIRESTORE REFERENCES
-  path = this.afs.collection('restaurants');
-  orderCollection = this.path.doc(this.userEmail).collection('orders');
+  path = this.afs.collection('restaurants').doc(this.userEmail);
+  orderCollection = this.path.collection('orders');
   tableDocument = this.path
-    .doc(this.userEmail)
     .collection('tables')
     .doc(this.tableNumber.toString());
   cartCollection = this.path
-    .doc(this.userEmail)
     .collection('tables')
     .doc(this.tableNumber)
-    .collection('cart');
+    .collection('cart', (ref) => ref.orderBy('selectedTimestamp', 'desc'));
+  orderedCartCollection = this.path
+    .collection('tables')
+    .doc(this.tableNumber)
+    .collection('orderedCart', (ref) => ref.orderBy('orderTimestamp', 'desc'));
+  foodCollection = this.path.collection('items-food');
+  beverageCollection = this.path.collection('items-beverages');
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -44,10 +48,8 @@ export class CartService {
     this.cartList = this.cartCollection.snapshotChanges().pipe(
       map((changes) => {
         return changes.map((a) => {
-          const data = a.payload.doc.data() as Item;
+          const data = a.payload.doc.data();
           data.id = a.payload.doc.id;
-
-          // console.log(data);
           return data;
         });
       })
@@ -56,38 +58,49 @@ export class CartService {
     return this.cartList;
   }
 
+  public getOrderedCart() {
+    this.orderedCartList = this.orderedCartCollection.snapshotChanges().pipe(
+      map((changes) => {
+        return changes.map((a) => {
+          const data = a.payload.doc.data();
+          data.id = a.payload.doc.id;
+          return data;
+        });
+      })
+    );
+
+    return this.orderedCartList;
+  }
+
   public order() {
     this.addOrdersToFirestore();
 
     this.updateTableToOrdered();
 
-    this.markItemsInCartAsOrdered();
+    this.moveItemsInCartToOrderedCart();
   }
 
   public addItemToCart(item: Item) {
-    this.addIdToIdList(item.id);
-    this.cartCollection.add({
+    this.orderList.push(item);
+
+    this.cartCollection.doc(item.id).set({
       // - ITEM DETAILS
       name: item.name,
       price: item.price,
-      amount: item.amount,
+      amount: item.amount ? item.amount : 1,
       isFood: item.isFood,
       imagePath: item.imageRef,
-      itemId: item.id,
+      itemRefId: item.id,
       isOrdered: false,
 
       // - FURTHER INFORMATION
       tableNumber: this.tableNumber,
+      selectedTimestamp: Date.now(),
+
       // - METADATA
       parentId: item.parentId,
       description: item.description,
       isVisible: item.isVisible,
-    });
-  }
-
-  public updateItemInCart(item: Item) {
-    this.cartCollection.doc(item.id).update({
-      amount: item.amount,
     });
   }
 
@@ -96,16 +109,39 @@ export class CartService {
   }
 
   public resetCart() {
+    console.log('reset');
+
+    console.log('OrderList');
+    console.log(this.orderList);
+
+    console.log('OrderedList');
+    console.log(this.orderedList);
+
     // * CLEAR ORDER LIST
     this.orderList.forEach((item) => {
-      console.log(item.id);
       this.cartCollection.doc(item.id).delete();
     });
     // * CLEAR OREDERED LIST
-    this.orderedList.forEach((item) => {
-      console.log(item.id);
-      this.cartCollection.doc(item.id).delete();
+    this.orderedList.forEach((order) => {
+      this.orderedCartCollection.doc(order).delete();
     });
+  }
+
+  public getItemById(itemRef) {
+    const pathRef = itemRef.isFood
+      ? this.foodCollection
+      : this.beverageCollection;
+
+    const item = pathRef
+      .doc(itemRef.itemId)
+      .ref.get()
+      .then(function (doc) {
+        if (doc.exists) {
+          console.log('Document data:', doc.data());
+          return doc.data() as Item;
+        }
+      });
+    return item;
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -148,23 +184,40 @@ export class CartService {
     });
   }
 
-  private markItemsInCartAsOrdered() {
+  private moveItemsInCartToOrderedCart() {
+    const orderTimestamp = Date.now();
+
+    console.log(this.orderList);
+
     this.orderList.forEach((item) => {
-      this.cartCollection.doc(item.id).update({
+      this.cartCollection.doc(item.id).delete();
+
+      this.orderedList.push(orderTimestamp.toString());
+      console.log('move');
+
+      this.orderedCartCollection.doc(orderTimestamp.toString()).set({
+        // - ITEM DETAILS
+        name: item.name,
+        price: item.price,
+        amount: item.amount,
+        isFood: item.isFood,
+        imagePath: item.imageRef,
+        id: orderTimestamp,
+        // - FURTHER INFORMATION
+        tableNumber: this.tableNumber,
         isOrdered: true,
+        isAccepted: false,
+        isServerd: false,
+        isPaid: false,
+        orderTimestamp: orderTimestamp,
+        // - METADATA
+        parentId: item.parentId,
+        description: item.description,
+        isVisible: item.isVisible,
       });
     });
 
-    for (let item of this.orderList) {
-      this.orderedList.push(item);
-    }
     this.orderList = [];
-  }
-
-  public addIdToIdList(id: string) {
-    console.log('ITEM ID: ' + id);
-    this.cartIdList.push(id);
-    console.log(this.cartIdList);
   }
   // ----------------------------------------------------------------------------------------------
 

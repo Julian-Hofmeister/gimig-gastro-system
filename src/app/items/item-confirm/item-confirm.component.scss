@@ -1,6 +1,11 @@
 ion-label {
-    margin-top: 4rem;
+    margin-top: 1.4rem;
     margin-bottom: 3rem;
+}
+
+ion-grid {
+    padding: 2rem;
+    height: 100%;
 }
 
 h2 {
@@ -12,6 +17,7 @@ h2 {
 
 ion-button {
     padding: 0;
+    margin: 0;
     width: 15rem;
     --box-shadow: none;
     --border-radius: 100px;
@@ -29,4 +35,8 @@ ion-button {
     display: flex;
     justify-content: center;
     text-align: center;
+}
+
+ion-row {
+    justify-content: center;
 }

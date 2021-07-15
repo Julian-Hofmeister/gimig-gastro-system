@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { CartService } from 'src/app/cart/cart.service';
 import { ItemConfirmComponent } from '../item-confirm/item-confirm.component';
-import { Item } from '../item.model';
 import {
   animate,
   state,
@@ -11,6 +10,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { Subscription } from 'rxjs';
+import { Item } from '../item.model';
 
 @Component({
   selector: 'app-item-detail',
@@ -48,16 +48,7 @@ export class ItemDetailComponent implements OnInit {
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
   ngOnInit() {
-    console.log(this.item.itemId);
-
-    console.log(this.cartService.orderList);
-    this.itemInCart =
-      this.cartService.cartIdList.indexOf(this.item.itemId) != -1
-        ? true
-        : false;
-
-    console.log('ITEM IN CART: ' + this.itemInCart);
-    console.log('OPENED FROM CART: ' + this.modalOpenedFromCart);
+    this.item.amount = this.item.amount ? this.item.amount : 1;
   }
   //#endregion
 
@@ -96,17 +87,11 @@ export class ItemDetailComponent implements OnInit {
   }
 
   public addItemToCart() {
-    if (this.cartService.orderList.indexOf(this.item) != -1) {
-      this.cartService.updateItemInCart(this.item);
-    } else {
-      this.cartService.addItemToCart(this.item);
-    }
-
-    this.cartService.orderList.push(this.item);
-
+    this.cartService.addItemToCart(this.item);
     this.closeModal();
+    if (!this.itemInCart) {
+      console.log('Open Confirm');
 
-    if (this.modalOpenedFromCart === false) {
       this.modalCtrl
         .create({
           component: ItemConfirmComponent,

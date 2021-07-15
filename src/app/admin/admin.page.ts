@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { LogoutSettingComponent } from './logout-setting/logout-setting.component';
 import { TableNumberPanelComponent } from './table-number-panel/table-number-panel.component';
-import { TableNumberSettingComponent } from './table-number-setting/table-number-setting.component';
 
 @Component({
   selector: 'app-admin',
@@ -65,6 +64,11 @@ export class AdminPage {
 
   public closeSettings() {
     this.router.navigate(['/', 'home']);
+  }
+
+  public exitKioskMode() {
+    // KioskPlugin.exitKiosk();
+    // ActivityOptions.setLockTaskEnabled();
   }
   // ----------------------------------------------------------------------------------------------
 

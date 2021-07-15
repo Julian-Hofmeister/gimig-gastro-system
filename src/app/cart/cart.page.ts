@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -18,18 +19,33 @@ export class CartPage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-  private itemSub: Subscription;
+  // # SUBSCRIPTIONS
+  private itemCartSub: Subscription;
+  private itemOrderedCartSub: Subscription;
 
-  cartList: Item[] = [];
-  orderedCartList: Item[] = [];
+  // # LISTS
+  loadedCartList: Item[] = [];
+  loadedOrderedCartList: Item[] = [];
 
   isLoading = false;
+
+  // # LOCALSTORAGE DATA
+  tableNumber = localStorage.getItem('tableNumber');
+  userEmail = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')).email
+    : null;
+
+  // # FIRESTORE REFERNCES
+  path = this.afs.collection('restaurants').doc(this.userEmail);
+  foodCollection = this.path.collection('items-food');
+  beverageCollection = this.path.collection('items-beverages');
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
   constructor(
     private modalCtrl: ModalController,
     private afStorage: AngularFireStorage,
+    private afs: AngularFirestore,
     private cartService: CartService
   ) {}
   //#endregion
@@ -37,10 +53,12 @@ export class CartPage implements OnInit, OnDestroy {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
   ngOnInit() {
     this.fetchItemsFromCartCollection();
+    this.fetchItemsFromorderedCartCollection();
   }
 
   ngOnDestroy() {
-    this.itemSub.unsubscribe();
+    this.itemCartSub.unsubscribe();
+    this.itemOrderedCartSub.unsubscribe();
   }
   //#endregion
 
@@ -54,14 +72,6 @@ export class CartPage implements OnInit, OnDestroy {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
   public openItemDetailModal(item: Item) {
-    item.itemId;
-
-    for (const loadedItem of this.cartList) {
-      if (loadedItem.itemId === item.itemId) {
-        console.log('SUUCCESS');
-      }
-    }
-
     this.modalCtrl
       .create({
         component: ItemDetailComponent,
@@ -77,11 +87,7 @@ export class CartPage implements OnInit, OnDestroy {
       });
   }
 
-  public openOrderModal() {
-    console.log(this.cartList);
-    this.cartService.orderList = this.cartList;
-    this.cartService.orderedList = this.orderedCartList;
-
+  public openOrderConfirmModal() {
     this.modalCtrl
       .create({
         component: OrderConfirmComponent,
@@ -98,39 +104,69 @@ export class CartPage implements OnInit, OnDestroy {
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
   private fetchItemsFromCartCollection() {
     this.isLoading = true;
-    this.itemSub = this.cartService.getCart().subscribe((items) => {
-      this.cartList = [];
-      this.cartService.cartIdList = [];
+    this.itemCartSub = this.cartService.getCart().subscribe((cart) => {
+      this.loadedCartList = [];
 
-      for (let item of items) {
+      for (let item of cart) {
         const imagePath = this.afStorage.ref(item.imagePath).getDownloadURL();
 
         const fetchedItem: Item = {
           name: item.name,
           description: item.description,
           price: item.price,
-
           imagePath: imagePath,
           imageRef: item.imagePath,
+
           isVisible: item.isVisible,
           isFood: item.isFood,
           id: item.id,
           parentId: item.parentId,
           amount: item.amount ? item.amount : 1,
           isOrdered: item.isOrdered ? item.isOrdered : false,
-          itemId: item.itemId ? item.itemId : '',
+          itemRefId: item.itemRefId ? item.itemRefId : '',
         };
-
-        if (!fetchedItem.isOrdered) {
-          this.cartList.push(fetchedItem);
-          this.cartService.addIdToIdList(fetchedItem.itemId);
-        } else {
-          this.orderedCartList.push(fetchedItem);
-        }
+        this.loadedCartList.push(fetchedItem);
       }
 
       this.isLoading = false;
     });
+  }
+
+  private fetchItemsFromorderedCartCollection() {
+    this.isLoading = true;
+    this.itemOrderedCartSub = this.cartService
+      .getOrderedCart()
+      .subscribe((orders) => {
+        this.loadedOrderedCartList = [];
+
+        for (let item of orders) {
+          const imagePath = this.afStorage.ref(item.imagePath).getDownloadURL();
+
+          const fetchedItem: Item = {
+            name: item.name,
+            description: item.description,
+            price: item.price,
+            imagePath: imagePath,
+            imageRef: item.imagePath,
+
+            isVisible: item.isVisible,
+            isFood: item.isFood,
+            id: item.id,
+            parentId: item.parentId,
+            amount: item.amount ? item.amount : 1,
+            isOrdered: item.isOrdered ? item.isOrdered : false,
+            itemRefId: item.itemRefId ? item.itemRefId : '',
+          };
+
+          this.loadedOrderedCartList.push(fetchedItem);
+
+          if (this.cartService.orderedList.indexOf(fetchedItem.id) == -1) {
+            this.cartService.orderedList.push(fetchedItem.id);
+          }
+        }
+
+        this.isLoading = false;
+      });
   }
   // ----------------------------------------------------------------------------------------------
 

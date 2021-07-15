@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AdminLoginComponent } from '../admin/admin-login/admin-login.component';
+import { CartService } from '../cart/cart.service';
+import { OrderSuccesComponent } from '../cart/order-succes/order-succes.component';
 import { CallServiceComponent } from './call-service/call-service.component';
 import { SendPayRequestComponent } from './send-pay-request/send-pay-request.component';
 import { Table } from './table.model';
@@ -43,7 +45,8 @@ export class HomePage implements OnInit {
   constructor(
     private router: Router,
     private tableService: TableService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private cartService: CartService
   ) {}
   //#endregion
 

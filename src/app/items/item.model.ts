@@ -13,5 +13,5 @@ export interface Item {
   parentId: string;
   amount?: number;
   isOrdered?: boolean;
-  itemId?: string;
+  itemRefId?: string;
 }

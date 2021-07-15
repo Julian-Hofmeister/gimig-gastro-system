@@ -1,7 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
-import { CartService } from 'src/app/cart/cart.service';
-import { Item } from '../item.model';
 
 @Component({
   selector: 'app-item-confirm',

@@ -11,7 +11,7 @@
 //     border: cornflowerblue 1px solid;
 // }
 img {
-    height: 20rem;
+    height: 18rem;
     object-fit: cover;
     border-radius: 8rem 20px 6em 22rem;
 }
@@ -22,21 +22,22 @@ img {
 }
 
 .content-col {
-    padding-top: 3rem;
-    padding-left: 3rem;
+    padding-top: 2rem;
+    padding-left: 2rem;
+    margin-right: 2rem;
 }
 
 .menu-col {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    padding-left: 3rem;
+    padding-left: 2rem;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
 .button-col {
-    padding-right: 3rem;
+    padding-right: 2rem;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -45,7 +46,7 @@ img {
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin-bottom: 2rem;
     font-weight: 600;
     letter-spacing: 2px;
@@ -89,13 +90,13 @@ ion-button {
 #warning {
     font-size: 1rem;
     color: rgb(102, 102, 102);
-    margin-left: 3rem;
-    margin-top: 1.5rem;
+    margin-left: 2rem;
+    margin-top: 1rem;
 }
 
 .vertical-line {
     width: 1px;
     height: 40px;
     background: rgb(199, 199, 199);
-    margin: 0 30px;
+    margin: 0 20px;
 }

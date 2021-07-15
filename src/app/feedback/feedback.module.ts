@@ -7,14 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { FeedbackPageRoutingModule } from './feedback-routing.module';
 
 import { FeedbackPage } from './feedback.page';
+import { QuestionCardComponent } from './question-card/question-card.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    FeedbackPageRoutingModule
-  ],
-  declarations: [FeedbackPage]
+  imports: [CommonModule, FormsModule, IonicModule, FeedbackPageRoutingModule],
+  declarations: [FeedbackPage, QuestionCardComponent],
 })
 export class FeedbackPageModule {}

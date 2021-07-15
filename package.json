@@ -21,15 +21,16 @@
     "@angular/platform-browser": "~11.2.0",
     "@angular/platform-browser-dynamic": "~11.2.0",
     "@angular/router": "~11.2.0",
-    "@capacitor/android": "3.0.2",
+    "@capacitor/android": "3.1.1",
     "@capacitor/app": "1.0.1",
-    "@capacitor/core": "3.0.1",
+    "@capacitor/core": "^3.0.1",
     "@capacitor/haptics": "1.0.1",
     "@capacitor/keyboard": "1.0.1",
     "@capacitor/status-bar": "1.0.1",
     "@ionic-native/android-full-screen": "^5.33.1",
     "@ionic-native/battery-status": "^5.33.1",
     "@ionic/angular": "^5.5.2",
+    "capacitor": "^0.5.5",
     "cordova-plugin-battery-status": "^2.0.3",
     "cordova-plugin-fullscreen": "^1.3.0",
     "firebase": "^7.0 || ^8.0",
@@ -45,12 +46,13 @@
     "@angular/compiler": "~11.2.0",
     "@angular/compiler-cli": "~11.2.0",
     "@angular/language-service": "~11.2.0",
-    "@capacitor/cli": "3.0.1",
+    "@capacitor/cli": "^3.0.1",
     "@ionic/angular-toolkit": "^3.1.1",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
+    "cordova-plugin-kiosk": "git+https://github.com/hkalina/cordova-plugin-kiosk.git",
     "firebase-tools": "^8.0.0",
     "fuzzy": "^0.1.3",
     "inquirer": "^6.2.2",
@@ -69,5 +71,10 @@
     "tslint": "~6.1.0",
     "typescript": "~4.0.2"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-kiosk": {}
+    }
+  }
 }
