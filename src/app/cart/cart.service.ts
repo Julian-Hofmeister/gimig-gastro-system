@@ -9,42 +9,51 @@ import { Item } from '../items/item.model';
 })
 export class CartService {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-  // # LISTS
+
   orderList: Item[] = [];
   orderedList: string[] = [];
   cartList: Observable<any[]>;
   orderedCartList: Observable<any[]>;
 
-  // # LOCALSTORAGE DATA
   tableNumber = localStorage.getItem('tableNumber');
+
   userEmail = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')).email
     : null;
 
-  // # FIRESTORE REFERENCES
   path = this.afs.collection('restaurants').doc(this.userEmail);
+
   orderCollection = this.path.collection('orders');
+
   tableDocument = this.path
     .collection('tables')
     .doc(this.tableNumber.toString());
+
   cartCollection = this.path
     .collection('tables')
     .doc(this.tableNumber)
     .collection('cart', (ref) => ref.orderBy('selectedTimestamp', 'desc'));
+
   orderedCartCollection = this.path
     .collection('tables')
     .doc(this.tableNumber)
     .collection('orderedCart', (ref) => ref.orderBy('orderTimestamp', 'desc'));
+
   foodCollection = this.path.collection('items-food');
+
   beverageCollection = this.path.collection('items-beverages');
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(public afs: AngularFirestore) {}
+
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public getCart() {
+
+  getCart() {
     this.cartList = this.cartCollection.snapshotChanges().pipe(
       map((changes) => {
         return changes.map((a) => {
@@ -58,7 +67,9 @@ export class CartService {
     return this.cartList;
   }
 
-  public getOrderedCart() {
+  // ----------------------------------------------------------------------------------------------
+
+  getOrderedCart() {
     this.orderedCartList = this.orderedCartCollection.snapshotChanges().pipe(
       map((changes) => {
         return changes.map((a) => {
@@ -72,7 +83,9 @@ export class CartService {
     return this.orderedCartList;
   }
 
-  public order() {
+  // ----------------------------------------------------------------------------------------------
+
+  order() {
     this.addOrdersToFirestore();
 
     this.updateTableToOrdered();
@@ -80,7 +93,9 @@ export class CartService {
     this.moveItemsInCartToOrderedCart();
   }
 
-  public addItemToCart(item: Item) {
+  // ----------------------------------------------------------------------------------------------
+
+  addItemToCart(item: Item) {
     this.orderList.push(item);
 
     this.cartCollection.doc(item.id).set({
@@ -104,11 +119,15 @@ export class CartService {
     });
   }
 
-  public deleteItemInCart(item: Item) {
+  // ----------------------------------------------------------------------------------------------
+
+  deleteItemInCart(item: Item) {
     this.cartCollection.doc(item.id).delete();
   }
 
-  public resetCart() {
+  // ----------------------------------------------------------------------------------------------
+
+  resetCart() {
     console.log('reset');
 
     console.log('OrderList');
@@ -127,7 +146,9 @@ export class CartService {
     });
   }
 
-  public getItemById(itemRef) {
+  // ----------------------------------------------------------------------------------------------
+
+  getItemById(itemRef) {
     const pathRef = itemRef.isFood
       ? this.foodCollection
       : this.beverageCollection;
@@ -175,6 +196,8 @@ export class CartService {
     });
   }
 
+  // ----------------------------------------------------------------------------------------------
+
   private updateTableToOrdered() {
     this.tableDocument.update({
       isOrdered: true,
@@ -183,6 +206,8 @@ export class CartService {
       timestamp: Date.now(),
     });
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   private moveItemsInCartToOrderedCart() {
     const orderTimestamp = Date.now();
@@ -219,6 +244,7 @@ export class CartService {
 
     this.orderList = [];
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

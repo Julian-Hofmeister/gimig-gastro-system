@@ -12,36 +12,39 @@ import { Table } from './table.model';
 export class TableService {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  // # OBSERVABLES
   table: Observable<Table>;
 
-  // # LOCALSTORAGE VARIABLES
   tableNumber = localStorage.getItem('tableNumber')
     ? localStorage.getItem('tableNumber')
     : '1';
+
   userEmail = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')).email
     : null;
 
-  // # FIRESTORE REFERENCES
   path = this.afs.collection('restaurants');
+
   tableCollection = this.path.doc(this.userEmail).collection('tables');
+
   tablePath = this.userEmail
     ? this.path.doc(this.userEmail).collection('tables').doc(this.tableNumber)
     : null;
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(
     public afs: AngularFirestore,
     private navCtrl: NavController,
     private cartService: CartService
   ) {}
+
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  public getTableData() {
+  getTableData() {
     if (this.userEmail) {
       this.table = this.tablePath.snapshotChanges().pipe(
         map((a) => {
@@ -56,7 +59,9 @@ export class TableService {
     }
   }
 
-  public onResetTable() {
+  // ----------------------------------------------------------------------------------------------
+
+  onResetTable() {
     this.tablePath.update({
       resetRequest: false,
       ableToPay: false,
@@ -76,14 +81,18 @@ export class TableService {
     this.navCtrl.navigateBack('/home');
   }
 
-  public sendServiceRequest() {
+  // ----------------------------------------------------------------------------------------------
+
+  sendServiceRequest() {
     this.tablePath.update({
       serviceRequest: true,
       serviceTimestamp: Date.now(),
     });
   }
 
-  public sendPayRequest(paysCache: boolean, paysTogether: boolean) {
+  // ----------------------------------------------------------------------------------------------
+
+  sendPayRequest(paysCache: boolean, paysTogether: boolean) {
     this.tablePath.update({
       payRequest: true,
       paysCache: paysCache,
@@ -92,7 +101,9 @@ export class TableService {
     });
   }
 
-  public setTableData(tableNumber: string) {
+  // ----------------------------------------------------------------------------------------------
+
+  setTableData(tableNumber: string) {
     this.tableCollection.doc(tableNumber).set({
       tableNumber: Number(tableNumber),
       resetRequest: false,
@@ -109,8 +120,16 @@ export class TableService {
       payRequestTimestamp: null,
     });
   }
+
   // ----------------------------------------------------------------------------------------------
 
+  updateTableMessage() {
+    this.tablePath.update({
+      message: '',
+    });
+  }
+
+  // ----------------------------------------------------------------------------------------------
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
