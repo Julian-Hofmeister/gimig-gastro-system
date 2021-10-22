@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CartService } from '../cart/cart.service';
@@ -22,13 +22,16 @@ export class TableService {
     ? JSON.parse(localStorage.getItem('user')).email
     : null;
 
+  // ----------------------------------------------------------------------------------------------
+
   path = this.afs.collection('restaurants');
 
   tableCollection = this.path.doc(this.userEmail).collection('tables');
 
-  tablePath = this.userEmail
-    ? this.path.doc(this.userEmail).collection('tables').doc(this.tableNumber)
-    : null;
+  tablePath = this.path
+    .doc(this.userEmail)
+    .collection('tables')
+    .doc(this.tableNumber);
 
   //#endregion
 
@@ -37,7 +40,8 @@ export class TableService {
   constructor(
     public afs: AngularFirestore,
     private navCtrl: NavController,
-    private cartService: CartService
+    private cartService: CartService,
+    private modalCtlr: ModalController
   ) {}
 
   //#endregion
@@ -50,9 +54,11 @@ export class TableService {
         map((a) => {
           const data = a.payload.data() as Table;
           data.id = a.payload.id;
+
           return data;
         })
       );
+
       return this.table;
     } else {
       console.log('WARNING! NO TABLE STATUS!');
@@ -62,6 +68,8 @@ export class TableService {
   // ----------------------------------------------------------------------------------------------
 
   onResetTable() {
+    console.log(this.tablePath);
+
     this.tablePath.update({
       resetRequest: false,
       ableToPay: false,
@@ -78,6 +86,11 @@ export class TableService {
     });
 
     this.cartService.resetCart();
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000);
+
     this.navCtrl.navigateBack('/home');
   }
 
@@ -119,6 +132,8 @@ export class TableService {
       serviceTimestamp: null,
       payRequestTimestamp: null,
     });
+
+    this.onResetTable();
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -130,6 +145,7 @@ export class TableService {
   }
 
   // ----------------------------------------------------------------------------------------------
+
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////

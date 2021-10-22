@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class CategoryService {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   categories: Observable<any[]>;
 
   userEmail = localStorage.getItem('user')
@@ -16,19 +17,23 @@ export class CategoryService {
     : null;
 
   path = this.afs.collection('restaurants').doc(this.userEmail);
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(public afs: AngularFirestore) {}
+
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public getCategories(id: string, pathAttachment: string) {
+
+  getCategories(id: string, pathAttachment: string) {
     const categoryCollection = this.path.collection(
       '/' + pathAttachment,
       (ref) => ref.where('parentId', '==', id)
-      // .orderBy('id')
     );
+
     this.categories = categoryCollection.snapshotChanges().pipe(
       map((changes) => {
         return changes.map((a) => {
@@ -38,8 +43,10 @@ export class CategoryService {
         });
       })
     );
+
     return this.categories;
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

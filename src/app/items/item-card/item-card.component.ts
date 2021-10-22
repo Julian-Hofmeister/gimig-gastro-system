@@ -26,19 +26,25 @@ registerLocaleData(localeFr, 'fr');
 })
 export class ItemCardComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
   @Input() item: Item;
+
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   price: any;
+
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
   ngOnInit() {
     this.price = new Intl.NumberFormat('en-GB', {
       style: 'currency',
       currency: 'EUR',
     }).format(this.item.price);
   }
+
   //#endregion
 }

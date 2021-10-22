@@ -23,6 +23,7 @@ export class AdminPage {
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(private modalCtrl: ModalController, private router: Router) {}
 
   //#endregion
@@ -40,7 +41,8 @@ export class AdminPage {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public openTableNumberModal() {
+
+  openTableNumberModal() {
     this.modalCtrl
       .create({
         component: TableNumberPanelComponent,
@@ -51,7 +53,9 @@ export class AdminPage {
       });
   }
 
-  public openLogoutConfirmationModal() {
+  // ----------------------------------------------------------------------------------------------
+
+  openLogoutConfirmationModal() {
     this.modalCtrl
       .create({
         component: LogoutSettingComponent,
@@ -62,14 +66,19 @@ export class AdminPage {
       });
   }
 
-  public closeSettings() {
+  // ----------------------------------------------------------------------------------------------
+
+  closeSettings() {
     this.router.navigate(['/', 'home']);
   }
 
-  public exitKioskMode() {
+  // ----------------------------------------------------------------------------------------------
+
+  exitKioskMode() {
     // KioskPlugin.exitKiosk();
     // ActivityOptions.setLockTaskEnabled();
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

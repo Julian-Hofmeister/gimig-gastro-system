@@ -8,6 +8,7 @@ import { ModalController, NavController } from '@ionic/angular';
 })
 export class ItemConfirmComponent {
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(
     private navCtrl: NavController,
     private modalCtrl: ModalController
@@ -16,15 +17,19 @@ export class ItemConfirmComponent {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public dismiss() {
+
+  dismiss() {
     this.modalCtrl.dismiss();
   }
 
-  public confirm() {
+  // ----------------------------------------------------------------------------------------------
+
+  confirm() {
     this.dismiss();
 
     this.navCtrl.navigateForward(['/', 'cart']);
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

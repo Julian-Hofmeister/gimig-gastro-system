@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+ion-content {
+    --background: rgb(75, 75, 75);
+}
+
 .myOverlay {
     width: 100%;
     height: 3rem;

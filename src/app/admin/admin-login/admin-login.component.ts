@@ -17,9 +17,13 @@ export class AdminLoginComponent {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   passwordInput: string = '';
+
   passwordArray: string[] = [];
+
   adminPassword = '301';
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -41,7 +45,8 @@ export class AdminLoginComponent {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public inputNumber(number: string) {
+
+  inputNumber(number: string) {
     this.passwordArray.push(number);
     this.passwordInput = this.passwordInput + number;
 
@@ -50,7 +55,9 @@ export class AdminLoginComponent {
     }
   }
 
-  public onSubmit(autoSubmit: boolean) {
+  // ----------------------------------------------------------------------------------------------
+
+  onSubmit(autoSubmit: boolean) {
     if (this.passwordInput != this.adminPassword) {
       console.log('PASSWORD IS INCORRECT');
       if ((autoSubmit && this.passwordArray.length > 3) || !autoSubmit) {
@@ -62,6 +69,7 @@ export class AdminLoginComponent {
       this.router.navigate(['/', 'admin']);
     }
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

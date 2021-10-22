@@ -19,47 +19,72 @@ export class CartPage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-  // # SUBSCRIPTIONS
-  private itemCartSub: Subscription;
-  private itemOrderedCartSub: Subscription;
 
-  // # LISTS
   loadedCartList: Item[] = [];
+
   loadedOrderedCartList: Item[] = [];
+
+  // ----------------------------------------------------------------------------------------------
 
   isLoading = false;
 
-  // # LOCALSTORAGE DATA
   tableNumber = localStorage.getItem('tableNumber');
+
   userEmail = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')).email
     : null;
 
-  // # FIRESTORE REFERNCES
+  // ----------------------------------------------------------------------------------------------
+
   path = this.afs.collection('restaurants').doc(this.userEmail);
+
   foodCollection = this.path.collection('items-food');
+
   beverageCollection = this.path.collection('items-beverages');
+
+  //#endregion
+
+  //#region [ MEMBERS ] //////////////////////////////////////////////////////////////////////////
+
+  private itemCartSub: Subscription;
+
+  private itemOrderedCartSub: Subscription;
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(
     private modalCtrl: ModalController,
     private afStorage: AngularFireStorage,
     private afs: AngularFirestore,
     private cartService: CartService
   ) {}
+
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
   ngOnInit() {
+    console.log('1.');
+    console.log(this.loadedCartList);
+
     this.fetchItemsFromCartCollection();
+
     this.fetchItemsFromorderedCartCollection();
+
+    console.log('2.');
+    console.log(this.loadedCartList);
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   ngOnDestroy() {
     this.itemCartSub.unsubscribe();
+
     this.itemOrderedCartSub.unsubscribe();
   }
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -71,7 +96,8 @@ export class CartPage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public openItemDetailModal(item: Item) {
+
+  openItemDetailModal(item: Item) {
     this.modalCtrl
       .create({
         component: ItemDetailComponent,
@@ -87,21 +113,28 @@ export class CartPage implements OnInit, OnDestroy {
       });
   }
 
-  public openOrderConfirmModal() {
+  // ----------------------------------------------------------------------------------------------
+
+  openOrderConfirmModal() {
     this.modalCtrl
       .create({
         component: OrderConfirmComponent,
         cssClass: 'confirm-css',
+        componentProps: {
+          loadedCartList: this.loadedCartList,
+        },
       })
       .then((modalEl) => {
         modalEl.present();
       });
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
   private fetchItemsFromCartCollection() {
     this.isLoading = true;
     this.itemCartSub = this.cartService.getCart().subscribe((cart) => {
@@ -131,6 +164,8 @@ export class CartPage implements OnInit, OnDestroy {
       this.isLoading = false;
     });
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   private fetchItemsFromorderedCartCollection() {
     this.isLoading = true;
@@ -168,6 +203,7 @@ export class CartPage implements OnInit, OnDestroy {
         this.isLoading = false;
       });
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

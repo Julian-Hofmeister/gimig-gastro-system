@@ -1,3 +1,24 @@
-<p>
-  show-greetings-modal works!
-</p>
+<ion-content>
+    <ion-fab vertical="top" horizontal="start" slot="fixed" (click)="onClose()">
+        <ion-icon name="close-outline" id="close-icon"></ion-icon>
+    </ion-fab>
+
+    <ion-grid>
+        <div class="container">
+            <ion-row>
+                <ion-col size="7" class="content-col">
+                    <h2>
+                        Wir wünschen euch <br /> einen Guten Appettit!
+                    </h2>
+                    <p>
+                        Bei Fragen oder Wünschen <br /> informieren Sie einfach <br /> unser Team
+                    </p>
+                    <ion-button (click)="onCallService()"> Bedienung Rufen </ion-button>
+                </ion-col>
+                <ion-col>
+                    <img src="/assets/images/team.jpg" alt="" />
+                </ion-col>
+            </ion-row>
+        </div>
+    </ion-grid>
+</ion-content>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Table } from 'src/app/home/table.model';
 import { TableService } from 'src/app/home/table.service';
 
@@ -18,16 +18,21 @@ export class TableNumberSettingComponent {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   table: Table;
 
   tableNumber: number = 1;
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(
     private modalCtrl: ModalController,
-    private tableService: TableService
+    private tableService: TableService,
+    private navCtrl: NavController
   ) {}
+
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
@@ -43,13 +48,15 @@ export class TableNumberSettingComponent {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public setTablenumber() {
+
+  setTablenumber() {
     localStorage.setItem('tableNumber', this.tableNumber.toString());
     console.log('TABLENUMBER ' + localStorage.getItem('tableNumber'));
     this.modalCtrl.dismiss();
 
     this.tableService.setTableData(this.tableNumber.toString());
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

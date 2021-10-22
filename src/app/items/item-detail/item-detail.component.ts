@@ -25,31 +25,40 @@ import { Item } from '../item.model';
 })
 export class ItemDetailComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
-  @Input() item: Item;
-  @Input() modalOpenedFromCart = false;
-  @Input() itemInCart = false;
-  //#endregion
 
-  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+  @Input() item: Item;
+
+  @Input() modalOpenedFromCart = false;
+
+  @Input() itemInCart = false;
 
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
   private itemSub: Subscription;
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(
     private modalCtrl: ModalController,
     private cartService: CartService
   ) {}
+
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
   ngOnInit() {
     this.item.amount = this.item.amount ? this.item.amount : 1;
   }
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -61,24 +70,32 @@ export class ItemDetailComponent implements OnInit {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public increaseAmountByOne() {
+
+  increaseAmountByOne() {
     if (this.item.amount < 25) {
       this.item.amount = this.item.amount + 1;
     }
   }
-  public decreaseAmountByOne() {
-    if (this.item.amount > 1) {
+
+  // ----------------------------------------------------------------------------------------------
+
+  decreaseAmountByOne() {
+    if (this.item.amount > 0) {
       this.item.amount = this.item.amount - 1;
     }
   }
 
-  public closeModal() {
+  // ----------------------------------------------------------------------------------------------
+
+  closeModal() {
     this.modalCtrl.dismiss({
       dismissed: true,
     });
   }
 
-  public deleteItemInCart() {
+  // ----------------------------------------------------------------------------------------------
+
+  deleteItemInCart() {
     this.cartService.deleteItemInCart(this.item);
 
     this.modalCtrl.dismiss({
@@ -86,12 +103,14 @@ export class ItemDetailComponent implements OnInit {
     });
   }
 
-  public addItemToCart() {
-    this.cartService.addItemToCart(this.item);
-    this.closeModal();
-    if (!this.itemInCart) {
-      console.log('Open Confirm');
+  // ----------------------------------------------------------------------------------------------
 
+  addItemToCart() {
+    this.cartService.addItemToCart(this.item);
+
+    this.closeModal();
+
+    if (!this.itemInCart) {
       this.modalCtrl
         .create({
           component: ItemConfirmComponent,
@@ -102,6 +121,7 @@ export class ItemDetailComponent implements OnInit {
         });
     }
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

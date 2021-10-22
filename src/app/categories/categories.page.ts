@@ -16,39 +16,51 @@ export class CategoriesPage implements OnInit, OnDestroy {
 
   //#endregion
 
-  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
-
-  //#endregion
-
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   categories: Category[] = [];
 
   id: string;
+
   pathAttachment: string;
+
   isLoading = false;
 
+  isFood = 'true';
+
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
   private categorySub: Subscription;
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
     private afStorage: AngularFireStorage,
     private categoryService: CategoryService
   ) {}
+
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
   ngOnInit() {
     this.gertUrlData();
 
     this.fetchCategoriesFromFirestore();
   }
 
+  // ----------------------------------------------------------------------------------------------
+
   ngOnDestroy() {
     this.categorySub.unsubscribe();
   }
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -66,18 +78,24 @@ export class CategoriesPage implements OnInit, OnDestroy {
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
   private gertUrlData() {
     this.route.paramMap.subscribe((paramMap) => {
       if (!paramMap.has('id')) {
         this.navCtrl.navigateBack('/home');
+
         return;
       }
       this.id = paramMap.get('id');
-      const isFood = paramMap.get('hasFood');
+
+      this.isFood = paramMap.get('hasFood');
+
       this.pathAttachment =
-        isFood == 'true' ? 'categories-food' : 'categories-beverages';
+        this.isFood == 'true' ? 'categories-food' : 'categories-beverages';
     });
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   private fetchCategoriesFromFirestore() {
     this.isLoading = true;

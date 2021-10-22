@@ -10,6 +10,9 @@ import { SendPayRequestComponent } from './send-pay-request/send-pay-request.com
 import { ReorderBeveragesModalComponent } from './reorder-beverages-modal/reorder-beverages-modal.component';
 import { OfferDessertModalComponent } from './offer-dessert-modal/offer-dessert-modal.component';
 import { ShowFeedbackModalComponent } from './show-feedback-modal/show-feedback-modal.component';
+import { SmallItemCardComponent } from './reorder-beverages-modal/small-item-card/small-item-card.component';
+import { ItemContainerComponent } from './offer-dessert-modal/item-container/item-container.component';
+import { ShowGreetingsModalComponent } from './show-greetings-modal/show-greetings-modal.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule],
@@ -20,7 +23,9 @@ import { ShowFeedbackModalComponent } from './show-feedback-modal/show-feedback-
     ReorderBeveragesModalComponent,
     OfferDessertModalComponent,
     ShowFeedbackModalComponent,
-    ShowFeedbackModalComponent,
+    SmallItemCardComponent,
+    ItemContainerComponent,
+    ShowGreetingsModalComponent,
   ],
 })
 export class HomePageModule {}

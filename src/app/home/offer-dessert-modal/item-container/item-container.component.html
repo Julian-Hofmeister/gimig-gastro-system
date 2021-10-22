@@ -1,0 +1,35 @@
+<div class="item-container">
+    <ion-row class="justify-content-end content-row">
+        <ion-col class="content-col">
+            <p class="detail">{{ item.name }}</p>
+            <p *ngIf="item.name != item.description">
+                {{ item.description }}
+            </p>
+            <p class="detail price">
+                {{ item.price | currency: "EUR":"symbol":"":"fr" }}
+            </p>
+        </ion-col>
+        <ion-col>
+            <img *ngIf="item.imagePath | async; let url" [@simpleFadeAnimation]="'in'" [src]="url" alt="" />
+        </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-align-items-center">
+        <ion-col size="6">
+            <ion-row class="ion-align-items-center">
+                <h2>Anzahl: {{ item.amount }}x</h2>
+                <ion-fab-button class="menu-fab" (click)="decreaseAmountByOne()">
+                    <ion-icon name="remove-outline"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-button class="menu-fab" (click)="increaseAmountByOne()">
+                    <ion-icon name="add-outline"></ion-icon>
+                </ion-fab-button>
+            </ion-row>
+        </ion-col>
+
+        <ion-col size="6" class="menu-col button-col justify-content-end">
+            <ion-button size="large" (click)="addAllItemsToCart()" [routerLink]="['/', 'cart']">Zum Einkaufswagen
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</div>

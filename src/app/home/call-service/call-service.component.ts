@@ -9,7 +9,9 @@ import { TableService } from '../table.service';
 })
 export class CallServiceComponent {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
   @Input() message: string = 'Bedienung Rufen';
+
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
@@ -17,17 +19,21 @@ export class CallServiceComponent {
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(
     private tableService: TableService,
     private modalCtrl: ModalController
   ) {}
+
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+
   onCallService() {
     this.tableService.sendServiceRequest();
     this.modalCtrl.dismiss();
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

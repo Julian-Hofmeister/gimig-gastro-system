@@ -21,6 +21,7 @@ export class LogoutSettingComponent {
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(
     private modalCtrl: ModalController,
     private authService: AuthService
@@ -41,15 +42,19 @@ export class LogoutSettingComponent {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public onLogout() {
+
+  onLogout() {
     console.log('LOGGING OUT...');
     this.authService.logout();
     this.onDismiss();
   }
 
-  public onDismiss() {
+  // ----------------------------------------------------------------------------------------------
+
+  onDismiss() {
     this.modalCtrl.dismiss();
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

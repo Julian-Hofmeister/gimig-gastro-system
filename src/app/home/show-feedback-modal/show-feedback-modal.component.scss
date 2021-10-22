@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+ion-content {
+    --background: coral;
+    --color: white;
+}
+
+ion-grid {
+    margin: 1rem;
+}
+
+h2 {
+    letter-spacing: 2px;
+    font-weight: 600;
+    font-size: 1.8rem;
+}
+
+p {
+    font-size: 1.3rem;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.detail {
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+ion-row {
+    text-align: center;
+}
+
+img {
+    border-radius: 15px;
+    width: 15rem;
+    height: 15rem;
+}
+
+.text-align-start {}

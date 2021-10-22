@@ -18,14 +18,18 @@ export class TableNumberPanelComponent {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   tableNumberInput: string = '';
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(
     private modalCtrl: ModalController,
     private tableService: TableService
   ) {}
+
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
@@ -41,12 +45,15 @@ export class TableNumberPanelComponent {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public inputNumber(number: string) {
+
+  inputNumber(number: string) {
     this.tableNumberInput = this.tableNumberInput + number;
     console.log(this.tableNumberInput);
   }
 
-  public onSubmit() {
+  // ----------------------------------------------------------------------------------------------
+
+  onSubmit() {
     if (this.tableNumberInput != '') {
       localStorage.setItem('tableNumber', this.tableNumberInput);
       console.log('TABLENUMBER ' + localStorage.getItem('tableNumber'));
@@ -55,6 +62,7 @@ export class TableNumberPanelComponent {
       this.tableService.setTableData(this.tableNumberInput);
     }
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

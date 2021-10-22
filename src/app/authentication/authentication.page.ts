@@ -17,26 +17,36 @@ export class AuthenticationPage implements OnInit {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   loginForm: FormGroup;
+
   email: string;
+
   password: string;
+
   error: string;
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(private authService: AuthService) {}
+
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
   ngOnInit() {
     this.loginForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
+
       password: new FormControl(null, [
         Validators.required,
         Validators.minLength(6),
       ]),
     });
   }
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -48,6 +58,7 @@ export class AuthenticationPage implements OnInit {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+
   submit() {
     this.email = this.loginForm.value.email;
     this.password = this.loginForm.value.password;
@@ -57,9 +68,12 @@ export class AuthenticationPage implements OnInit {
     });
   }
 
+  // ----------------------------------------------------------------------------------------------
+
   resetError() {
     this.error = null;
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

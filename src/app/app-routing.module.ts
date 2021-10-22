@@ -35,22 +35,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./admin/admin.module').then((m) => m.AdminPageModule),
   },
-  {
-    path: 'feedback',
-    loadChildren: () =>
-      import('./feedback/feedback.module').then((m) => m.FeedbackPageModule),
-  },
+
   {
     path: 'authentication',
     loadChildren: () =>
       import('./authentication/authentication.module').then(
         (m) => m.AuthenticationPageModule
       ),
-  },
-  {
-    path: 'feedback',
-    loadChildren: () =>
-      import('./feedback/feedback.module').then((m) => m.FeedbackPageModule),
   },
 ];
 

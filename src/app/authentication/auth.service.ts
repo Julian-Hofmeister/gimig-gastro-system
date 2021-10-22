@@ -11,50 +11,70 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class AuthService {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
   user = new BehaviorSubject<User>(null);
+
   isLoggedIn = false;
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(private firebaseAuth: AngularFireAuth, private router: Router) {}
+
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public async signInUser(email: string, password: string) {
+
+  async signInUser(email: string, password: string) {
     await this.firebaseAuth
       .signInWithEmailAndPassword(email, password)
       .then((res) => {
         this.isLoggedIn = true;
+
         localStorage.setItem('user', JSON.stringify(res.user));
-        console.log('IS LOGGED IN: ' + this.isLoggedIn);
+
         const user = new User(res.user.email);
+
         this.user.next(user);
+
         this.router.navigate(['/home']);
+
         return res.user.email;
       });
   }
 
-  public autoSignIn() {
+  // ----------------------------------------------------------------------------------------------
+
+  autoSignIn() {
     const user: {
       email: string;
     } = JSON.parse(localStorage.getItem('user'));
+
     if (!user) {
       this.router.navigate(['/authentication']);
+
       console.log('NO USER FOUND');
+
       return null;
     }
+
     const loadedUser = new User(user.email);
+
     this.user.next(loadedUser);
-    // this.router.navigate(['/home']);
   }
 
-  public logout() {
+  // ----------------------------------------------------------------------------------------------
+
+  logout() {
     this.firebaseAuth.signOut();
     localStorage.removeItem('user');
     this.router.navigate(['/authentication']);
   }
 
-  public handleError(errorRes: string) {
+  // ----------------------------------------------------------------------------------------------
+
+  handleError(errorRes: string) {
     let errorMessage = 'An unknown error occurred!';
     if (!errorRes) {
       return errorMessage;
@@ -70,8 +90,10 @@ export class AuthService {
         errorMessage = 'Diese E-mail Adresse existiert bereits.';
         break;
     }
+
     return errorMessage;
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

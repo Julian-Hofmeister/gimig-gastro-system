@@ -22,13 +22,43 @@ import {
   ],
 })
 export class CategoryCardComponent implements OnInit {
+  //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
   @Input() category: Category;
+
+  //#endregion
+
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
   constructor(private navCtrl: NavController, private route: ActivatedRoute) {}
 
+  //#endregion
+
+  //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
   ngOnInit() {}
 
-  openContent(category: Category) {
+  //#endregion
+
+  //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+
+  openContent(category: Category): void {
     if (category.hasCategories) {
       this.navCtrl.navigateForward([
         '/',
@@ -45,4 +75,14 @@ export class CategoryCardComponent implements OnInit {
       ]);
     }
   }
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
+
+  //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  // ----------------------------------------------------------------------------------------------
+
+  //#endregion
 }

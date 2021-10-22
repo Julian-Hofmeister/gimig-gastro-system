@@ -1,15 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
-import { TableService } from '../table.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Item } from 'src/app/items/item.model';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
-  selector: 'app-send-pay-request',
-  templateUrl: './send-pay-request.component.html',
-  styleUrls: ['./send-pay-request.component.scss'],
+  selector: 'app-item-container',
+  templateUrl: './item-container.component.html',
+  styleUrls: ['./item-container.component.scss'],
+  animations: [
+    trigger('simpleFadeAnimation', [
+      state('in', style({ opacity: 1 })),
+      transition(':enter', [style({ opacity: 0 }), animate(300)]),
+    ]),
+  ],
 })
-export class SendPayRequestComponent {
+export class ItemContainerComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  @Input() item: Item;
+
+  //#endregion
+
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
   //#endregion
 
@@ -17,29 +34,24 @@ export class SendPayRequestComponent {
 
   //#endregion
 
-  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-
-  paysTogether: string = null;
-
-  paysCache: string = null;
-
-  //#endregion
-
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor(
-    private tableService: TableService,
-    private modalCtrl: ModalController,
-    private router: Router
-  ) {}
+  constructor() {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
+  ngOnInit() {
+    this.item.amount = 0;
+  }
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
+
+  @Output() onItemChanged = new EventEmitter<any>();
+  @Output() onAddToCart = new EventEmitter<any>();
 
   //#endregion
 
@@ -49,27 +61,26 @@ export class SendPayRequestComponent {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onChangePaysTogether(selection: string) {
-    this.paysTogether = selection;
+  increaseAmountByOne() {
+    if (this.item.amount < 25) {
+      this.item.amount = this.item.amount + 1;
+      this.onItemChanged.emit(this.item);
+    }
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  onChangePaysCache(selection: string) {
-    this.paysCache = selection;
+  decreaseAmountByOne() {
+    if (this.item.amount > 1) {
+      this.item.amount = this.item.amount - 1;
+      this.onItemChanged.emit(this.item);
+    }
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  onCall() {
-    const paysCache: boolean = this.paysCache == 'true' ? true : false;
-    const paysTogether: boolean = this.paysTogether == 'true' ? true : false;
-
-    this.tableService.sendPayRequest(paysCache, paysTogether);
-
-    this.modalCtrl.dismiss();
-
-    this.openFeedbackPage();
+  addAllItemsToCart() {
+    this.onAddToCart.emit();
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -77,12 +88,6 @@ export class SendPayRequestComponent {
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
-
-  private openFeedbackPage() {
-    setTimeout(() => {
-      this.router.navigate(['/', 'feedback']);
-    }, 6000);
-  }
 
   // ----------------------------------------------------------------------------------------------
 

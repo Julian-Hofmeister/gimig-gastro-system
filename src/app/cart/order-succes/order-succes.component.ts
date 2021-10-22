@@ -20,18 +20,23 @@ export class OrderSuccesComponent implements OnInit {
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(private modalCtrl: ModalController) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
   async ngOnInit() {
     setTimeout(() => {
       if (this.modalCtrl) {
-        this.modalCtrl.dismiss();
+        this.modalCtrl.dismiss().catch((err) => {
+          console.log('MODAL ALREADY DISMISSED ' + err);
+        });
       }
     }, 6000);
   }
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -43,9 +48,11 @@ export class OrderSuccesComponent implements OnInit {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+
   dismiss() {
     this.modalCtrl.dismiss();
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

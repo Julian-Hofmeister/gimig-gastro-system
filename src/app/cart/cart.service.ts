@@ -11,23 +11,34 @@ export class CartService {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
   orderList: Item[] = [];
+
   orderedList: string[] = [];
+
+  // ----------------------------------------------------------------------------------------------
+
   cartList: Observable<any[]>;
+
   orderedCartList: Observable<any[]>;
 
-  tableNumber = localStorage.getItem('tableNumber');
+  // ----------------------------------------------------------------------------------------------
+
+  tableNumber = localStorage.getItem('tableNumber')
+    ? localStorage.getItem('tableNumber')
+    : '1';
 
   userEmail = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')).email
-    : null;
+    : 'null';
+
+  // ----------------------------------------------------------------------------------------------
 
   path = this.afs.collection('restaurants').doc(this.userEmail);
-
-  orderCollection = this.path.collection('orders');
 
   tableDocument = this.path
     .collection('tables')
     .doc(this.tableNumber.toString());
+
+  orderCollection = this.path.collection('orders');
 
   cartCollection = this.path
     .collection('tables')
@@ -85,12 +96,16 @@ export class CartService {
 
   // ----------------------------------------------------------------------------------------------
 
-  order() {
-    this.addOrdersToFirestore();
+  order(loadedCartList: Item[]) {
+    loadedCartList.forEach((item) => {
+      item.orderTimestamp = Date.now();
+
+      this.addOrdersToFirestore(item);
+
+      this.moveItemsInCartToOrderedCart(item);
+    });
 
     this.updateTableToOrdered();
-
-    this.moveItemsInCartToOrderedCart();
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -107,11 +122,9 @@ export class CartService {
       imagePath: item.imageRef,
       itemRefId: item.id,
       isOrdered: false,
-
       // - FURTHER INFORMATION
       tableNumber: this.tableNumber,
       selectedTimestamp: Date.now(),
-
       // - METADATA
       parentId: item.parentId,
       description: item.description,
@@ -128,19 +141,16 @@ export class CartService {
   // ----------------------------------------------------------------------------------------------
 
   resetCart() {
-    console.log('reset');
-
     console.log('OrderList');
     console.log(this.orderList);
 
     console.log('OrderedList');
     console.log(this.orderedList);
 
-    // * CLEAR ORDER LIST
     this.orderList.forEach((item) => {
       this.cartCollection.doc(item.id).delete();
     });
-    // * CLEAR OREDERED LIST
+
     this.orderedList.forEach((order) => {
       this.orderedCartCollection.doc(order).delete();
     });
@@ -148,7 +158,7 @@ export class CartService {
 
   // ----------------------------------------------------------------------------------------------
 
-  getItemById(itemRef) {
+  getItemById(itemRef: any) {
     const pathRef = itemRef.isFood
       ? this.foodCollection
       : this.beverageCollection;
@@ -162,6 +172,7 @@ export class CartService {
           return doc.data() as Item;
         }
       });
+
     return item;
   }
 
@@ -171,28 +182,26 @@ export class CartService {
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
 
-  private addOrdersToFirestore() {
-    this.orderList.forEach((item) => {
-      this.orderCollection.add({
-        // - ITEM DETAILS
-        name: item.name,
-        price: item.price,
-        amount: item.amount,
-        isFood: item.isFood,
-        imagePath: item.imageRef,
-        id: item.id,
-        // - FURTHER INFORMATION
-        tableNumber: this.tableNumber,
-        isOrdered: true,
-        isAccepted: false,
-        isServerd: false,
-        isPaid: false,
-        orderTimestamp: Date.now(),
-        // - METADATA
-        parentId: item.parentId,
-        description: item.description,
-        isVisible: item.isVisible,
-      });
+  private addOrdersToFirestore(item: Item) {
+    this.orderCollection.doc(item.orderTimestamp.toString()).set({
+      // - ITEM DETAILS
+      name: item.name,
+      price: item.price,
+      amount: item.amount,
+      isFood: item.isFood,
+      imagePath: item.imageRef,
+      id: item.id,
+      // - FURTHER INFORMATION
+      tableNumber: this.tableNumber,
+      isOrdered: true,
+      isAccepted: false,
+      isServerd: false,
+      isPaid: false,
+      orderTimestamp: item.orderTimestamp,
+      // - METADATA
+      parentId: item.parentId,
+      description: item.description,
+      isVisible: item.isVisible,
     });
   }
 
@@ -209,40 +218,35 @@ export class CartService {
 
   // ----------------------------------------------------------------------------------------------
 
-  private moveItemsInCartToOrderedCart() {
-    const orderTimestamp = Date.now();
-
+  private moveItemsInCartToOrderedCart(item: Item) {
     console.log(this.orderList);
 
-    this.orderList.forEach((item) => {
-      this.cartCollection.doc(item.id).delete();
+    this.cartCollection.doc(item.id).delete();
 
-      this.orderedList.push(orderTimestamp.toString());
-      console.log('move');
+    this.orderedList.push(item.orderTimestamp.toString());
 
-      this.orderedCartCollection.doc(orderTimestamp.toString()).set({
-        // - ITEM DETAILS
-        name: item.name,
-        price: item.price,
-        amount: item.amount,
-        isFood: item.isFood,
-        imagePath: item.imageRef,
-        id: orderTimestamp,
-        // - FURTHER INFORMATION
-        tableNumber: this.tableNumber,
-        isOrdered: true,
-        isAccepted: false,
-        isServerd: false,
-        isPaid: false,
-        orderTimestamp: orderTimestamp,
-        // - METADATA
-        parentId: item.parentId,
-        description: item.description,
-        isVisible: item.isVisible,
-      });
+    this.orderedCartCollection.doc(item.orderTimestamp.toString()).set({
+      // - ITEM DETAILS
+      name: item.name,
+      price: item.price,
+      amount: item.amount,
+      isFood: item.isFood,
+      imagePath: item.imageRef,
+      id: item.orderTimestamp,
+      // - FURTHER INFORMATION
+      tableNumber: this.tableNumber,
+      isOrdered: true,
+      isAccepted: false,
+      isServerd: false,
+      isPaid: false,
+      orderTimestamp: item.orderTimestamp,
+      // - METADATA
+      parentId: item.parentId,
+      description: item.description,
+      isVisible: item.isVisible,
+      // - STATUS
+      isFinished: false,
     });
-
-    this.orderList = [];
   }
 
   // ----------------------------------------------------------------------------------------------

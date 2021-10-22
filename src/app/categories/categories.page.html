@@ -1,7 +1,7 @@
 <div class="background-layout float-right"></div>
 
 <ion-content>
-    <app-background-layout slot="fixed" title="Speisen"></app-background-layout>
+    <app-background-layout slot="fixed" [title]="isFood == 'true' ? 'Seisen' : 'Getränke'"></app-background-layout>
     <app-side-navigation slot="fixed"></app-side-navigation>
     <div class="spin" *ngIf="isLoading">
         <ion-spinner class="spinner-large" name="bubbles" color="primary"></ion-spinner>

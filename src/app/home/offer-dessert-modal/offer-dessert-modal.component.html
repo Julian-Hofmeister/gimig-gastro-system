@@ -1,3 +1,27 @@
-<p>
-  offer-dessert-modal works!
-</p>
+<ion-content class="ion-padding" scroll-y="false">
+    <ion-fab vertical="top" horizontal="start" slot="fixed" (click)="onClose()">
+        <ion-icon name="close-outline" id="close-icon"></ion-icon>
+    </ion-fab>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <h1>Möchtet ihr noch einen Nachtisch?</h1>
+            </ion-col>
+        </ion-row>
+        <ion-slides #slides>
+            <ion-slide *ngFor="let item of loadedItems">
+                <ion-row class="ion-justify-content-center">
+                    <ion-col size="1" class="ion-align-self-center">
+                        <ion-icon name="chevron-back-outline" (click)="slides.slidePrev()"></ion-icon>
+                    </ion-col>
+                    <ion-col size="10">
+                        <app-item-container [item]="item" (onItemChanged)="onItemChanged($event)" (onAddToCart)="onAddToCart()"></app-item-container>
+                    </ion-col>
+                    <ion-col size="1" class="ion-align-self-center">
+                        <ion-icon name="chevron-forward-outline" (click)="slides.slideNext()"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-slide>
+        </ion-slides>
+    </ion-grid>
+</ion-content>

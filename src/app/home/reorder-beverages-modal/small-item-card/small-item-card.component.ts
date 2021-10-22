@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Item } from 'src/app/items/item.model';
 
 @Component({
-  selector: 'app-feedback',
-  templateUrl: './feedback.page.html',
-  styleUrls: ['./feedback.page.scss'],
+  selector: 'app-small-item-card',
+  templateUrl: './small-item-card.component.html',
+  styleUrls: ['./small-item-card.component.scss'],
 })
-export class FeedbackPage implements OnInit {
+export class SmallItemCardComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
-  //#endregion
-
-  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+  @Input() item: Item;
 
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
   //#endregion
 
@@ -25,11 +28,16 @@ export class FeedbackPage implements OnInit {
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
-  ngOnInit() {}
+
+  ngOnInit() {
+    this.item.amount = 0;
+  }
 
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
+
+  @Output() onItemChanged = new EventEmitter<any>();
 
   //#endregion
 
@@ -38,6 +46,22 @@ export class FeedbackPage implements OnInit {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+
+  increaseAmountByOne() {
+    if (this.item.amount < 25) {
+      this.item.amount = this.item.amount + 1;
+      this.onItemChanged.emit(this.item);
+    }
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  decreaseAmountByOne() {
+    if (this.item.amount > 0) {
+      this.item.amount = this.item.amount - 1;
+      this.onItemChanged.emit(this.item);
+    }
+  }
 
   // ----------------------------------------------------------------------------------------------
 

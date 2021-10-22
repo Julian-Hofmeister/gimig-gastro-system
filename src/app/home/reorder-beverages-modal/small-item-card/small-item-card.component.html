@@ -1,0 +1,20 @@
+<div class="small-item-card">
+    <ion-row class="ion-justify-content-between ion-align-items-center">
+        <ion-col>
+            <h3>{{ item.name }}</h3>
+        </ion-col>
+        <ion-col>
+            <ion-row class="ion-align-items-center align-right">
+                <h3>Anzahl: {{ item.amount }}x</h3>
+
+                <ion-fab-button class="menu-fab" (click)="decreaseAmountByOne()">
+                    <ion-icon name="remove-outline"></ion-icon>
+                </ion-fab-button>
+
+                <ion-fab-button class="menu-fab" (click)="increaseAmountByOne()">
+                    <ion-icon name="add-outline"></ion-icon>
+                </ion-fab-button>
+            </ion-row>
+        </ion-col>
+    </ion-row>
+</div>

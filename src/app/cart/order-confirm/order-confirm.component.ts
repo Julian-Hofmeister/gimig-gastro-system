@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
+import { Item } from 'src/app/items/item.model';
 import { CartService } from '../cart.service';
 import { OrderSuccesComponent } from '../order-succes/order-succes.component';
 
@@ -8,8 +9,10 @@ import { OrderSuccesComponent } from '../order-succes/order-succes.component';
   templateUrl: './order-confirm.component.html',
   styleUrls: ['./order-confirm.component.scss'],
 })
-export class OrderConfirmComponent {
+export class OrderConfirmComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
+
+  @Input() loadedCartList: Item[];
 
   //#endregion
 
@@ -22,15 +25,20 @@ export class OrderConfirmComponent {
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(
     private cartService: CartService,
     private modalCtrl: ModalController,
     private navCtrl: NavController
   ) {}
+
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
+  ngOnInit() {
+    console.log(this.loadedCartList);
+  }
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -42,9 +50,16 @@ export class OrderConfirmComponent {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+
   onOrder() {
-    this.cartService.order();
+    console.log(this.loadedCartList);
+
+    this.cartService.order(this.loadedCartList);
+
+    this.loadedCartList = [];
+
     this.modalCtrl.dismiss();
+
     this.navCtrl.navigateBack('/home');
 
     this.modalCtrl
@@ -56,6 +71,7 @@ export class OrderConfirmComponent {
         modalEl.present();
       });
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

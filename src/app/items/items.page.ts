@@ -18,17 +18,23 @@ export class ItemsPage implements OnInit {
 
   //#endregion
 
-  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
+  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
+  loadedItemList: Item[];
+
+  cartItemList: Item[];
+
+  // ----------------------------------------------------------------------------------------------
+
+  id: string;
+
+  hasFood: string;
+
+  isLoading = false;
 
   //#endregion
 
-  //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-  loadedItemList: Item[];
-  cartItemList: Item[];
-
-  id: string;
-  hasFood: string;
-  isLoading = false;
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
   private itemSub: Subscription;
   private cartSub: Subscription;
@@ -36,6 +42,7 @@ export class ItemsPage implements OnInit {
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
+
   constructor(
     private navCtrl: NavController,
     private route: ActivatedRoute,
@@ -44,20 +51,27 @@ export class ItemsPage implements OnInit {
     private cartService: CartService,
     private afStorage: AngularFireStorage
   ) {}
+
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
+
   ngOnInit() {
     this.getUrlData();
 
     this.fetchItemsFromFirestore();
+
     this.fetchCartFromFirestore();
   }
 
+  // ----------------------------------------------------------------------------------------------
+
   ngOnDestroy() {
     this.itemSub.unsubscribe();
+
     this.cartSub.unsubscribe();
   }
+
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
@@ -69,17 +83,18 @@ export class ItemsPage implements OnInit {
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
-  public onShowDetail(item: Item) {
-    var itemInCart = false;
+
+  onShowDetail(item: Item) {
+    let itemInCart = false;
+
     for (let cartItem of this.cartItemList) {
       if (item.id == cartItem.id) {
-        console.log('IN CART');
         item = cartItem;
+
         itemInCart = true;
-      } else {
-        console.log('clean');
       }
     }
+
     this.modalCtrl
       .create({
         component: ItemDetailComponent,
@@ -90,6 +105,7 @@ export class ItemsPage implements OnInit {
         modalEl.present();
       });
   }
+
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
@@ -107,14 +123,16 @@ export class ItemsPage implements OnInit {
     });
   }
 
+  // ----------------------------------------------------------------------------------------------
+
   private fetchItemsFromFirestore() {
     this.isLoading = true;
+
     this.itemSub = this.itemService
       .getItems(this.id, this.hasFood)
       .subscribe((items) => {
         this.loadedItemList = [];
 
-        // * DEFINE NEW ITEM
         for (let currentItem of items) {
           const imagePath = this.afStorage
             .ref(currentItem.imagePath)
@@ -124,7 +142,6 @@ export class ItemsPage implements OnInit {
             name: currentItem.name,
             description: currentItem.description,
             price: currentItem.price,
-
             imagePath: imagePath,
             imageRef: currentItem.imagePath,
             isVisible: currentItem.isVisible,
@@ -136,16 +153,18 @@ export class ItemsPage implements OnInit {
           if (fetchedItem.isVisible) {
             this.loadedItemList.push(fetchedItem);
           }
+
           this.isLoading = false;
         }
       });
   }
 
+  // ----------------------------------------------------------------------------------------------
+
   private fetchCartFromFirestore() {
     this.cartSub = this.cartService.getCart().subscribe((cartItems) => {
       this.cartItemList = [];
 
-      // * DEFINE NEW ITEM
       for (let cartItem of cartItems) {
         const imagePath = this.afStorage
           .ref(cartItem.imagePath)
@@ -156,7 +175,6 @@ export class ItemsPage implements OnInit {
           description: cartItem.description,
           price: cartItem.price,
           amount: cartItem.amount,
-
           imagePath: imagePath,
           imageRef: cartItem.imagePath,
           isVisible: cartItem.isVisible,

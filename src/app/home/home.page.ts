@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AdminLoginComponent } from '../admin/admin-login/admin-login.component';
-import { CartService } from '../cart/cart.service';
-import { OrderSuccesComponent } from '../cart/order-succes/order-succes.component';
 import { CallServiceComponent } from './call-service/call-service.component';
 import { OfferDessertModalComponent } from './offer-dessert-modal/offer-dessert-modal.component';
 import { ReorderBeveragesModalComponent } from './reorder-beverages-modal/reorder-beverages-modal.component';
 import { SendPayRequestComponent } from './send-pay-request/send-pay-request.component';
 import { ShowFeedbackModalComponent } from './show-feedback-modal/show-feedback-modal.component';
+import { ShowGreetingsModalComponent } from './show-greetings-modal/show-greetings-modal.component';
 import { Table } from './table.model';
 import { TableService } from './table.service';
 import { User } from './user.model';
@@ -30,8 +28,9 @@ export class HomePage implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  table: Table;
   user: User;
+
+  table: Table;
 
   tableSub: Observable<Table>;
 
@@ -41,11 +40,15 @@ export class HomePage implements OnInit {
     ? JSON.parse(localStorage.getItem('user')).email
     : null;
 
+  // ----------------------------------------------------------------------------------------------
+
   ableToPay = false;
 
   serviceRequest = false;
 
   resetRequest = false;
+
+  // ----------------------------------------------------------------------------------------------
 
   message: string;
 
@@ -54,7 +57,6 @@ export class HomePage implements OnInit {
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
   constructor(
-    private router: Router,
     private tableService: TableService,
     private modalCtrl: ModalController
   ) {}
@@ -92,8 +94,30 @@ export class HomePage implements OnInit {
 
   // ----------------------------------------------------------------------------------------------
 
-  openFeedback() {
-    this.router.navigate(['/', 'feedback']);
+  openFeedbackModal() {
+    this.modalCtrl
+      .create({
+        component: ShowFeedbackModalComponent,
+        cssClass: 'show-feedback-modal-css',
+        backdropDismiss: false,
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  openShowGreetingskModal() {
+    this.modalCtrl
+      .create({
+        component: ShowGreetingsModalComponent,
+        cssClass: 'show-greetings-modal-css',
+        // backdropDismiss: false,
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -129,6 +153,19 @@ export class HomePage implements OnInit {
 
   // ----------------------------------------------------------------------------------------------
 
+  openOfferDessertModal() {
+    this.modalCtrl
+      .create({
+        component: OfferDessertModalComponent,
+        cssClass: 'offer-dessert-modal-css',
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
@@ -139,14 +176,25 @@ export class HomePage implements OnInit {
 
       this.tableSub.subscribe((doc) => {
         this.table = doc;
+
         this.ableToPay = this.table.ableToPay;
+
         this.serviceRequest = this.table.serviceRequest;
+
         this.resetRequest = this.table.resetRequest;
+
         this.message = this.table.message;
 
         if (this.resetRequest) {
-          console.log('RESETTING..');
           this.tableService.onResetTable();
+
+          console.log('RESETTING..');
+        }
+
+        if (this.table.payRequest) {
+          setTimeout(() => {
+            this.openFeedbackModal();
+          }, 5000);
         }
 
         this.checkMessageAction(this.table.message);
@@ -163,8 +211,6 @@ export class HomePage implements OnInit {
       message === 'showFeedback' ||
       message === 'showGreetings'
     ) {
-      console.log('OPEN MESSAGE');
-
       this.modalCtrl
         .create({
           component:
@@ -175,7 +221,7 @@ export class HomePage implements OnInit {
               : message === 'showFeedback'
               ? ShowFeedbackModalComponent
               : message === 'showGreetings'
-              ? ShowFeedbackModalComponent
+              ? ShowGreetingsModalComponent
               : null,
           cssClass: 'reorderBeverages'
             ? 'reorder-beverages-modal-css'
@@ -186,14 +232,17 @@ export class HomePage implements OnInit {
             : message === 'showGreetings'
             ? 'show-greetings-modal-css'
             : null,
+          // backdropDismiss: message == 'showFeedback' ? false : true,
         })
         .then((modalEl) => {
           modalEl.present();
         });
 
-      // this.updateTableMessage();
+      this.updateTableMessage();
     }
   }
+
+  // ----------------------------------------------------------------------------------------------
 
   private updateTableMessage() {
     this.tableService.updateTableMessage();

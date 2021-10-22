@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ion-grid {
+    height: 100%;
+    margin: 0;
+}
+
+ion-content {
+    --background: white;
+    // background-color: #FF9872;
+    --color: rgb(63, 63, 63);
+}
+
+h1 {
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+}
+
+.icon-center {
+    align-self: center;
+}
+
+ion-icon {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+ion-list {
+    background: none !important;
+}
+
+ion-slide {
+    width: 100%;
+}
+
+ion-icon {
+    font-size: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 0.3rem;
+    color: rgb(56, 56, 56) !important;
+}
