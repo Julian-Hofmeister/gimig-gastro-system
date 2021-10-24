@@ -5,7 +5,7 @@
 }
 
 ion-content {
-    --background: rgb(75, 75, 75);
+    --background: rgb(59, 59, 59);
 }
 
 .myOverlay {
@@ -44,6 +44,7 @@ ion-button {
     margin: 20px 20px;
     // letter-spacing: 1px;
     --border-radius: 100px;
+    --box-shadow: none;
 }
 
 ion-fab-button {

@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage,
+  },
+  {
+    path: 'reservation-page',
+    loadChildren: () => import('./reservation-page/reservation-page.module').then( m => m.ReservationPagePageModule)
   }
 ];
 

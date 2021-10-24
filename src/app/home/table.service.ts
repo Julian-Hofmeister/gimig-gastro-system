@@ -83,6 +83,7 @@ export class TableService {
       isAccepted: false,
       serviceTimestamp: null,
       payRequestTimestamp: null,
+      isReserved: false,
     });
 
     this.cartService.resetCart();
@@ -146,6 +147,13 @@ export class TableService {
 
   // ----------------------------------------------------------------------------------------------
 
+  dismissReservation() {
+    this.tablePath.update({
+      isReserved: false,
+    });
+  }
+
+  // ----------------------------------------------------------------------------------------------
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////

@@ -13,6 +13,7 @@ import { ShowFeedbackModalComponent } from './show-feedback-modal/show-feedback-
 import { SmallItemCardComponent } from './reorder-beverages-modal/small-item-card/small-item-card.component';
 import { ItemContainerComponent } from './offer-dessert-modal/item-container/item-container.component';
 import { ShowGreetingsModalComponent } from './show-greetings-modal/show-greetings-modal.component';
+import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule],

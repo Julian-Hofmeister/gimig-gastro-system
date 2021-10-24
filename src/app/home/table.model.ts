@@ -21,4 +21,6 @@ export interface Table {
   id: string;
 
   message: string;
+
+  isReserved: boolean;
 }

@@ -1,0 +1,75 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ion-content {
+    --background: rgb(48, 48, 48);
+}
+
+.background-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    filter: brightness(60%) blur(6px);
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    text-align: center;
+    color: white;
+    background-color: rgb(61, 61, 61);
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    h1 {
+        font-size: 7rem;
+        font-weight: 700;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        // margin-bottom: 0.4rem;
+    }
+    h2 {
+        font-size: 3rem;
+        font-weight: 400;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-bottom: 0.4rem;
+        text-align: start;
+    }
+    .align-right {
+        text-align: end;
+    }
+}
+
+.bottom {
+    width: 100%;
+    position: absolute;
+    bottom: 1rem;
+    text-align: center;
+    p {
+        font-size: 1.6rem;
+        font-weight: 400;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 0.4rem;
+        text-align: center;
+        animation: pulse 2s infinite;
+    }
+}
+
+.blink_me {
+    animation: blinker 3s ease-in infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}

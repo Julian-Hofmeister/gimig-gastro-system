@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AdminLoginComponent } from '../admin/admin-login/admin-login.component';
 import { CallServiceComponent } from './call-service/call-service.component';
@@ -48,6 +48,8 @@ export class HomePage implements OnInit {
 
   resetRequest = false;
 
+  isReserved = false;
+
   // ----------------------------------------------------------------------------------------------
 
   message: string;
@@ -58,7 +60,8 @@ export class HomePage implements OnInit {
 
   constructor(
     private tableService: TableService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private navCtrl: NavController
   ) {}
 
   //#endregion
@@ -185,6 +188,10 @@ export class HomePage implements OnInit {
 
         this.message = this.table.message;
 
+        this.isReserved = this.table.isReserved;
+
+        console.log(this.table.isReserved);
+
         if (this.resetRequest) {
           this.tableService.onResetTable();
 
@@ -198,6 +205,8 @@ export class HomePage implements OnInit {
         }
 
         this.checkMessageAction(this.table.message);
+
+        this.checkTableReservation(this.table);
       });
     }
   }
@@ -239,6 +248,15 @@ export class HomePage implements OnInit {
         });
 
       this.updateTableMessage();
+    }
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  private checkTableReservation(table: Table) {
+    if (table.isReserved) {
+      this.navCtrl.navigateForward('home/reservation-page');
+      //  this.navCtrl.navigateForward('/cart');
     }
   }
 
