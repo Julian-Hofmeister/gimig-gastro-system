@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { Table } from '../table.model';
 import { TableService } from '../table.service';
 
@@ -11,11 +13,17 @@ import { TableService } from '../table.service';
 export class ReservationPagePage implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
-  @Input() table: Table;
-
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
+  tableSub: Observable<Table>;
+
+  tableNumber = localStorage.getItem('tableNumber');
+
+  table: Table;
+
+  reservationTimestamp = null;
 
   //#endregion
 
@@ -26,15 +34,23 @@ export class ReservationPagePage implements OnInit {
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
   constructor(
+    public router: Router,
     private navCtrl: NavController,
     private tableService: TableService
-  ) {}
-
+  ) {
+    if (router.getCurrentNavigation().extras.state) {
+      const table = this.router.getCurrentNavigation().extras.state;
+      console.log(table);
+      this.reservationTimestamp = table.reservationTimestamp;
+    }
+  }
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchTableDataFromFireStore();
+  }
 
   //#endregion
 
@@ -59,6 +75,16 @@ export class ReservationPagePage implements OnInit {
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  private fetchTableDataFromFireStore() {
+    this.tableSub = this.tableService.getTableData();
+
+    this.tableSub.subscribe((doc: Table) => {
+      this.table = doc;
+
+      this.reservationTimestamp = doc.reservationTimestamp;
+    });
+  }
 
   // ----------------------------------------------------------------------------------------------
 

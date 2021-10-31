@@ -70,6 +70,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.fetchTableDataFromFireStore();
+    this.openFeedbackPage();
   }
 
   //#endregion
@@ -97,16 +98,17 @@ export class HomePage implements OnInit {
 
   // ----------------------------------------------------------------------------------------------
 
-  openFeedbackModal() {
-    this.modalCtrl
-      .create({
-        component: ShowFeedbackModalComponent,
-        cssClass: 'show-feedback-modal-css',
-        backdropDismiss: false,
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
+  openFeedbackPage() {
+    // this.modalCtrl
+    //   .create({
+    //     component: ShowFeedbackModalComponent,
+    //     cssClass: 'show-feedback-modal-css',
+    //     backdropDismiss: false,
+    //   })
+    //   .then((modalEl) => {
+    //     modalEl.present();
+    //   });
+    this.navCtrl.navigateForward('home/feedback-page');
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -200,7 +202,7 @@ export class HomePage implements OnInit {
 
         if (this.table.payRequest) {
           setTimeout(() => {
-            this.openFeedbackModal();
+            this.openFeedbackPage();
           }, 5000);
         }
 
@@ -255,7 +257,7 @@ export class HomePage implements OnInit {
 
   private checkTableReservation(table: Table) {
     if (table.isReserved) {
-      this.navCtrl.navigateForward('home/reservation-page');
+      this.navCtrl.navigateForward('home/reservation-page', { state: table });
       //  this.navCtrl.navigateForward('/cart');
     }
   }

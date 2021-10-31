@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: 'reservation-page',
     loadChildren: () => import('./reservation-page/reservation-page.module').then( m => m.ReservationPagePageModule)
+  },
+  {
+    path: 'feedback-page',
+    loadChildren: () => import('./feedback-page/feedback-page.module').then( m => m.FeedbackPagePageModule)
   }
 ];
 

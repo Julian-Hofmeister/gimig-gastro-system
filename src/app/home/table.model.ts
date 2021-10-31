@@ -23,4 +23,5 @@ export interface Table {
   message: string;
 
   isReserved: boolean;
+  reservationTimestamp: number;
 }
