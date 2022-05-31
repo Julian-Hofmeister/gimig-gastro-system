@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/cart/cart.service';
 import { Item } from 'src/app/items/item.model';
@@ -36,7 +36,8 @@ export class ReorderBeveragesModalComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private afStorage: AngularFireStorage,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private navCtrl: NavController
   ) {}
 
   //#endregion
@@ -62,7 +63,11 @@ export class ReorderBeveragesModalComponent implements OnInit {
   addBeveragesToCart() {
     for (let item of this.orderedBeverages) {
       if (item.amount > 0) {
+        console.log('hiii');
         this.cartService.addItemToCart(item);
+
+        this.navCtrl.navigateForward('/cart');
+        this.modalCtrl.dismiss();
       }
     }
   }

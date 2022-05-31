@@ -32,6 +32,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   providers: [
     StatusBar,
     SplashScreen,
+
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],

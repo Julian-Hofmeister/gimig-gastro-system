@@ -4,6 +4,8 @@ import { ModalController } from '@ionic/angular';
 import { LogoutSettingComponent } from './logout-setting/logout-setting.component';
 import { TableNumberPanelComponent } from './table-number-panel/table-number-panel.component';
 
+// declare let KioskPlugin: any;
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.page.html',
@@ -75,7 +77,8 @@ export class AdminPage {
   // ----------------------------------------------------------------------------------------------
 
   exitKioskMode() {
-    // KioskPlugin.exitKiosk();
+    // KioskPlugin.exitKiosk()
+    // KioskMode.enable();
     // ActivityOptions.setLockTaskEnabled();
   }
 

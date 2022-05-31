@@ -1,13 +1,13 @@
 <ion-content fullscreen class="ion-text-center" no-scroll scrollY="false" padding>
     <!-- <img [src]="backgroundImage" /> -->
     <!-- <img src="../assets/images/32602469.jpg" alt="" /> -->
-    <img src="../assets/images/schranencafe.jpeg" alt="" />
+    <img src="../assets/images/fca-background.png" alt="" />
 
     <div class="vertical-align-content">
         <ion-grid class="myOverlay">
             <ion-row>
                 <ion-col>
-                    <h1 (click)="openAdmin()">Balkan Grill im Schrannencafe</h1>
+                    <h1 (click)="openAdmin()">{{welcomeMessage}}</h1>
                     <ion-row>
                         <ion-col>
                             <ion-button size="large" color="light" [routerLink]="['/','categories','categories-beverages', 'false']">Getränke</ion-button>

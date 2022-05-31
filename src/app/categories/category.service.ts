@@ -31,7 +31,7 @@ export class CategoryService {
   getCategories(id: string, pathAttachment: string) {
     const categoryCollection = this.path.collection(
       '/' + pathAttachment,
-      (ref) => ref.where('parentId', '==', id)
+      (ref) => ref.where('parentId', '==', id).orderBy('name')
     );
 
     this.categories = categoryCollection.snapshotChanges().pipe(

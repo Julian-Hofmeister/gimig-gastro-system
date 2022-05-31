@@ -57,6 +57,8 @@ export class AppComponent implements OnInit {
     }
 
     this.authService.autoSignIn();
+
+    // KioskPlugin.isInKiosk(function(isInKiosk){ ... });
   }
 
   //#endregion

@@ -5,6 +5,8 @@ import { AdminLoginComponent } from '../admin/admin-login/admin-login.component'
 import { CallServiceComponent } from './call-service/call-service.component';
 import { OfferDessertModalComponent } from './offer-dessert-modal/offer-dessert-modal.component';
 import { ReorderBeveragesModalComponent } from './reorder-beverages-modal/reorder-beverages-modal.component';
+import { Restaurant } from './restaurant.model';
+import { RestaurantService } from './restaurant.service';
 import { SendPayRequestComponent } from './send-pay-request/send-pay-request.component';
 import { ShowFeedbackModalComponent } from './show-feedback-modal/show-feedback-modal.component';
 import { ShowGreetingsModalComponent } from './show-greetings-modal/show-greetings-modal.component';
@@ -27,6 +29,10 @@ export class HomePage implements OnInit {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
+  welcomeMessage: string;
+
+  // ----------------------------------------------------------------------------------------------
 
   user: User;
 
@@ -60,6 +66,7 @@ export class HomePage implements OnInit {
 
   constructor(
     private tableService: TableService,
+    private restaurantService: RestaurantService,
     private modalCtrl: ModalController,
     private navCtrl: NavController
   ) {}
@@ -70,7 +77,8 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.fetchTableDataFromFireStore();
-    this.openFeedbackPage();
+    // this.openFeedbackPage();
+    this.fetchWelcomeMessage();
   }
 
   //#endregion
@@ -270,5 +278,17 @@ export class HomePage implements OnInit {
 
   // ----------------------------------------------------------------------------------------------
 
+  private fetchWelcomeMessage() {
+    this.restaurantService
+      .getRestaurantData()
+      .subscribe((restaurant: Restaurant) => {
+        const fetchedRestaurant: Restaurant = {
+          welcomeMessage: restaurant.welcomeMessage,
+          id: restaurant.id,
+        };
+
+        this.welcomeMessage = fetchedRestaurant.welcomeMessage;
+      });
+  }
   //#endregions
 }

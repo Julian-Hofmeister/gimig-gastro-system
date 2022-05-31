@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { ItemDetailComponent } from '../items/item-detail/item-detail.component';
 import { Item } from '../items/item.model';
 import { CartService } from './cart.service';
 import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
+import { OrderSuccesComponent } from './order-succes/order-succes.component';
 
 @Component({
   selector: 'app-cart',
@@ -58,7 +59,8 @@ export class CartPage implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private afStorage: AngularFireStorage,
     private afs: AngularFirestore,
-    private cartService: CartService
+    private cartService: CartService,
+    private navCtrl: NavController
   ) {}
 
   //#endregion
@@ -115,14 +117,35 @@ export class CartPage implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
-  openOrderConfirmModal() {
+  // NOT USED ANYMORE
+
+  // openOrderConfirmModal() {
+  //   this.modalCtrl
+  //     .create({
+  //       component: OrderConfirmComponent,
+  //       cssClass: 'confirm-css',
+  //       componentProps: {
+  //         loadedCartList: this.loadedCartList,
+  //       },
+  //     })
+  //     .then((modalEl) => {
+  //       modalEl.present();
+  //     });
+  // }
+
+  onOrder() {
+    console.log(this.loadedCartList);
+
+    this.cartService.order(this.loadedCartList);
+
+    this.loadedCartList = [];
+
+    this.navCtrl.navigateBack('/home');
+
     this.modalCtrl
       .create({
-        component: OrderConfirmComponent,
-        cssClass: 'confirm-css',
-        componentProps: {
-          loadedCartList: this.loadedCartList,
-        },
+        component: OrderSuccesComponent,
+        cssClass: 'order-succes-modal-css',
       })
       .then((modalEl) => {
         modalEl.present();

@@ -67,7 +67,7 @@ export class SideNavigationComponent implements OnInit {
   // ----------------------------------------------------------------------------------------------
 
   onNavigateBeverages() {
-    this.navCtrl.navigateForward('categories/categories-food/false');
+    this.navCtrl.navigateForward('categories/categories-beverages/false');
   }
 
   // ----------------------------------------------------------------------------------------------
