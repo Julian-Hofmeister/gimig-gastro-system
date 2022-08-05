@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AdminLoginComponent } from '../admin/admin-login/admin-login.component';
 import { CallServiceComponent } from './call-service/call-service.component';
 import { OfferDessertModalComponent } from './offer-dessert-modal/offer-dessert-modal.component';
@@ -30,21 +31,17 @@ export class HomePage implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  welcomeMessage: string;
-
-  // ----------------------------------------------------------------------------------------------
-
   user: User;
 
   table: Table;
 
-  tableSub: Observable<Table>;
+  restaurant$: Observable<Restaurant>;
+
+  // ----------------------------------------------------------------------------------------------
 
   tableNumber = localStorage.getItem('tableNumber');
 
-  userEmail = localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user')).email
-    : null;
+  userEmail = localStorage.getItem('user');
 
   // ----------------------------------------------------------------------------------------------
 
@@ -52,9 +49,9 @@ export class HomePage implements OnInit {
 
   serviceRequest = false;
 
-  resetRequest = false;
-
   isReserved = false;
+
+  resetRequest = false;
 
   // ----------------------------------------------------------------------------------------------
 
@@ -76,9 +73,15 @@ export class HomePage implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.fetchTableDataFromFireStore();
-    // this.openFeedbackPage();
-    this.fetchWelcomeMessage();
+    // this.tableService.getTableData().subscribe((table: Table) => {
+    //   this.table = table;
+    //   this.ableToPay = table.ableToPay;
+    //   this.serviceRequest = table.serviceRequest;
+    // });
+
+    this.loadTable();
+
+    this.restaurant$ = this.restaurantService.getRestaurantData();
   }
 
   //#endregion
@@ -107,15 +110,6 @@ export class HomePage implements OnInit {
   // ----------------------------------------------------------------------------------------------
 
   openFeedbackPage() {
-    // this.modalCtrl
-    //   .create({
-    //     component: ShowFeedbackModalComponent,
-    //     cssClass: 'show-feedback-modal-css',
-    //     backdropDismiss: false,
-    //   })
-    //   .then((modalEl) => {
-    //     modalEl.present();
-    //   });
     this.navCtrl.navigateForward('home/feedback-page');
   }
 
@@ -126,7 +120,6 @@ export class HomePage implements OnInit {
       .create({
         component: ShowGreetingsModalComponent,
         cssClass: 'show-greetings-modal-css',
-        // backdropDismiss: false,
       })
       .then((modalEl) => {
         modalEl.present();
@@ -182,43 +175,38 @@ export class HomePage implements OnInit {
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+  private loadTable() {
+    this.tableService.getTableData().subscribe((doc) => {
+      this.table = doc;
 
-  private fetchTableDataFromFireStore() {
-    if (this.userEmail) {
-      this.tableSub = this.tableService.getTableData();
+      this.ableToPay = this.table.ableToPay;
 
-      this.tableSub.subscribe((doc) => {
-        this.table = doc;
+      this.serviceRequest = this.table.serviceRequest;
 
-        this.ableToPay = this.table.ableToPay;
+      this.resetRequest = this.table.resetRequest;
 
-        this.serviceRequest = this.table.serviceRequest;
+      this.message = this.table.message;
 
-        this.resetRequest = this.table.resetRequest;
+      this.isReserved = this.table.isReserved;
 
-        this.message = this.table.message;
+      console.log(this.table.isReserved);
 
-        this.isReserved = this.table.isReserved;
+      if (this.table.resetRequest) {
+        this.tableService.onResetTable();
 
-        console.log(this.table.isReserved);
+        console.log('RESETTING..');
+      }
 
-        if (this.resetRequest) {
-          this.tableService.onResetTable();
+      if (this.table.payRequest) {
+        setTimeout(() => {
+          this.openFeedbackPage();
+        }, 5000);
+      }
 
-          console.log('RESETTING..');
-        }
+      this.checkMessageAction(this.table.message);
 
-        if (this.table.payRequest) {
-          setTimeout(() => {
-            this.openFeedbackPage();
-          }, 5000);
-        }
-
-        this.checkMessageAction(this.table.message);
-
-        this.checkTableReservation(this.table);
-      });
-    }
+      this.checkTableReservation(this.table);
+    });
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -266,7 +254,6 @@ export class HomePage implements OnInit {
   private checkTableReservation(table: Table) {
     if (table.isReserved) {
       this.navCtrl.navigateForward('home/reservation-page', { state: table });
-      //  this.navCtrl.navigateForward('/cart');
     }
   }
 
@@ -278,17 +265,5 @@ export class HomePage implements OnInit {
 
   // ----------------------------------------------------------------------------------------------
 
-  private fetchWelcomeMessage() {
-    this.restaurantService
-      .getRestaurantData()
-      .subscribe((restaurant: Restaurant) => {
-        const fetchedRestaurant: Restaurant = {
-          welcomeMessage: restaurant.welcomeMessage,
-          id: restaurant.id,
-        };
-
-        this.welcomeMessage = fetchedRestaurant.welcomeMessage;
-      });
-  }
   //#endregions
 }

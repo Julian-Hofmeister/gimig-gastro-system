@@ -139,15 +139,10 @@ export class ItemsPage implements OnInit {
             .getDownloadURL();
 
           const fetchedItem: Item = {
-            name: currentItem.name,
-            description: currentItem.description,
-            price: currentItem.price,
-            imagePath: imagePath,
+            ...currentItem,
             imageRef: currentItem.imagePath,
-            isVisible: currentItem.isVisible,
-            isFood: currentItem.isFood,
-            id: currentItem.id,
-            parentId: currentItem.parentId,
+            imagePath: imagePath,
+            selectedOptions: currentItem.selectedOptions,
           };
 
           if (fetchedItem.isVisible) {
@@ -171,16 +166,9 @@ export class ItemsPage implements OnInit {
           .getDownloadURL();
 
         const fetchedCartItem: Item = {
-          name: cartItem.name,
-          description: cartItem.description,
-          price: cartItem.price,
-          amount: cartItem.amount,
-          imagePath: imagePath,
+          ...cartItem,
           imageRef: cartItem.imagePath,
-          isVisible: cartItem.isVisible,
-          isFood: cartItem.isFood,
-          id: cartItem.id,
-          parentId: cartItem.parentId,
+          imagePath: imagePath,
         };
 
         this.cartItemList.push(fetchedCartItem);

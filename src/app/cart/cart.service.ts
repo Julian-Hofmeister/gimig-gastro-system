@@ -67,9 +67,9 @@ export class CartService {
   getCart() {
     this.cartList = this.cartCollection.snapshotChanges().pipe(
       map((changes) => {
-        return changes.map((a) => {
-          const data = a.payload.doc.data();
-          data.id = a.payload.doc.id;
+        return changes.map((item) => {
+          const data = item.payload.doc.data() as Item;
+          data.id = item.payload.doc.id;
           return data;
         });
       })
@@ -83,9 +83,9 @@ export class CartService {
   getOrderedCart() {
     this.orderedCartList = this.orderedCartCollection.snapshotChanges().pipe(
       map((changes) => {
-        return changes.map((a) => {
-          const data = a.payload.doc.data();
-          data.id = a.payload.doc.id;
+        return changes.map((item) => {
+          const data = item.payload.doc.data() as Item;
+          data.id = item.payload.doc.id;
           return data;
         });
       })
@@ -113,6 +113,8 @@ export class CartService {
   addItemToCart(item: Item) {
     this.orderList.push(item);
 
+    console.log(item.selectedOptions);
+
     this.cartCollection.doc(item.id).set({
       // - ITEM DETAILS
       name: item.name,
@@ -122,6 +124,8 @@ export class CartService {
       imagePath: item.imageRef,
       itemRefId: item.id,
       isOrdered: false,
+      availableOptions: item.availableOptions ?? [],
+      selectedOptions: item.selectedOptions ?? [],
       // - FURTHER INFORMATION
       tableNumber: this.tableNumber,
       selectedTimestamp: Date.now(),
@@ -191,6 +195,8 @@ export class CartService {
       isFood: item.isFood,
       imagePath: item.imageRef,
       id: item.id,
+      availableOptions: item.availableOptions ?? [],
+      selectedOptions: item.selectedOptions ?? [],
       // - FURTHER INFORMATION
       tableNumber: this.tableNumber,
       isOrdered: true,
@@ -233,6 +239,8 @@ export class CartService {
       isFood: item.isFood,
       imagePath: item.imageRef,
       id: item.orderTimestamp,
+      availableOptions: item.availableOptions ?? [],
+      selectedOptions: item.selectedOptions ?? [],
       // - FURTHER INFORMATION
       tableNumber: this.tableNumber,
       isOrdered: true,

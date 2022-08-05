@@ -57,8 +57,6 @@ export class AuthService {
       console.log('NO USER FOUND');
     } else {
       this.router.navigate(['/home']);
-
-      console.log('USER FOUND');
     }
 
     const loadedUser = new User(user.email);

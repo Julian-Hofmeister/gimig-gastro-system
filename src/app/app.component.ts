@@ -76,14 +76,11 @@ export class AppComponent implements OnInit {
   initializeApp() {
     this.platform.ready().then(() => {
       // let status bar overlay webview
-      this.statusBar.overlaysWebView(true);
-
+      // this.statusBar.overlaysWebView(true);
       // set status bar to white
-      this.statusBar.backgroundColorByHexString('#ffffff');
-
-      this.splashScreen.show();
-
-      this.statusBar.hide();
+      // this.statusBar.backgroundColorByHexString('#ffffff');
+      // this.splashScreen.show();
+      // this.statusBar.hide();
     });
   }
 

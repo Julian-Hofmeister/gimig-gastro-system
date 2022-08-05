@@ -29,8 +29,6 @@ export class RestaurantService {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   getRestaurantData(): Observable<any> {
-    console.log(this.path);
-
     this.restaurant = this.path.snapshotChanges().pipe(
       map((a) => {
         const data = a.payload.data() as Restaurant;

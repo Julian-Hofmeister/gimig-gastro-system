@@ -177,6 +177,10 @@ export class CartPage implements OnInit, OnDestroy {
           isFood: item.isFood,
           id: item.id,
           parentId: item.parentId,
+
+          availableOptions: item.availableOptions ?? [],
+          selectedOptions: item.selectedOptions ?? [],
+
           amount: item.amount ? item.amount : 1,
           isOrdered: item.isOrdered ? item.isOrdered : false,
           itemRefId: item.itemRefId ? item.itemRefId : '',
@@ -211,6 +215,9 @@ export class CartPage implements OnInit, OnDestroy {
             isFood: item.isFood,
             id: item.id,
             parentId: item.parentId,
+
+            availableOptions: item.availableOptions ?? [],
+            selectedOptions: item.selectedOptions ?? [],
             amount: item.amount ? item.amount : 1,
             isOrdered: item.isOrdered ? item.isOrdered : false,
             itemRefId: item.itemRefId ? item.itemRefId : '',

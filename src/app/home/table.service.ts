@@ -48,21 +48,17 @@ export class TableService {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  getTableData() {
-    if (this.userEmail) {
-      this.table = this.tablePath.snapshotChanges().pipe(
-        map((a) => {
-          const data = a.payload.data() as Table;
-          data.id = a.payload.id;
+  getTableData(): Observable<Table> {
+    this.table = this.tablePath.snapshotChanges().pipe(
+      map((a) => {
+        const data = a.payload.data() as Table;
+        data.id = a.payload.id;
 
-          return data;
-        })
-      );
+        return data;
+      })
+    );
 
-      return this.table;
-    } else {
-      console.log('WARNING! NO TABLE STATUS!');
-    }
+    return this.table;
   }
 
   // ----------------------------------------------------------------------------------------------

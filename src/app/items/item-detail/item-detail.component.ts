@@ -32,6 +32,8 @@ export class ItemDetailComponent implements OnInit {
 
   @Input() itemInCart = false;
 
+  selectedOptions: string[];
+
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
@@ -56,6 +58,13 @@ export class ItemDetailComponent implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
+    this.item.availableOptions = ['kleine Portion'];
+
+    if (this.item.selectedOptions) {
+      this.selectedOptions = this.item.selectedOptions;
+    }
+    console.log(this.item);
+
     this.item.amount = this.item.amount ? this.item.amount : 1;
   }
 
@@ -72,17 +81,15 @@ export class ItemDetailComponent implements OnInit {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   increaseAmountByOne() {
-    if (this.item.amount < 25) {
-      this.item.amount = this.item.amount + 1;
-    }
+    this.item.amount =
+      this.item.amount < 25 ? this.item.amount + 1 : this.item.amount;
   }
 
   // ----------------------------------------------------------------------------------------------
 
   decreaseAmountByOne() {
-    if (this.item.amount > 0) {
-      this.item.amount = this.item.amount - 1;
-    }
+    this.item.amount =
+      this.item.amount > 1 ? this.item.amount - 1 : this.item.amount;
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -108,6 +115,8 @@ export class ItemDetailComponent implements OnInit {
   addItemToCart() {
     this.cartService.addItemToCart(this.item);
 
+    console.log(this.item);
+
     this.closeModal();
 
     if (!this.itemInCart) {
@@ -123,6 +132,10 @@ export class ItemDetailComponent implements OnInit {
   }
 
   // ----------------------------------------------------------------------------------------------
+
+  handleChange(ev) {
+    this.item.selectedOptions = ev.target.value;
+  }
 
   //#endregion
 

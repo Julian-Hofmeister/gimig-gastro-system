@@ -3,6 +3,9 @@
     <!-- <img src="../assets/images/32602469.jpg" alt="" /> -->
     <img src="../assets/images/fca-background.png" alt="" />
 
+    <ion-fab vertical="top" horizontal="end" slot="fixed" (click)="openAdmin()">
+        <p>Tisch {{tableNumber}}</p>
+    </ion-fab>
     <div class="vertical-align-content">
         <ion-grid class="myOverlay">
             <ion-row>
@@ -16,7 +19,7 @@
                     </ion-row>
                     <ion-row>
                         <ion-col>
-                            <ion-button size="large" color="light" [disabled]="!ableToPay" (click)="openPayRequestModal()">Zahlen</ion-button>
+                            <ion-button size="large" color="light" *ngIf="!ableToPay" (click)="openPayRequestModal()">Zahlen</ion-button>
                         </ion-col>
                     </ion-row>
                 </ion-col>
@@ -33,8 +36,5 @@
         <ion-fab-button color="light" [routerLink]="['/','cart']">
             <ion-icon name="cart-outline"></ion-icon>
         </ion-fab-button>
-    </ion-fab>
-    <ion-fab vertical="top" horizontal="end" slot="fixed">
-        <p>Tisch {{tableNumber}}</p>
     </ion-fab>
 </ion-content>

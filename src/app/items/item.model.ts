@@ -11,6 +11,8 @@ export interface Item {
 
   imageRef: string;
 
+  fetchedImage?: string;
+
   isVisible: boolean;
 
   isFood: boolean;
@@ -26,4 +28,8 @@ export interface Item {
   itemRefId?: string;
 
   orderTimestamp?: number;
+
+  availableOptions?: string[];
+
+  selectedOptions?: string[];
 }

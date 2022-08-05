@@ -3,13 +3,13 @@
 <ion-content>
     <app-background-layout slot="fixed" [title]="isFood == 'true' ? 'Speisen' : 'Getränke'"></app-background-layout>
     <app-side-navigation slot="fixed"></app-side-navigation>
-    <div class="spin" *ngIf="isLoading">
+    <!-- <div class="spin" *ngIf="!categories$">
         <ion-spinner class="spinner-large" name="bubbles" color="primary"></ion-spinner>
-    </div>
+    </div> -->
     <ion-grid>
         <ion-row>
             <ion-col size="8" offset="2">
-                <ion-list *ngFor="let category of categories">
+                <ion-list *ngFor="let category of (categories$ | async)">
                     <app-category-card [category]="category"></app-category-card>
                 </ion-list>
             </ion-col>

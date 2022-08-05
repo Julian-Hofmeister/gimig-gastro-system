@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CategoryService } from './category.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Category } from './category.model';
@@ -11,28 +11,24 @@ import { Category } from './category.model';
   templateUrl: './categories.page.html',
   styleUrls: ['./categories.page.scss'],
 })
-export class CategoriesPage implements OnInit, OnDestroy {
+export class CategoriesPage implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  categories: Category[] = [];
+  categories$: Observable<Category[]>;
 
   id: string;
 
   pathAttachment: string;
-
-  isLoading = false;
 
   isFood = 'true';
 
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
-
-  private categorySub: Subscription;
 
   //#endregion
 
@@ -52,13 +48,10 @@ export class CategoriesPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.gertUrlData();
 
-    this.fetchCategoriesFromFirestore();
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  ngOnDestroy() {
-    this.categorySub.unsubscribe();
+    this.categories$ = this.categoryService.getCategories(
+      this.id,
+      this.pathAttachment
+    );
   }
 
   //#endregion
@@ -95,39 +88,6 @@ export class CategoriesPage implements OnInit, OnDestroy {
     });
   }
 
-  // ----------------------------------------------------------------------------------------------
-
-  private fetchCategoriesFromFirestore() {
-    this.isLoading = true;
-
-    this.categorySub = this.categoryService
-      .getCategories(this.id, this.pathAttachment)
-      .subscribe((categories) => {
-        this.categories = [];
-
-        for (let category of categories) {
-          const imagePath = this.afStorage
-            .ref(category.imagePath)
-            .getDownloadURL();
-
-          const fetchedCategory: Category = {
-            name: category.name,
-            hasCategories: category.hasCategories,
-            hasFood: category.hasFood,
-            imagePath: imagePath,
-            isVisible: category.isVisible,
-            id: category.id,
-            parentId: category.parentId,
-          };
-
-          if (fetchedCategory.isVisible) {
-            this.categories.push(fetchedCategory);
-          }
-        }
-
-        this.isLoading = false;
-      });
-  }
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
