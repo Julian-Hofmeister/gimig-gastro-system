@@ -1,3 +1,17 @@
-<p>
-  wifi-modal works!
-</p>
+<div class="wifi-modal">
+    <ion-row class="center-horizontal">
+        <ion-col>
+            <div class="wifi-qr-code">
+                <img src="/assets/images/frame.png" alt="" />
+            </div>
+            <ion-row class="space-between">
+                <p>Wlan Name:</p>
+                <p>{{ wifiName }}</p>
+            </ion-row>
+            <ion-row class="space-between">
+                <p>Wlan Passwort:</p>
+                <p>{{ wifiPassword }}</p>
+            </ion-row>
+        </ion-col>
+    </ion-row>
+</div>
