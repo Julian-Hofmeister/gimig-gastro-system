@@ -14,6 +14,7 @@ import { SmallItemCardComponent } from './reorder-beverages-modal/small-item-car
 import { ItemContainerComponent } from './offer-dessert-modal/item-container/item-container.component';
 import { ShowGreetingsModalComponent } from './show-greetings-modal/show-greetings-modal.component';
 import { AppRoutingModule } from '../app-routing.module';
+import { WifiModalComponent } from './wifi-modal/wifi-modal.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule],
@@ -27,6 +28,7 @@ import { AppRoutingModule } from '../app-routing.module';
     SmallItemCardComponent,
     ItemContainerComponent,
     ShowGreetingsModalComponent,
+    WifiModalComponent,
   ],
 })
 export class HomePageModule {}

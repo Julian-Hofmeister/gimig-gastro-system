@@ -15,6 +15,7 @@ import { ShowGreetingsModalComponent } from './show-greetings-modal/show-greetin
 import { Table } from './table.model';
 import { TableService } from './table.service';
 import { User } from './user.model';
+import { WifiModalComponent } from './wifi-modal/wifi-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -196,6 +197,18 @@ export class HomePage implements OnInit {
   }
 
   // ----------------------------------------------------------------------------------------------
+
+  openWifiModal() {
+    this.modalCtrl
+      .create({
+        component: WifiModalComponent,
+        cssClass: 'admin-login-css',
+        mode: 'md',
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
+  }
 
   //#endregion
 
