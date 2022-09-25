@@ -14,12 +14,12 @@ const routes: Routes = [
   },
 
   {
-    path: 'items/:id/:hasFood',
+    path: 'items/:id/:hasFood/:backgroundTitle',
     loadChildren: () =>
       import('./items/items.module').then((m) => m.ItemsPageModule),
   },
   {
-    path: 'categories/:id/:hasFood',
+    path: 'categories/:id/:hasFood/:backgroundTitle',
     loadChildren: () =>
       import('./categories/categories.module').then(
         (m) => m.CategoriesPageModule

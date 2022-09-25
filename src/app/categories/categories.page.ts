@@ -26,6 +26,8 @@ export class CategoriesPage implements OnInit {
 
   isFood = 'true';
 
+  backgroundTitle: string;
+
   //#endregion
 
   //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
@@ -82,6 +84,8 @@ export class CategoriesPage implements OnInit {
       this.id = paramMap.get('id');
 
       this.isFood = paramMap.get('hasFood');
+
+      this.backgroundTitle = paramMap.get('backgroundTitle');
 
       this.pathAttachment =
         this.isFood == 'true' ? 'categories-food' : 'categories-beverages';

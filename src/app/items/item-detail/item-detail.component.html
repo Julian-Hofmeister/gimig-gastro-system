@@ -7,8 +7,13 @@
                 </ion-label>
                 <p>{{ item.description }}</p>
                 <br />
-                <ion-select placeholder="Zusätzliche Optionen" multiple="true" [(ngModel)]="item.selectedOptions">
+                <ion-select *ngIf="item.availableOptions" cancelText="Abbrechen" placeholder="Optionen Auswählen" multiple="true" [(ngModel)]="item.selectedOptions">
                     <ion-select-option *ngFor="let option of item.availableOptions" [value]="option">{{ option }}
+                    </ion-select-option>
+                </ion-select>
+                <br />
+                <ion-select *ngIf="item.availableOptions2" cancelText="Abbrechen" placeholder="Optionen Auswählen" multiple="true" [(ngModel)]="item.selectedOptions2">
+                    <ion-select-option *ngFor="let option of item.availableOptions2" [value]="option">{{ option }}
                     </ion-select-option>
                 </ion-select>
             </ion-col>

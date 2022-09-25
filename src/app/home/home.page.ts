@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { ModalController, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -53,6 +54,8 @@ export class HomePage implements OnInit {
 
   resetRequest = false;
 
+  backgroundImage: string;
+
   // ----------------------------------------------------------------------------------------------
 
   message: string;
@@ -64,6 +67,8 @@ export class HomePage implements OnInit {
   constructor(
     private tableService: TableService,
     private restaurantService: RestaurantService,
+    private storage: AngularFireStorage,
+
     private modalCtrl: ModalController,
     private navCtrl: NavController
   ) {}
@@ -72,7 +77,7 @@ export class HomePage implements OnInit {
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {
+  async ngOnInit() {
     // this.tableService.getTableData().subscribe((table: Table) => {
     //   this.table = table;
     //   this.ableToPay = table.ableToPay;
@@ -82,6 +87,23 @@ export class HomePage implements OnInit {
     this.loadTable();
 
     this.restaurant$ = this.restaurantService.getRestaurantData();
+
+    this.restaurant$.subscribe(async (data) => {
+      console.log(data);
+
+      this.backgroundImage = await this.storage
+        .ref(data.imagePath)
+        .getDownloadURL()
+        .toPromise();
+
+      console.log(data.theme);
+
+      localStorage.setItem('theme', data.theme);
+      localStorage.setItem('mainCategory1', data.mainCategory1);
+      localStorage.setItem('mainCategory2', data.mainCategory2);
+      localStorage.setItem('mainIcon1', data.mainIcon1);
+      localStorage.setItem('mainIcon2', data.mainIcon2);
+    });
   }
 
   //#endregion
@@ -120,6 +142,7 @@ export class HomePage implements OnInit {
       .create({
         component: ShowGreetingsModalComponent,
         cssClass: 'show-greetings-modal-css',
+        mode: 'md',
       })
       .then((modalEl) => {
         modalEl.present();
@@ -133,6 +156,7 @@ export class HomePage implements OnInit {
       .create({
         component: CallServiceComponent,
         cssClass: 'confirm-css',
+        mode: 'md',
         componentProps: {
           message: !this.serviceRequest
             ? 'Bedienung Rufen'
@@ -151,6 +175,7 @@ export class HomePage implements OnInit {
       .create({
         component: SendPayRequestComponent,
         cssClass: 'send-pay-request-css',
+        mode: 'md',
       })
       .then((modalEl) => {
         modalEl.present();

@@ -33,6 +33,7 @@ export class ItemDetailComponent implements OnInit {
   @Input() itemInCart = false;
 
   selectedOptions: string[];
+  selectedOptions2: string[];
 
   //#endregion
 
@@ -58,13 +59,17 @@ export class ItemDetailComponent implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    this.item.availableOptions = ['kleine Portion'];
-
     if (this.item.selectedOptions) {
       this.selectedOptions = this.item.selectedOptions;
     }
-    console.log(this.item);
 
+    if (this.item.selectedOptions2) {
+      this.selectedOptions2 = this.item.selectedOptions2;
+    }
+
+    this.item.description = this.item.description.replace('\n', '\n');
+
+    console.log(this.item);
     this.item.amount = this.item.amount ? this.item.amount : 1;
   }
 

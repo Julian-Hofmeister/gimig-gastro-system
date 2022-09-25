@@ -30,6 +30,8 @@ export class ItemsPage implements OnInit {
 
   hasFood: string;
 
+  backgroundTitle: string;
+
   isLoading = false;
 
   //#endregion
@@ -120,6 +122,7 @@ export class ItemsPage implements OnInit {
       }
       this.id = paramMap.get('id');
       this.hasFood = paramMap.get('hasFood');
+      this.backgroundTitle = paramMap.get('backgroundTitle');
     });
   }
 

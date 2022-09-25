@@ -1,4 +1,4 @@
-<div class="background-layout" [ngClass]="{ cartClass: isCart }">
+<div class="background-layout" [ngClass]="{ cartClass: isCart }" [ngStyle]="{ 'background-color': isCart ? '#759EFF' : color }">
     <div class="container">
         <h1 class="upright-text">{{ title }}</h1>
     </div>

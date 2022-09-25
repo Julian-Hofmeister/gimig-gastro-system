@@ -32,4 +32,8 @@ export interface Item {
   availableOptions?: string[];
 
   selectedOptions?: string[];
+
+  availableOptions2?: string[];
+
+  selectedOptions2?: string[];
 }

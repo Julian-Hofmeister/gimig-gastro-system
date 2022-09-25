@@ -50,6 +50,7 @@ h1 {
 p {
     font-size: 1.5rem;
     line-height: 2rem;
+    white-space: pre-line;
 }
 
 .menu-fab {
@@ -98,4 +99,7 @@ ion-button {
 ion-select {
     padding-right: .5rem;
     font-size: 1.1rem;
+    color: coral;
+    opacity: 1;
+    --placeholder-opacity: 1 !important;
 }

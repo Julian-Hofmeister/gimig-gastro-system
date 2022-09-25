@@ -1,7 +1,7 @@
-<ion-content fullscreen class="ion-text-center" no-scroll scrollY="false" padding>
+<ion-content *ngIf="backgroundImage" fullscreen class="ion-text-center" no-scroll scrollY="false" padding>
     <!-- <img [src]="backgroundImage" /> -->
     <!-- <img src="../assets/images/32602469.jpg" alt="" /> -->
-    <img src="../assets/images/fca-background.png" alt="" />
+    <img [src]="backgroundImage" alt="" />
 
     <ion-fab vertical="top" horizontal="end" slot="fixed" (click)="openAdmin()">
         <p>Tisch {{tableNumber}}</p>
@@ -12,14 +12,14 @@
                 <ion-col>
                     <h1 (click)="openAdmin()">{{welcomeMessage}}</h1>
                     <ion-row>
-                        <ion-col>
-                            <ion-button size="large" color="light" [routerLink]="['/','categories','categories-beverages', 'false']">Getränke</ion-button>
-                            <ion-button size="large" color="light" [routerLink]="['/','categories','categories-food', 'true']">Speisen</ion-button>
+                        <ion-col *ngIf="restaurant$ | async as restaurant">
+                            <ion-button size="large" color="light" [routerLink]="['/','categories','categories-beverages', 'false', restaurant.mainCategory2]">{{restaurant.mainCategory2 }}</ion-button>
+                            <ion-button size="large" color="light" [routerLink]="['/','categories','categories-food', 'true', restaurant.mainCategory1]">{{restaurant.mainCategory1 }}</ion-button>
                         </ion-col>
                     </ion-row>
                     <ion-row>
                         <ion-col>
-                            <ion-button size="large" color="light" *ngIf="!ableToPay" (click)="openPayRequestModal()">Zahlen</ion-button>
+                            <ion-button size="large" color="light" *ngIf="ableToPay" (click)="openPayRequestModal()">ZAHLEN</ion-button>
                         </ion-col>
                     </ion-row>
                 </ion-col>
@@ -27,14 +27,16 @@
         </ion-grid>
     </div>
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button color="light" (click)="openServiceRequestModal()">
+        <ion-button color="light" (click)="openServiceRequestModal()">
+            <p>Service</p>
             <ion-icon name="notifications-outline" *ngIf="!serviceRequest"></ion-icon>
             <ion-icon name="checkmark-done-outline" *ngIf="serviceRequest"></ion-icon>
-        </ion-fab-button>
+        </ion-button>
     </ion-fab>
     <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-        <ion-fab-button color="light" [routerLink]="['/','cart']">
+        <ion-button color="light" [routerLink]="['/','cart']">
             <ion-icon name="cart-outline"></ion-icon>
-        </ion-fab-button>
+            <p>Warenkorb</p>
+        </ion-button>
     </ion-fab>
 </ion-content>

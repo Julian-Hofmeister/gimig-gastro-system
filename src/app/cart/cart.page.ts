@@ -181,6 +181,9 @@ export class CartPage implements OnInit, OnDestroy {
           availableOptions: item.availableOptions ?? [],
           selectedOptions: item.selectedOptions ?? [],
 
+          availableOptions2: item.availableOptions2 ?? [],
+          selectedOptions2: item.selectedOptions2 ?? [],
+
           amount: item.amount ? item.amount : 1,
           isOrdered: item.isOrdered ? item.isOrdered : false,
           itemRefId: item.itemRefId ? item.itemRefId : '',

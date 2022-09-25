@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
+import { Restaurant } from 'src/app/home/restaurant.model';
+import { RestaurantService } from 'src/app/home/restaurant.service';
 
 @Component({
   selector: 'app-background-layout',
@@ -9,11 +12,16 @@ export class BackgroundLayoutComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
   @Input() title: string;
+
+  @Input() color: string = localStorage.getItem('theme');
+
   @Input() isCart: boolean;
 
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
+  restaurant$: Observable<Restaurant>;
 
   //#endregion
 
@@ -23,13 +31,15 @@ export class BackgroundLayoutComponent implements OnInit {
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor() {}
+  constructor(private restaurantService: RestaurantService) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.getRestaurantTheme();
+  }
 
   //#endregion
 
@@ -43,6 +53,15 @@ export class BackgroundLayoutComponent implements OnInit {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
+  // getRestaurantTheme() {
+  //   this.restaurant$ = this.restaurantService.getRestaurantData();
+
+  //   this.restaurant$.subscribe(async (data) => {
+  //     console.log(data);
+
+  //     this.color = data.theme;
+  //   });
+  // }
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

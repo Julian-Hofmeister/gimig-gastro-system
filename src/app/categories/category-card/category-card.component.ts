@@ -26,6 +26,8 @@ export class CategoryCardComponent implements OnInit {
 
   @Input() category: Category;
 
+  @Input() backgroundTitle: string;
+
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
@@ -65,6 +67,7 @@ export class CategoryCardComponent implements OnInit {
         'categories',
         category.id,
         category.hasFood,
+        this.backgroundTitle,
       ]);
     } else {
       this.navCtrl.navigateForward([
@@ -72,6 +75,7 @@ export class CategoryCardComponent implements OnInit {
         'items',
         category.id,
         category.hasFood,
+        this.backgroundTitle,
       ]);
     }
   }

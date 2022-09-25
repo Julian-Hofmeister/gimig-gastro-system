@@ -126,6 +126,9 @@ export class CartService {
       isOrdered: false,
       availableOptions: item.availableOptions ?? [],
       selectedOptions: item.selectedOptions ?? [],
+      availableOptions2: item.availableOptions2 ?? [],
+      selectedOptions2: item.selectedOptions2 ?? [],
+
       // - FURTHER INFORMATION
       tableNumber: this.tableNumber,
       selectedTimestamp: Date.now(),
@@ -197,6 +200,9 @@ export class CartService {
       id: item.id,
       availableOptions: item.availableOptions ?? [],
       selectedOptions: item.selectedOptions ?? [],
+
+      availableOptions2: item.availableOptions2 ?? [],
+      selectedOptions2: item.selectedOptions2 ?? [],
       // - FURTHER INFORMATION
       tableNumber: this.tableNumber,
       isOrdered: true,
@@ -241,6 +247,9 @@ export class CartService {
       id: item.orderTimestamp,
       availableOptions: item.availableOptions ?? [],
       selectedOptions: item.selectedOptions ?? [],
+
+      availableOptions2: item.availableOptions2 ?? [],
+      selectedOptions2: item.selectedOptions2 ?? [],
       // - FURTHER INFORMATION
       tableNumber: this.tableNumber,
       isOrdered: true,

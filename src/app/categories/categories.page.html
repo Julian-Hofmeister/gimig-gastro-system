@@ -1,8 +1,8 @@
 <div class="background-layout float-right"></div>
 
 <ion-content>
-    <app-background-layout slot="fixed" [title]="isFood == 'true' ? 'Speisen' : 'Getränke'"></app-background-layout>
-    <app-side-navigation slot="fixed"></app-side-navigation>
+    <app-background-layout slot="fixed" [title]="backgroundTitle"></app-background-layout>
+    <app-side-navigation slot="fixed" [mainCategory1]=""></app-side-navigation>
     <!-- <div class="spin" *ngIf="!categories$">
         <ion-spinner class="spinner-large" name="bubbles" color="primary"></ion-spinner>
     </div> -->
@@ -10,7 +10,7 @@
         <ion-row>
             <ion-col size="8" offset="2">
                 <ion-list *ngFor="let category of (categories$ | async)">
-                    <app-category-card [category]="category"></app-category-card>
+                    <app-category-card [category]="category" [backgroundTitle]="backgroundTitle"></app-category-card>
                 </ion-list>
             </ion-col>
         </ion-row>

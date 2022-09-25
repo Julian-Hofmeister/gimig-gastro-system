@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 
@@ -13,6 +13,12 @@ export class SideNavigationComponent implements OnInit {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
+  mainCategory1 = localStorage.getItem('mainCategory1');
+  mainCategory2 = localStorage.getItem('mainCategory2');
+
+  mainIcon1 = localStorage.getItem('mainIcon1');
+  mainIcon2 = localStorage.getItem('mainIcon2');
 
   //#endregion
 
@@ -61,13 +67,17 @@ export class SideNavigationComponent implements OnInit {
   // ----------------------------------------------------------------------------------------------
 
   onNavigateFood() {
-    this.navCtrl.navigateForward('categories/categories-food/true');
+    this.navCtrl.navigateForward(
+      'categories/categories-food/true/' + this.mainCategory1
+    );
   }
 
   // ----------------------------------------------------------------------------------------------
 
   onNavigateBeverages() {
-    this.navCtrl.navigateForward('categories/categories-beverages/false');
+    this.navCtrl.navigateForward(
+      'categories/categories-beverages/false/' + this.mainCategory2
+    );
   }
 
   // ----------------------------------------------------------------------------------------------
