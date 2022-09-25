@@ -202,7 +202,7 @@ export class HomePage implements OnInit {
     this.modalCtrl
       .create({
         component: WifiModalComponent,
-        cssClass: 'admin-login-css',
+        cssClass: 'wifi-modal-css',
         mode: 'md',
       })
       .then((modalEl) => {
