@@ -64,16 +64,12 @@ p {
     color: white;
 }
 
-ion-fab {
+.text-fab {
     ion-button {
         height: 3.5rem;
-        width: 11rem;
-        p {
-            margin: 0 5px;
-            color: black;
-        }
-        ion-icon {
-            margin: 0 5px;
+        width: initial;
+        .space {
+            width: 5px;
         }
     }
 }
