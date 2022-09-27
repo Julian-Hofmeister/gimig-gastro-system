@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-wifi-modal',
@@ -12,9 +13,12 @@ export class WifiModalComponent implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  wifiName = 'WlanNetzwerk123';
-  wifiPassword = 'TestExample';
-  qrCode = '/assets/images/wlanqrcode.jpeg';
+  wifiName = localStorage.getItem('wifiName');
+
+  wifiPassword = localStorage.getItem('wifiPassword');
+  wifiQrCode = localStorage.getItem('wifiQrCode');
+
+  qrCodeImage: string;
 
   //#endregion
 
@@ -24,13 +28,18 @@ export class WifiModalComponent implements OnInit {
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor() {}
+  constructor(private storage: AngularFireStorage) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.qrCodeImage = await this.storage
+      .ref(this.wifiQrCode)
+      .getDownloadURL()
+      .toPromise();
+  }
 
   //#endregion
 

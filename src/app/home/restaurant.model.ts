@@ -10,4 +10,8 @@ export interface Restaurant {
   mainIcon2: string;
   theme: string;
   id: string;
+
+  wifiName?: string;
+  wifiPassword?: string;
+  wifiQrCode?: string;
 }
