@@ -35,6 +35,8 @@ export class WifiModalComponent implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   async ngOnInit() {
+    console.log(this.wifiName);
+
     this.qrCodeImage = await this.storage
       .ref(this.wifiQrCode)
       .getDownloadURL()

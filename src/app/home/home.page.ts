@@ -97,7 +97,7 @@ export class HomePage implements OnInit {
         .getDownloadURL()
         .toPromise();
 
-      console.log(data.theme);
+      console.log(data.wifiQrCode);
 
       localStorage.setItem('theme', data.theme);
       localStorage.setItem('mainCategory1', data.mainCategory1);
