@@ -14,7 +14,7 @@ export class WifiModalComponent implements OnInit {
 
   wifiName = 'WlanNetzwerk123';
   wifiPassword = 'TestExample';
-  qrCode = '/assets/images/frame.png';
+  qrCode = '/assets/images/wlanqrcode.jpeg';
 
   //#endregion
 
