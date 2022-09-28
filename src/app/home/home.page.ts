@@ -85,6 +85,8 @@ export class HomePage implements OnInit {
     //   this.serviceRequest = table.serviceRequest;
     // });
 
+    this.navCtrl.navigateForward('home/feedback-page');
+
     this.loadTable();
 
     this.restaurant$ = this.restaurantService.getRestaurantData();
@@ -108,6 +110,8 @@ export class HomePage implements OnInit {
       localStorage.setItem('wifiPassword', data.wifiPassword);
       localStorage.setItem('wifiQrCode', data.wifiQrCode);
       localStorage.setItem('feedbackImage', data.feedbackImage);
+      localStorage.setItem('feedbackQrCode', data.feedbackQrCode);
+      localStorage.setItem('name', data.name);
     });
   }
 

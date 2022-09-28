@@ -16,4 +16,7 @@ export interface Restaurant {
   wifiQrCode?: string;
 
   feedbackImage?: string;
+  feedbackQrCode?: string;
+
+  name?: string;
 }

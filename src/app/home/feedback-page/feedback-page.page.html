@@ -1,6 +1,6 @@
 <ion-content scroll-y="false">
     <div class="container">
-        <img class="background-img" src="/assets/images/chris-liverani-oCsaxvGCehM-unsplash.jpg" />
+        <img class="background-img" [src]="feedbackImage" />
         <div class="centered">
             <h2>Cool dass du da warst!</h2>
 
@@ -9,9 +9,9 @@
             </p>
 
             <ion-row class="qr-code-row">
-                <div class="qr-item">
-                    <img src="/assets/images/d.jpeg" alt="" />
-                    <p>Moe's Lounge</p>
+                <div class="qr-item" *ngIf="feedbackQrCode">
+                    <img [src]="feedbackQrCode" alt="" />
+                    <p>{{name}}</p>
                 </div>
                 <div class="qr-item">
                     <img src="/assets/images/frame.png" alt="" />
