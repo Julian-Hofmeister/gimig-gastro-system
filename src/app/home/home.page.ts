@@ -107,6 +107,7 @@ export class HomePage implements OnInit {
       localStorage.setItem('wifiName', data.wifiName);
       localStorage.setItem('wifiPassword', data.wifiPassword);
       localStorage.setItem('wifiQrCode', data.wifiQrCode);
+      localStorage.setItem('feedbackImage', data.feedbackImage);
     });
   }
 
