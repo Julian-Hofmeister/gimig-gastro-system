@@ -36,6 +36,11 @@ export class FeedbackPagePage implements OnInit {
       .ref(this.feedbackImage)
       .getDownloadURL()
       .toPromise();
+
+    this.feedbackQrCode = await this.storage
+      .ref(this.feedbackQrCode)
+      .getDownloadURL()
+      .toPromise();
   }
 
   //#endregion
