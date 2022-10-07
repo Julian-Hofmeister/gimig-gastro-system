@@ -10,8 +10,6 @@ import { TableService } from '../table.service';
 export class CallServiceComponent {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
-  @Input() message: string = 'Bedienung Rufen';
-
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
@@ -23,6 +21,8 @@ export class CallServiceComponent {
   message3 = localStorage.getItem('serviceMessage3');
 
   message4 = localStorage.getItem('serviceMessage4');
+
+  color: string = localStorage.getItem('theme');
 
   //#endregion
 

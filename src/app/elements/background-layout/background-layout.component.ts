@@ -13,13 +13,13 @@ export class BackgroundLayoutComponent implements OnInit {
 
   @Input() title: string;
 
-  @Input() color: string = localStorage.getItem('theme');
-
   @Input() isCart: boolean;
 
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
+
+  color: string = localStorage.getItem('theme');
 
   restaurant$: Observable<Restaurant>;
 
@@ -31,15 +31,13 @@ export class BackgroundLayoutComponent implements OnInit {
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor(private restaurantService: RestaurantService) {}
+  constructor() {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {
-    // this.getRestaurantTheme();
-  }
+  ngOnInit() {}
 
   //#endregion
 
@@ -53,15 +51,6 @@ export class BackgroundLayoutComponent implements OnInit {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  // getRestaurantTheme() {
-  //   this.restaurant$ = this.restaurantService.getRestaurantData();
-
-  //   this.restaurant$.subscribe(async (data) => {
-  //     console.log(data);
-
-  //     this.color = data.theme;
-  //   });
-  // }
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
