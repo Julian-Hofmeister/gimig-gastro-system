@@ -16,7 +16,7 @@
             <ion-button *ngIf="message2" [ngClass]="{ half: !!message4 }" size="large" (click)="onCallService(message2)">
                 {{ message2 }}
             </ion-button>
-            <ion-button *ngIf="message4" size="large" (click)="onCallService(message4)">
+            <ion-button *ngIf="message4" class="half" size="large" (click)="onCallService(message4)">
                 {{ message4 }}
             </ion-button>
         </ion-col>
