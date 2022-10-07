@@ -37,8 +37,8 @@ export class CallServiceComponent {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  onCallService() {
-    this.tableService.sendServiceRequest();
+  onCallService(message: string) {
+    this.tableService.sendServiceRequest(message);
     this.modalCtrl.dismiss();
   }
 

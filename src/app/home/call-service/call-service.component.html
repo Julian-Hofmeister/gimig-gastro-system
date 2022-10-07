@@ -5,24 +5,24 @@
 <div class="service-modal centered-vertical">
     <ion-row>
         <ion-col size="6" *ngIf="message1">
-            <ion-button size="large" (click)="onCallService()">
+            <ion-button size="large" (click)="onCallService(message1)">
                 {{ message1 }}
             </ion-button>
         </ion-col>
         <ion-col size="6" *ngIf="message2">
-            <ion-button size="large" (click)="onCallService()">
+            <ion-button size="large" (click)="onCallService(message2)">
                 {{ message2 }}
             </ion-button>
         </ion-col>
     </ion-row>
     <ion-row>
         <ion-col size="6" *ngIf="!!message3">
-            <ion-button size="large" (click)="onCallService()">
+            <ion-button size="large" (click)="onCallService(message3)">
                 {{ message3 }}
             </ion-button>
         </ion-col>
         <ion-col size="6" *ngIf="message4">
-            <ion-button size="large" (click)="onCallService()">
+            <ion-button size="large" (click)="onCallService(message4)">
                 {{ message4 }}
             </ion-button>
         </ion-col>

@@ -93,10 +93,11 @@ export class TableService {
 
   // ----------------------------------------------------------------------------------------------
 
-  sendServiceRequest() {
+  sendServiceRequest(message: string) {
     this.tablePath.update({
       serviceRequest: true,
       serviceTimestamp: Date.now(),
+      serviceMessage: message,
     });
   }
 
