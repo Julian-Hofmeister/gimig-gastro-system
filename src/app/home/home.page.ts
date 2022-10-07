@@ -85,8 +85,6 @@ export class HomePage implements OnInit {
     //   this.serviceRequest = table.serviceRequest;
     // });
 
-    this.navCtrl.navigateForward('home/feedback-page');
-
     this.loadTable();
 
     this.restaurant$ = this.restaurantService.getRestaurantData();
