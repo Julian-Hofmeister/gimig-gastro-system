@@ -9,6 +9,7 @@ ion-button {
     height: 100%;
     --border-radius: 20px;
     --background: rgb(255, 154, 117);
+    --box-shadow: rgba(60, 62, 66, 0.2) 0px 8px 24px;
 }
 
 .half {
@@ -32,6 +33,7 @@ ion-fab-button {
     --border-radius: 20px;
     --background: white;
     --color: rgb(255, 154, 117);
+    --box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
     ion-icon {
         font-size: 1.5rem;
     }
