@@ -2,7 +2,7 @@
     {{ message }}
 </ion-button> -->
 
-<div class="service-modal center">
+<div class="service-modal centered-vertical">
     <ion-row>
         <ion-col size="6" *ngIf="message1">
             <ion-button size="large" (click)="onCallService()">
@@ -16,7 +16,7 @@
         </ion-col>
     </ion-row>
     <ion-row>
-        <ion-col size="6" *ngIf="message3">
+        <ion-col size="6" *ngIf="!!message3">
             <ion-button size="large" (click)="onCallService()">
                 {{ message3 }}
             </ion-button>

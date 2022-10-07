@@ -16,13 +16,13 @@ export class CallServiceComponent {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  message1: string = 'Bedienung Rufen';
+  message1 = localStorage.getItem('serviceMessage1');
 
-  message2: string = 'Bedienung Rufen';
+  message2 = localStorage.getItem('serviceMessage2');
 
-  message3: string = 'Bedienung Rufen';
+  message3 = localStorage.getItem('serviceMessage3');
 
-  message4: string = 'Bedienung Rufen';
+  message4 = localStorage.getItem('serviceMessage4');
 
   //#endregion
 

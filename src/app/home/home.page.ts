@@ -97,7 +97,7 @@ export class HomePage implements OnInit {
         .getDownloadURL()
         .toPromise();
 
-      console.log(data.wifiQrCode);
+      console.log(data);
 
       // localStorage.setItem('restaurant', data);
 
@@ -113,10 +113,10 @@ export class HomePage implements OnInit {
       localStorage.setItem('feedbackQrCode', data.feedbackQrCode);
       localStorage.setItem('name', data.name);
 
-      localStorage.setItem('serviceMessage1', data.serviceMessage1);
-      localStorage.setItem('serviceMessage2', data.serviceMessage2);
-      localStorage.setItem('serviceMessage3', data.serviceMessage3);
-      localStorage.setItem('serviceMessage4', data.serviceMessage4);
+      localStorage.setItem('serviceMessage1', data.serviceMessage1 ?? '');
+      localStorage.setItem('serviceMessage2', data.serviceMessage2 ?? '');
+      localStorage.setItem('serviceMessage3', data.serviceMessage3 ?? '');
+      localStorage.setItem('serviceMessage4', data.serviceMessage4 ?? '');
     });
   }
 
