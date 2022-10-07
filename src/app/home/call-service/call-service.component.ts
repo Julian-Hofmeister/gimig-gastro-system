@@ -16,6 +16,14 @@ export class CallServiceComponent {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
+  message1: string = 'Bedienung Rufen';
+
+  message2: string = 'Bedienung Rufen';
+
+  message3: string = 'Bedienung Rufen';
+
+  message4: string = 'Bedienung Rufen';
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
