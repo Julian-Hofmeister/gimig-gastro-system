@@ -27,3 +27,13 @@ ion-row {
 ion-col {
     height: 100%;
 }
+
+ion-fab-button {
+    --border-radius: 20px;
+    --background: white;
+    --color: rgb(255, 154, 117);
+    ion-icon {
+        font-size: 1.5rem;
+    }
+    // --box-shadow: none;
+}
