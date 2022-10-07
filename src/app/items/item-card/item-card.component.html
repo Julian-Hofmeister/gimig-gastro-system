@@ -11,7 +11,7 @@
                     </ion-label>
                     <p>{{ item.description }}</p>
                 </ion-col>
-                <ion-col size="1.5" class="bottom">
+                <ion-col size="1.5" class="bottom" *ngIf="!item.price == 0">
                     <p>{{ item.price | currency: "EUR":"symbol":"":"fr" }}</p>
                 </ion-col>
             </ion-row>
