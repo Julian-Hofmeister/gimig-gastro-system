@@ -162,7 +162,7 @@ export class HomePage implements OnInit {
     this.modalCtrl
       .create({
         component: CallServiceComponent,
-        cssClass: 'confirm-css',
+        cssClass: 'service-modal-css',
         mode: 'md',
         componentProps: {
           message: !this.serviceRequest
