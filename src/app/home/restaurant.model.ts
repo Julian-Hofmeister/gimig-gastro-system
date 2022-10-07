@@ -19,4 +19,9 @@ export interface Restaurant {
   feedbackQrCode?: string;
 
   name?: string;
+
+  serviceMessage1?: string;
+  serviceMessage2?: string;
+  serviceMessage3?: string;
+  serviceMessage4?: string;
 }

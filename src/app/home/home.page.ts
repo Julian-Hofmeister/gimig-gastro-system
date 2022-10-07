@@ -99,6 +99,8 @@ export class HomePage implements OnInit {
 
       console.log(data.wifiQrCode);
 
+      // localStorage.setItem('restaurant', data);
+
       localStorage.setItem('theme', data.theme);
       localStorage.setItem('mainCategory1', data.mainCategory1);
       localStorage.setItem('mainCategory2', data.mainCategory2);
@@ -110,6 +112,11 @@ export class HomePage implements OnInit {
       localStorage.setItem('feedbackImage', data.feedbackImage);
       localStorage.setItem('feedbackQrCode', data.feedbackQrCode);
       localStorage.setItem('name', data.name);
+
+      localStorage.setItem('serviceMessage1', data.serviceMessage1);
+      localStorage.setItem('serviceMessage2', data.serviceMessage2);
+      localStorage.setItem('serviceMessage3', data.serviceMessage3);
+      localStorage.setItem('serviceMessage4', data.serviceMessage4);
     });
   }
 
