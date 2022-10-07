@@ -5,18 +5,18 @@
 <div class="service-modal centered-vertical">
     <ion-row>
         <ion-col size="6">
-            <ion-button *ngIf="message1" [ngClass]="{ half: !!message3 }" [ngStyle]="{ 'background-color': color }" size="large" (click)="onCallService(message1)">
+            <ion-button *ngIf="message1" [ngClass]="{ half: !!message3 }" size="large" (click)="onCallService(message1)">
                 {{ message1 }}
             </ion-button>
-            <ion-button *ngIf="message3" class="half" size="large" [ngStyle]="{ 'background-color': color }" (click)="onCallService(message3)">
+            <ion-button *ngIf="message3" class="half" size="large" (click)="onCallService(message3)">
                 {{ message3 }}
             </ion-button>
         </ion-col>
         <ion-col size="6">
-            <ion-button *ngIf="message2" [ngClass]="{ half: !!message4 }" [ngStyle]="{ 'background-color': color }" size="large" (click)="onCallService(message2)">
+            <ion-button *ngIf="message2" [ngClass]="{ half: !!message4 }" size="large" (click)="onCallService(message2)">
                 {{ message2 }}
             </ion-button>
-            <ion-button *ngIf="message4" size="large" [ngStyle]="{ 'background-color': color }" (click)="onCallService(message4)">
+            <ion-button *ngIf="message4" size="large" (click)="onCallService(message4)">
                 {{ message4 }}
             </ion-button>
         </ion-col>

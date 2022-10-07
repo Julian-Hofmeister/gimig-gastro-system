@@ -22,8 +22,6 @@ export class CallServiceComponent {
 
   message4 = localStorage.getItem('serviceMessage4');
 
-  color: string = localStorage.getItem('theme');
-
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
