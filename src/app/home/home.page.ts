@@ -79,12 +79,6 @@ export class HomePage implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   async ngOnInit() {
-    // this.tableService.getTableData().subscribe((table: Table) => {
-    //   this.table = table;
-    //   this.ableToPay = table.ableToPay;
-    //   this.serviceRequest = table.serviceRequest;
-    // });
-
     this.loadTable();
 
     this.restaurant$ = this.restaurantService.getRestaurantData();
@@ -98,8 +92,6 @@ export class HomePage implements OnInit {
         .toPromise();
 
       console.log(data);
-
-      // localStorage.setItem('restaurant', data);
 
       localStorage.setItem('theme', data.theme);
       localStorage.setItem('mainCategory1', data.mainCategory1);

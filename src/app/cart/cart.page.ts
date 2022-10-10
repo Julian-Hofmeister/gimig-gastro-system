@@ -43,6 +43,9 @@ export class CartPage implements OnInit, OnDestroy {
 
   beverageCollection = this.path.collection('items-beverages');
 
+  mainCategory1 = localStorage.getItem('mainCategory1');
+  mainCategory2 = localStorage.getItem('mainCategory2');
+
   //#endregion
 
   //#region [ MEMBERS ] //////////////////////////////////////////////////////////////////////////
@@ -116,22 +119,6 @@ export class CartPage implements OnInit, OnDestroy {
   }
 
   // ----------------------------------------------------------------------------------------------
-
-  // NOT USED ANYMORE
-
-  // openOrderConfirmModal() {
-  //   this.modalCtrl
-  //     .create({
-  //       component: OrderConfirmComponent,
-  //       cssClass: 'confirm-css',
-  //       componentProps: {
-  //         loadedCartList: this.loadedCartList,
-  //       },
-  //     })
-  //     .then((modalEl) => {
-  //       modalEl.present();
-  //     });
-  // }
 
   onOrder() {
     console.log(this.loadedCartList);
