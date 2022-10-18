@@ -12,61 +12,19 @@ h1 {
 
 p {
     margin: 15px;
+    margin-left: 5%;
     margin-bottom: 0;
     color: rgb(85, 85, 85);
     font-size: 1.1rem;
 }
 
 ion-list {
-    background-color: #eee !important;
-}
-
-ion-button {
-    padding: 0;
-    width: 25rem;
-    --box-shadow: none;
-    --border-radius: 100px;
-    --background: coral;
-    text-align: center;
-}
-
-.allBeverages {
-    padding: 0;
-    margin: 15px;
-    height: 4.5rem;
-    border-radius: 15px;
-    text-align: center;
-    border: 2px solid coral;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    h2 {
-        margin-top: 1.1rem;
-        font-size: 1.3rem;
-        color: rgb(59, 59, 59)
-    }
-}
-
-.toCart {
-    padding: 0;
-    margin: 15px;
-    height: 4.5rem;
-    text-align: center;
-    border-radius: 15px;
-    background-color: coral;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    h2 {
-        margin-top: 1.1rem;
-        font-size: 1.3rem;
-        color: #FFF;
-    }
-}
-
-.center-row {
-    justify-content: center;
+    background-color: rgba(238, 238, 238, 0) !important;
 }
 
 hr {
     background-color: rgb(197, 197, 197);
-    margin: 15px;
+    margin: 15px 5%;
     margin-bottom: 2.5rem;
 }
 
@@ -83,6 +41,7 @@ ion-fab-button {
 ion-button {
     --background: coral;
     --color: rgb(255, 255, 255);
+    --border-radius: 100px;
     border-radius: 10rem;
     width: 90%;
     margin-left: 5%;

@@ -9,9 +9,9 @@
                 <app-small-item-card [item]="item" (onItemChanged)="onItemChanged($event)"></app-small-item-card>
             </ion-list>
 
-            <hr />
+            <!-- <hr /> -->
 
-            <ion-button size="large" expand="block" class="outline" [routerLink]="['/', 'categories', 'categories-beverages', 'false']" (click)="onOpenAllBeverages()">
+            <ion-button size="large" class="outline" [routerLink]="['/', 'categories', 'categories-beverages', 'false']" (click)="onOpenAllBeverages()">
                 Alle Getränke Anzeigen
             </ion-button>
 
