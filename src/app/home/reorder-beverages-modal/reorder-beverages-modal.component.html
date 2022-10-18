@@ -1,42 +1,37 @@
-<ion-content>
-    <ion-fab vertical="top" horizontal="start" slot="fixed" (click)="onClose()">
-        <ion-icon name="close-outline" id="close-icon"></ion-icon>
-    </ion-fab>
-    <ion-grid>
-        <ion-row>
-            <ion-col>
-                <h2>Dürfen wir Ihnen noch etwas zu trinken bringen?</h2>
+<div class="reorder-beverages">
+    <ion-row>
+        <ion-col>
+            <h1>Dürfen wir Ihnen noch etwas zu trinken bringen?</h1>
 
-                <p>Ihre bisherigen Getränke nachbestellen?</p>
+            <p>Ihre bisherigen Getränke nachbestellen?</p>
 
-                <ion-list *ngFor="let item of orderedBeverages">
-                    <app-small-item-card [item]="item" (onItemChanged)="onItemChanged($event)"></app-small-item-card>
-                </ion-list>
+            <ion-list *ngFor="let item of orderedBeverages">
+                <app-small-item-card [item]="item" (onItemChanged)="onItemChanged($event)"></app-small-item-card>
+            </ion-list>
 
-                <hr />
+            <hr />
 
-                <div class="allBeverages" [routerLink]="['/', 'categories', 'categories-beverages', 'false']" (click)="onOpenAllBeverages()">
-                    <ion-row>
-                        <ion-col>
-                            <h2>Alle Getränke anzeigen</h2>
-                        </ion-col>
-                    </ion-row>
-                </div>
+            <div class="allBeverages" [routerLink]="['/', 'categories', 'categories-beverages', 'false']" (click)="onOpenAllBeverages()">
+                <ion-row>
+                    <ion-col>
+                        <h2>Alle Getränke anzeigen</h2>
+                    </ion-col>
+                </ion-row>
+            </div>
 
-                <div class="toCart" (click)="addBeveragesToCart()">
-                    <ion-row>
-                        <ion-col>
-                            <h2>Ausgewählte Getränke in den Einkaufswagen</h2>
-                        </ion-col>
-                    </ion-row>
-                </div>
-            </ion-col>
-        </ion-row>
+            <div class="toCart" (click)="addBeveragesToCart()">
+                <ion-row>
+                    <ion-col>
+                        <h2>Ausgewählte Getränke in den Einkaufswagen</h2>
+                    </ion-col>
+                </ion-row>
+            </div>
+        </ion-col>
+    </ion-row>
+</div>
 
-        <ion-row class="center-row">
-            <!-- <ion-button size="large " (click)="addBeveragesToCart() ">
-                In den Einkaufswagen
-            </ion-button> -->
-        </ion-row>
-    </ion-grid>
-</ion-content>
+<ion-fab slot="fixed">
+    <ion-fab-button>
+        <ion-icon name="close-outline" size="large" (click)="onClose()"></ion-icon>
+    </ion-fab-button>
+</ion-fab>

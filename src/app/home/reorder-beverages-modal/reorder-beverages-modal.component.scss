@@ -1,10 +1,14 @@
-ion-content {
-    --background: #eee;
+* {
+    margin: 0;
+    padding: 0;
 }
 
-h2 {
+h1 {
     text-align: center;
     margin-bottom: 3rem;
+    margin-top: 1rem;
+    color: rgb(85, 85, 85);
+    font-size: bold !important;
 }
 
 p {
@@ -60,14 +64,18 @@ ion-button {
     justify-content: center;
 }
 
-ion-icon {
-    color: coral !important;
-    font-size: 2rem;
-    margin-right: 1.5rem;
-}
-
 hr {
     background-color: rgb(197, 197, 197);
     margin: 15px;
     margin-bottom: 2.5rem;
+}
+
+ion-fab-button {
+    --border-radius: 20px 0 20px 0;
+    --background: white;
+    --color: rgb(255, 154, 117);
+    --box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 24px;
+    ion-icon {
+        font-size: 1.5rem;
+    }
 }

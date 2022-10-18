@@ -109,6 +109,8 @@ export class HomePage implements OnInit {
       localStorage.setItem('serviceMessage2', data.serviceMessage2 ?? '');
       localStorage.setItem('serviceMessage3', data.serviceMessage3 ?? '');
       localStorage.setItem('serviceMessage4', data.serviceMessage4 ?? '');
+
+      this.checkMessageAction('reorderBeverages');
     });
   }
 
