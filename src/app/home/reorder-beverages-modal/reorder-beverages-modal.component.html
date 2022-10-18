@@ -11,24 +11,13 @@
 
             <hr />
 
-            <ion-button size="large" expand="block" class="outline">
+            <ion-button size="large" expand="block" class="outline" [routerLink]="['/', 'categories', 'categories-beverages', 'false']" (click)="onOpenAllBeverages()">
                 Alle Getränke Anzeigen
             </ion-button>
-            <div class="allBeverages" [routerLink]="['/', 'categories', 'categories-beverages', 'false']" (click)="onOpenAllBeverages()">
-                <ion-row>
-                    <ion-col>
-                        <h2>Alle Getränke anzeigen</h2>
-                    </ion-col>
-                </ion-row>
-            </div>
 
-            <div class="toCart" (click)="addBeveragesToCart()">
-                <ion-row>
-                    <ion-col>
-                        <h2>Ausgewählte Getränke in den Einkaufswagen</h2>
-                    </ion-col>
-                </ion-row>
-            </div>
+            <ion-button size="large" expand="block" (click)="addBeveragesToCart()">
+                Ausgewählte Getränke in den Einkaufswagen
+            </ion-button>
         </ion-col>
     </ion-row>
 </div>

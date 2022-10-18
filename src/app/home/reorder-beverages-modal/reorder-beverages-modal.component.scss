@@ -80,9 +80,17 @@ ion-fab-button {
     }
 }
 
+ion-button {
+    --background: coral;
+    --color: rgb(255, 255, 255);
+    border-radius: 10rem;
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 1.5rem
+}
+
 ion-button.outline {
     border: 3px solid coral;
     --background: white;
     --color: black;
-    border-radius: 10rem;
 }
