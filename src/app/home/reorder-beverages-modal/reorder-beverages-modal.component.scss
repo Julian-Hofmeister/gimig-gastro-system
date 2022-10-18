@@ -6,15 +6,15 @@
 h1 {
     text-align: center;
     margin-bottom: 3rem;
-    margin-top: 1rem;
+    margin-top: .95rem;
     color: rgb(85, 85, 85);
-    font-size: bold !important;
 }
 
 p {
     margin: 15px;
     margin-bottom: 0;
     color: rgb(85, 85, 85);
+    font-size: 1.1rem;
 }
 
 ion-list {
@@ -78,4 +78,11 @@ ion-fab-button {
     ion-icon {
         font-size: 1.5rem;
     }
+}
+
+ion-button.outline {
+    border: 3px solid coral;
+    --background: white;
+    --color: black;
+    border-radius: 10rem;
 }
