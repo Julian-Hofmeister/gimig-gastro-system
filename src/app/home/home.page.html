@@ -4,7 +4,7 @@
     <img [src]="backgroundImage" alt="" />
 
     <ion-fab vertical="top" horizontal="end" slot="fixed" (click)="openAdmin()">
-        <p>Tisch {{tableNumber}}</p>
+        <p>Tisch {{table.tableNumber}}</p>
     </ion-fab>
     <ion-fab vertical="top" horizontal="start" slot="fixed">
         <ion-fab-button color="light" (click)="openWifiModal()">
@@ -15,7 +15,7 @@
         <ion-grid class="myOverlay">
             <ion-row>
                 <ion-col>
-                    <h1 (click)="openAdmin()">{{welcomeMessage}}</h1>
+<!--                    <h1 (click)="openAdmin()">{{table.welcomeMessage}}</h1>-->
                     <ion-row>
                         <ion-col *ngIf="restaurant$ | async as restaurant">
                             <ion-button size="large" color="light" [routerLink]="['/','categories','categories-beverages', 'false', restaurant.mainCategory2]">{{restaurant.mainCategory2 }}</ion-button>
@@ -24,7 +24,7 @@
                     </ion-row>
                     <ion-row>
                         <ion-col>
-                            <ion-button size="large" color="light" *ngIf="ableToPay" (click)="openPayRequestModal()">ZAHLEN</ion-button>
+                            <ion-button size="large" color="light" *ngIf="table.ableToPay" (click)="openPayRequestModal()">ZAHLEN</ion-button>
                         </ion-col>
                     </ion-row>
                 </ion-col>
@@ -36,7 +36,7 @@
             Service
             <div class="space"></div>
 
-            <ion-icon name="checkmark-done-outline" *ngIf="serviceRequest"></ion-icon>
+            <ion-icon name="checkmark-done-outline" *ngIf="table.serviceRequest"></ion-icon>
         </ion-button>
     </ion-fab>
     <ion-fab class="text-fab" vertical="bottom" horizontal="start" slot="fixed">

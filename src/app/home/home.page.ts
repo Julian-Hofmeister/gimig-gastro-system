@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { ModalController, NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AdminLoginComponent } from '../admin/admin-login/admin-login.component';
 import { CallServiceComponent } from './call-service/call-service.component';
 import { OfferDessertModalComponent } from './offer-dessert-modal/offer-dessert-modal.component';
@@ -23,16 +22,12 @@ import { WifiModalComponent } from './wifi-modal/wifi-modal.component';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
   //#endregion
 
-  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
-
-  //#endregion
-
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-
   user: User;
 
   table: Table;
@@ -40,26 +35,15 @@ export class HomePage implements OnInit {
   restaurant$: Observable<Restaurant>;
 
   // ----------------------------------------------------------------------------------------------
-
-  tableNumber = localStorage.getItem('tableNumber');
-
-  userEmail = localStorage.getItem('user');
-
-  // ----------------------------------------------------------------------------------------------
-
-  ableToPay = false;
-
-  serviceRequest = false;
-
-  isReserved = false;
-
-  resetRequest = false;
-
   backgroundImage: string;
 
   // ----------------------------------------------------------------------------------------------
 
   message: string;
+
+  //#endregion
+
+  //#region [ MEMBERS ] ///////////////////////////////////////////////////////////////////////////
 
   //#endregion
 
@@ -69,7 +53,6 @@ export class HomePage implements OnInit {
     private tableService: TableService,
     private restaurantService: RestaurantService,
     private storage: AngularFireStorage,
-
     private modalCtrl: ModalController,
     private navCtrl: NavController
   ) {}
@@ -84,14 +67,11 @@ export class HomePage implements OnInit {
     this.restaurant$ = this.restaurantService.getRestaurantData();
 
     this.restaurant$.subscribe(async (data) => {
-      console.log(data);
 
       this.backgroundImage = await this.storage
         .ref(data.imagePath)
         .getDownloadURL()
         .toPromise();
-
-      console.log(data);
 
       localStorage.setItem('theme', data.theme);
       localStorage.setItem('mainCategory1', data.mainCategory1);
@@ -133,32 +113,17 @@ export class HomePage implements OnInit {
         cssClass: 'admin-login-css',
       })
       .then((modalEl) => {
-        modalEl.present();
+        modalEl.present().then();
       });
   }
 
   // ----------------------------------------------------------------------------------------------
 
   openFeedbackPage() {
-    this.navCtrl.navigateForward('home/feedback-page');
+    this.navCtrl.navigateForward('home/feedback-page').then();
   }
 
   // ----------------------------------------------------------------------------------------------
-
-  openShowGreetingskModal() {
-    this.modalCtrl
-      .create({
-        component: ShowGreetingsModalComponent,
-        cssClass: 'show-greetings-modal-css',
-        mode: 'md',
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
   openServiceRequestModal() {
     this.modalCtrl
       .create({
@@ -166,13 +131,13 @@ export class HomePage implements OnInit {
         cssClass: 'service-modal-css',
         mode: 'md',
         componentProps: {
-          message: !this.serviceRequest
+          message: !this.table.serviceRequest
             ? 'Bedienung Rufen'
             : 'Bedienung wurde bereits gerufen',
         },
       })
       .then((modalEl) => {
-        modalEl.present();
+        modalEl.present().then();
       });
   }
 
@@ -199,7 +164,7 @@ export class HomePage implements OnInit {
         cssClass: 'offer-dessert-modal-css',
       })
       .then((modalEl) => {
-        modalEl.present();
+        modalEl.present().then();
       });
   }
 
@@ -221,20 +186,9 @@ export class HomePage implements OnInit {
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
   private loadTable() {
-    this.tableService.getTableData().subscribe((doc) => {
-      this.table = doc;
-
-      this.ableToPay = this.table.ableToPay;
-
-      this.serviceRequest = this.table.serviceRequest;
-
-      this.resetRequest = this.table.resetRequest;
-
+    this.tableService.getTableData().subscribe((table) => {
+      this.table = table;
       this.message = this.table.message;
-
-      this.isReserved = this.table.isReserved;
-
-      console.log(this.table.isReserved);
 
       if (this.table.resetRequest) {
         this.tableService.onResetTable();
@@ -287,7 +241,7 @@ export class HomePage implements OnInit {
           // backdropDismiss: message == 'showFeedback' ? false : true,
         })
         .then((modalEl) => {
-          modalEl.present();
+          modalEl.present().then();
         });
 
       this.updateTableMessage();

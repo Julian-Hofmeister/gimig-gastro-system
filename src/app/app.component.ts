@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ModalController, Platform } from '@ionic/angular';
-import { Observable } from 'rxjs';
 import { TableNumberPanelComponent } from './admin/table-number-panel/table-number-panel.component';
 import { AuthService } from './authentication/auth.service';
 import { ConnectionService } from './connection.service';
-import { Table } from './home/table.model';
 
 @Component({
   selector: 'app-root',
@@ -23,11 +21,6 @@ export class AppComponent implements OnInit {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-
-  table: Table;
-
-  tableSub: Observable<Table>;
-
   tableNumber = localStorage.getItem('tableNumber');
 
   //#endregion
@@ -43,8 +36,6 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar
   ) {
     this.connectionService.checkConnection();
-
-    this.initializeApp();
   }
 
   //#endregion
@@ -52,13 +43,11 @@ export class AppComponent implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    if (this.tableNumber == null) {
+    if (!this.tableNumber) {
       this.openTableNumberModal();
     }
 
     this.authService.autoSignIn();
-
-    // KioskPlugin.isInKiosk(function(isInKiosk){ ... });
   }
 
   //#endregion
@@ -73,17 +62,6 @@ export class AppComponent implements OnInit {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      // let status bar overlay webview
-      // this.statusBar.overlaysWebView(true);
-      // set status bar to white
-      // this.statusBar.backgroundColorByHexString('#ffffff');
-      // this.splashScreen.show();
-      // this.statusBar.hide();
-    });
-  }
-
   // ----------------------------------------------------------------------------------------------
 
   //#endregion
@@ -97,7 +75,7 @@ export class AppComponent implements OnInit {
         cssClass: 'table-number-panel-css',
       })
       .then((modalEl) => {
-        modalEl.present();
+        modalEl.present().then();
       });
   }
   // ----------------------------------------------------------------------------------------------

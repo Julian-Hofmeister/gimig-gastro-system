@@ -1,27 +1,20 @@
 export interface Table {
-  tableNumber: string;
-  orderRequest: boolean;
-  payRequest: boolean;
-  serviceRequest: boolean;
-
-  orderTime: Date;
-  serviceTimestamp: number;
-  payRequestTimestamp: number;
-  status: string;
-
   ableToPay: boolean;
-  paysTogether: boolean;
-  paysCache: boolean;
-
-  isServed: boolean;
-  isPaid: boolean;
-
-  resetRequest: boolean;
-
   id: string;
-
-  message: string;
-
+  isPaid: boolean;
   isReserved: boolean;
+  isServed: boolean;
+  message: string;
+  orderRequest: boolean;
+  orderTime: Date;
+  payRequest: boolean;
+  payRequestTimestamp: number;
+  paysCache: boolean;
+  paysTogether: boolean;
+  resetRequest: boolean;
   reservationTimestamp: number;
+  serviceRequest: boolean;
+  serviceTimestamp: number;
+  status: string;
+  tableNumber: string;
 }
