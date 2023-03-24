@@ -39,9 +39,9 @@ export class CartPage implements OnInit, OnDestroy {
 
   path = this.afs.collection('restaurants').doc(this.userEmail);
 
-  foodCollection = this.path.collection('items-food');
-
-  beverageCollection = this.path.collection('items-beverages');
+  // foodCollection = this.path.collection('items-food');
+  //
+  // beverageCollection = this.path.collection('items-beverages');
 
   mainCategory1 = localStorage.getItem('mainCategory1');
   mainCategory2 = localStorage.getItem('mainCategory2');
@@ -103,11 +103,12 @@ export class CartPage implements OnInit, OnDestroy {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   openItemDetailModal(item: Item) {
+    console.log(item);
     this.modalCtrl
       .create({
         component: ItemDetailComponent,
         componentProps: {
-          item: item,
+          item,
           modalOpenedFromCart: true,
           itemInCart: true,
         },
@@ -121,22 +122,11 @@ export class CartPage implements OnInit, OnDestroy {
   // ----------------------------------------------------------------------------------------------
 
   onOrder() {
-    console.log(this.loadedCartList);
-
     this.cartService.order(this.loadedCartList);
 
     this.loadedCartList = [];
 
-    this.navCtrl.navigateBack('/home');
-
-    this.modalCtrl
-      .create({
-        component: OrderSuccesComponent,
-        cssClass: 'order-succes-modal-css',
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
+    this.openSuccessModal();
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -150,30 +140,34 @@ export class CartPage implements OnInit, OnDestroy {
     this.itemCartSub = this.cartService.getCart().subscribe((cart) => {
       this.loadedCartList = [];
 
-      for (let item of cart) {
-        const imagePath = this.afStorage.ref(item.imagePath).getDownloadURL();
+      for (const item of cart) {
 
         const fetchedItem: Item = {
           name: item.name,
           description: item.description,
           price: item.price,
-          imagePath: imagePath,
+          imagePath: this.afStorage.ref(item.imagePath).getDownloadURL(),
           imageRef: item.imagePath,
 
           isVisible: item.isVisible,
-          isFood: item.isFood,
-          id: item.id,
-          parentId: item.parentId,
+          kitchenRelevant: item.kitchenRelevant,
+          _id: item.id,
 
-          availableOptions: item.availableOptions ?? [],
-          selectedOptions: item.selectedOptions ?? [],
+          availableOptions: item.combinableWith ?? [],
+          selectedOptions: item.combinedWith ?? [],
 
           availableOptions2: item.availableOptions2 ?? [],
           selectedOptions2: item.selectedOptions2 ?? [],
 
           amount: item.amount ? item.amount : 1,
           isOrdered: item.isOrdered ? item.isOrdered : false,
-          itemRefId: item.itemRefId ? item.itemRefId : '',
+
+          category: item.category,
+
+          stockAmount: item.stockAmount,
+          stockChecking: item.stockChecking,
+          combinedWith: item.combinedWith,
+          combinableWith: item.combinableWith
         };
         this.loadedCartList.push(fetchedItem);
       }
@@ -191,32 +185,31 @@ export class CartPage implements OnInit, OnDestroy {
       .subscribe((orders) => {
         this.loadedOrderedCartList = [];
 
-        for (let item of orders) {
-          const imagePath = this.afStorage.ref(item.imagePath).getDownloadURL();
+        for (const item of orders) {
 
           const fetchedItem: Item = {
             name: item.name,
             description: item.description,
             price: item.price,
-            imagePath: imagePath,
+            imagePath: this.afStorage.ref(item.imagePath).getDownloadURL(),
             imageRef: item.imagePath,
 
             isVisible: item.isVisible,
-            isFood: item.isFood,
-            id: item.id,
-            parentId: item.parentId,
+            kitchenRelevant: item.isFood,
+            _id: item.id,
 
-            availableOptions: item.availableOptions ?? [],
-            selectedOptions: item.selectedOptions ?? [],
+            availableOptions: item.combinableWith ?? [],
+            selectedOptions: item.combinedWith ?? [],
             amount: item.amount ? item.amount : 1,
             isOrdered: item.isOrdered ? item.isOrdered : false,
-            itemRefId: item.itemRefId ? item.itemRefId : '',
+
+            category: item.category
           };
 
           this.loadedOrderedCartList.push(fetchedItem);
 
-          if (this.cartService.orderedList.indexOf(fetchedItem.id) == -1) {
-            this.cartService.orderedList.push(fetchedItem.id);
+          if (this.cartService.orderedList.indexOf(fetchedItem._id) === -1) {
+            this.cartService.orderedList.push(fetchedItem._id);
           }
         }
 
@@ -226,5 +219,17 @@ export class CartPage implements OnInit, OnDestroy {
 
   // ----------------------------------------------------------------------------------------------
 
+  private openSuccessModal() {
+    this.navCtrl.navigateBack('/home').then();
+
+    this.modalCtrl
+      .create({
+        component: OrderSuccesComponent,
+        cssClass: 'order-succes-modal-css',
+      })
+      .then((modalEl) => {
+        modalEl.present();
+      });
+  }
   //#endregion
 }

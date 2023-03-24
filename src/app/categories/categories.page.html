@@ -2,14 +2,14 @@
 
 <ion-content>
     <app-background-layout slot="fixed" [title]="backgroundTitle"></app-background-layout>
-    <app-side-navigation slot="fixed" [mainCategory1]=""></app-side-navigation>
+    <app-side-navigation slot="fixed"></app-side-navigation>
     <!-- <div class="spin" *ngIf="!categories$">
         <ion-spinner class="spinner-large" name="bubbles" color="primary"></ion-spinner>
     </div> -->
     <ion-grid>
         <ion-row>
             <ion-col size="8" offset="2">
-                <ion-list *ngFor="let category of (categories$ | async)">
+                <ion-list *ngFor="let category of (isFood === 'true') ? foodCategories : beverageCategories">
                     <app-category-card [category]="category" [backgroundTitle]="backgroundTitle"></app-category-card>
                 </ion-list>
             </ion-col>

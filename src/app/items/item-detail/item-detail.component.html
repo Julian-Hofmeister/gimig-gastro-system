@@ -1,24 +1,26 @@
-<ion-content [ngStyle]="{ opacity: item.isVisible ? 1 : 0.4 }" *ngIf="item.imagePath | async; let url" [@simpleFadeAnimation]="'in'">
+<ion-content [ngStyle]="{ opacity: item.isVisible ? 1 : 0.4 }"  [@simpleFadeAnimation]="'in'">
     <ion-grid>
         <ion-row>
             <ion-col class="content-col">
                 <ion-label>
                     <h1>{{ item.name }}</h1>
                 </ion-label>
-                <p>{{ item.description }}</p>
+                <p>{{ item.description}}</p>
                 <br />
-                <ion-select *ngIf="item.availableOptions" cancelText="Abbrechen" placeholder="Optionen Auswählen" multiple="true" [(ngModel)]="item.selectedOptions">
-                    <ion-select-option *ngFor="let option of item.availableOptions" [value]="option">{{ option }}
+                <ion-select *ngIf="item.combinableWith.length" cancelText="Abbrechen" [placeholder]="options.length ? 'Optionen Ansehen' : 'Optionen Auswählen'" multiple="true" [(ngModel)]="options" >
+                    <ion-select-option *ngFor="let option of item.combinableWith" [value]="option._id">{{ option.name }}
                     </ion-select-option>
                 </ion-select>
                 <br />
-                <ion-select *ngIf="item.availableOptions2" cancelText="Abbrechen" placeholder="Optionen Auswählen" multiple="true" [(ngModel)]="item.selectedOptions2">
-                    <ion-select-option *ngFor="let option of item.availableOptions2" [value]="option">{{ option }}
-                    </ion-select-option>
-                </ion-select>
+<!--                <ion-select *ngIf="item.availableOptions2" cancelText="Abbrechen" placeholder="Optionen Auswählen" multiple="true" [(ngModel)]="item.selectedOptions2">-->
+<!--                    <ion-select-option *ngFor="let option of item.availableOptions2" [value]="option">{{ option }}-->
+<!--                    </ion-select-option>-->
+<!--                </ion-select>-->
             </ion-col>
             <ion-col class="image-col">
-                <img [src]="url" alt="" />
+<!--                <img *ngIf="item.imagePath | async; let url" [src]="url" alt="" />-->
+              <img *ngIf="item.imagePath | async; let url" [src]="url"  alt=""/>
+              <img *ngIf="!(item.imagePath | async)" [src]="blankImg"  alt=""/>
             </ion-col>
         </ion-row>
         <ion-row>

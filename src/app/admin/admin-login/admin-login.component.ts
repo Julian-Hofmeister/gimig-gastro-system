@@ -18,11 +18,11 @@ export class AdminLoginComponent {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  passwordInput: string = '';
+  passwordInput = '';
 
   passwordArray: string[] = [];
 
-  adminPassword = '301';
+  adminPassword = '333';
 
   //#endregion
 

@@ -1,6 +1,6 @@
 <ion-content scroll-y="false">
     <div class="container">
-        <img class="background-img" [src]="feedbackImage" />
+        <img class="background-img" [src]="restaurant.feedbackImage" />
         <div class="centered">
             <h2>Cool dass du da warst!</h2>
 
@@ -9,11 +9,11 @@
             </p>
 
             <ion-row class="qr-code-row">
-                <div class="qr-item" *ngIf="feedbackQrCode">
-                    <img [src]="feedbackQrCode" alt="" />
-                    <p>{{name}}</p>
+                <div class="qr-item" *ngIf="restaurant.feedbackQrCode" >
+                    <img [src]="restaurant.feedbackQrCode" alt="" />
+                    <p>{{restaurant.name}}</p>
                 </div>
-                <div class="qr-item">
+                <div class="qr-item" (click)="resetTable()">
                     <img src="/assets/images/frame.png" alt="" />
                     <p>Gimig</p>
                 </div>

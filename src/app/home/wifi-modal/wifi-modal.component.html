@@ -1,4 +1,4 @@
-<div class="wifi-modal">
+<div *ngIf="qrCodeImage" class="wifi-modal">
     <ion-row class="center-horizontal">
         <ion-col>
             <div class="wifi-qr-code">
@@ -6,11 +6,11 @@
             </div>
             <ion-row class="space-between">
                 <p>Name:</p>
-                <p>{{ wifiName }}</p>
+                <p>{{ restaurant.wifiName }}</p>
             </ion-row>
             <ion-row class="space-between">
                 <p>Passwort:</p>
-                <p>{{ wifiPassword }}</p>
+                <p>{{ restaurant.wifiPassword }}</p>
             </ion-row>
         </ion-col>
     </ion-row>

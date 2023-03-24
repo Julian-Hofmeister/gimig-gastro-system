@@ -10,6 +10,9 @@ import {
   trigger,
 } from '@angular/animations';
 import { Item } from '../item.model';
+import {ImageModalComponent} from '../../admin/image-modal/image-modal.component';
+import {ModalController} from '@ionic/angular';
+import {EditService} from "../../admin/edit.service";
 
 registerLocaleData(localeFr, 'fr');
 
@@ -33,9 +36,17 @@ export class ItemCardComponent implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  price: any;
+  price: any = '';
+
+  blankImg = '/assets/images/grey.jpg';
+
+  editMode: boolean;
+
 
   //#endregion
+
+  constructor(private modalCtrl: ModalController, private editService: EditService) {
+  }
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
@@ -43,8 +54,11 @@ export class ItemCardComponent implements OnInit {
     this.price = new Intl.NumberFormat('en-GB', {
       style: 'currency',
       currency: 'EUR',
-    }).format(this.item.price);
+    }).format(Number(this.item.price));
+
+    this.editMode = this.editService.getEditModeStatus();
   }
 
   //#endregion
+
 }

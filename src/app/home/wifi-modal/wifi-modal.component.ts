@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
+import {Wifi} from '../../shared/wifi.model';
+import {Restaurant} from "../restaurant.model";
 
 @Component({
   selector: 'app-wifi-modal',
@@ -13,10 +15,7 @@ export class WifiModalComponent implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  wifiName = localStorage.getItem('wifiName');
-
-  wifiPassword = localStorage.getItem('wifiPassword');
-  wifiQrCode = localStorage.getItem('wifiQrCode');
+  restaurant: Restaurant = JSON.parse(localStorage.getItem('restaurant'));
 
   qrCodeImage: string;
 
@@ -35,10 +34,8 @@ export class WifiModalComponent implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   async ngOnInit() {
-    console.log(this.wifiName);
-
     this.qrCodeImage = await this.storage
-      .ref(this.wifiQrCode)
+      .ref(this.restaurant.wifiQrCode)
       .getDownloadURL()
       .toPromise();
   }

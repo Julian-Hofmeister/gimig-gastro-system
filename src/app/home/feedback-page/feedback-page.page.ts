@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
+import {TableService} from '../table.service';
 
 @Component({
   selector: 'app-feedback-page',
@@ -13,7 +14,7 @@ export class FeedbackPagePage implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  feedbackImage = localStorage.getItem('feedbackImage');
+  restaurant = JSON.parse(localStorage.getItem('restaurant'));
   feedbackQrCode = localStorage.getItem('feedbackQrCode');
   name = localStorage.getItem('name');
 
@@ -25,20 +26,20 @@ export class FeedbackPagePage implements OnInit {
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor(private storage: AngularFireStorage) {}
+  constructor(private storage: AngularFireStorage, private tableService: TableService) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   async ngOnInit() {
-    this.feedbackImage = await this.storage
-      .ref(this.feedbackImage)
+    this.restaurant.feedbackImage = await this.storage
+      .ref(this.restaurant.feedbackImage)
       .getDownloadURL()
       .toPromise();
 
-    this.feedbackQrCode = await this.storage
-      .ref(this.feedbackQrCode)
+    this.restaurant.feedbackQrCode = await this.storage
+      .ref(this.restaurant.feedbackQrCode)
       .getDownloadURL()
       .toPromise();
   }
@@ -55,6 +56,9 @@ export class FeedbackPagePage implements OnInit {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
+  resetTable() {
+    this.tableService.onResetTable();
+  }
   // ----------------------------------------------------------------------------------------------
 
   //#endregion

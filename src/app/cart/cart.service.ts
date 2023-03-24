@@ -3,6 +3,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Item } from '../items/item.model';
+import {Order} from '../home/order.model';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +16,11 @@ export class CartService {
 
   orderedList: string[] = [];
 
-  // ----------------------------------------------------------------------------------------------
-
   cartList: Observable<any[]>;
 
   orderedCartList: Observable<any[]>;
+
+  ipAddress = localStorage.getItem('ipAddress');
 
   // ----------------------------------------------------------------------------------------------
 
@@ -54,8 +56,9 @@ export class CartService {
 
   beverageCollection = this.path.collection('items-beverages');
 
-  //#endregion
+  activeOrders: any[];
 
+  //#endregion
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
   constructor(public afs: AngularFirestore) {}
@@ -69,7 +72,15 @@ export class CartService {
       map((changes) => {
         return changes.map((item) => {
           const data = item.payload.doc.data() as Item;
-          data.id = item.payload.doc.id;
+          data._id = item.payload.doc.id;
+
+          data.stockAmount = item.payload.doc.data().stockAmount;
+          data.stockChecking = item.payload.doc.data().stockChecking;
+
+          data.combinedWith =  item.payload.doc.data().combinedWith;
+          console.log('GET CART');
+          console.log(data);
+          // DEGASO
           return data;
         });
       })
@@ -85,7 +96,7 @@ export class CartService {
       map((changes) => {
         return changes.map((item) => {
           const data = item.payload.doc.data() as Item;
-          data.id = item.payload.doc.id;
+          data._id = item.payload.doc.id;
           return data;
         });
       })
@@ -97,15 +108,17 @@ export class CartService {
   // ----------------------------------------------------------------------------------------------
 
   order(loadedCartList: Item[]) {
+    this.addToDegaso(loadedCartList);
+
     loadedCartList.forEach((item) => {
       item.orderTimestamp = Date.now();
-
-      this.addOrdersToFirestore(item);
-
-      this.moveItemsInCartToOrderedCart(item);
+      // this.addOrderToFirestore(item);
+      this.moveItemInCartToOrderedCart(item);
     });
 
     this.updateTableToOrdered();
+
+
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -113,16 +126,15 @@ export class CartService {
   addItemToCart(item: Item) {
     this.orderList.push(item);
 
-    console.log(item.selectedOptions);
-
-    this.cartCollection.doc(item.id).set({
+    console.log(item);
+    this.cartCollection.doc(item._id).set({
       // - ITEM DETAILS
+      id: item._id,
       name: item.name,
       price: item.price,
       amount: item.amount ? item.amount : 1,
-      isFood: item.isFood,
+      kitchenRelevant: item.kitchenRelevant,
       imagePath: item.imageRef,
-      itemRefId: item.id,
       isOrdered: false,
       availableOptions: item.availableOptions ?? [],
       selectedOptions: item.selectedOptions ?? [],
@@ -133,29 +145,29 @@ export class CartService {
       tableNumber: this.tableNumber,
       selectedTimestamp: Date.now(),
       // - METADATA
-      parentId: item.parentId,
-      description: item.description,
-      isVisible: item.isVisible,
+      description: item.description ?? '',
+      isVisible: item.isVisible ?? true,
+
+      stockChecking: item.stockChecking,
+      stockAmount: item.stockAmount,
+
+      combinableWith: item.combinableWith,
+      combinedWith: item.combinedWith,
+      // active: item.active,
     });
   }
 
   // ----------------------------------------------------------------------------------------------
 
   deleteItemInCart(item: Item) {
-    this.cartCollection.doc(item.id).delete();
+    this.cartCollection.doc(item._id).delete();
   }
 
   // ----------------------------------------------------------------------------------------------
 
   resetCart() {
-    console.log('OrderList');
-    console.log(this.orderList);
-
-    console.log('OrderedList');
-    console.log(this.orderedList);
-
     this.orderList.forEach((item) => {
-      this.cartCollection.doc(item.id).delete();
+      this.cartCollection.doc(item._id).delete();
     });
 
     this.orderedList.forEach((order) => {
@@ -165,57 +177,37 @@ export class CartService {
 
   // ----------------------------------------------------------------------------------------------
 
-  getItemById(itemRef: any) {
-    const pathRef = itemRef.isFood
-      ? this.foodCollection
-      : this.beverageCollection;
-
-    const item = pathRef
-      .doc(itemRef.itemId)
-      .ref.get()
-      .then(function (doc) {
-        if (doc.exists) {
-          console.log('Document data:', doc.data());
-          return doc.data() as Item;
-        }
-      });
-
-    return item;
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
 
-  private addOrdersToFirestore(item: Item) {
-    this.orderCollection.doc(item.orderTimestamp.toString()).set({
-      // - ITEM DETAILS
-      name: item.name,
-      price: item.price,
-      amount: item.amount,
-      isFood: item.isFood,
-      imagePath: item.imageRef,
-      id: item.id,
-      availableOptions: item.availableOptions ?? [],
-      selectedOptions: item.selectedOptions ?? [],
-
-      availableOptions2: item.availableOptions2 ?? [],
-      selectedOptions2: item.selectedOptions2 ?? [],
-      // - FURTHER INFORMATION
-      tableNumber: this.tableNumber,
-      isOrdered: true,
-      isAccepted: false,
-      isServerd: false,
-      isPaid: false,
-      orderTimestamp: item.orderTimestamp,
-      // - METADATA
-      parentId: item.parentId,
-      description: item.description,
-      isVisible: item.isVisible,
-    });
-  }
+  // private addOrderToFirestore(item: Item) {
+  //   this.orderCollection.doc(item.orderTimestamp.toString()).set({
+  //     // - ITEM DETAILS
+  //     name: item.name,
+  //     price: item.price,
+  //     amount: item.amount,
+  //     isFood: item.isFood,
+  //     imagePath: item.imageRef,
+  //     id: item.id,
+  //     availableOptions: item.availableOptions ?? [],
+  //     selectedOptions: item.selectedOptions ?? [],
+  //
+  //     availableOptions2: item.availableOptions2 ?? [],
+  //     selectedOptions2: item.selectedOptions2 ?? [],
+  //     // - FURTHER INFORMATION
+  //     tableNumber: this.tableNumber,
+  //     isOrdered: true,
+  //     isAccepted: false,
+  //     isServerd: false,
+  //     isPaid: false,
+  //     orderTimestamp: item.orderTimestamp,
+  //     // - METADATA
+  //     parentId: item.parentId,
+  //     description: item.description,
+  //     isVisible: item.isVisible,
+  //   });
+  // }
 
   // ----------------------------------------------------------------------------------------------
 
@@ -225,15 +217,16 @@ export class CartService {
       isAccepted: false,
       orderRequest: true,
       timestamp: Date.now(),
+      ableToPay: true,
     });
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  private moveItemsInCartToOrderedCart(item: Item) {
+  private moveItemInCartToOrderedCart(item: Item) {
     console.log(this.orderList);
 
-    this.cartCollection.doc(item.id).delete();
+    this.cartCollection.doc(item._id).delete();
 
     this.orderedList.push(item.orderTimestamp.toString());
 
@@ -242,7 +235,7 @@ export class CartService {
       name: item.name,
       price: item.price,
       amount: item.amount,
-      isFood: item.isFood,
+      kitchenRelevant: item.kitchenRelevant,
       imagePath: item.imageRef,
       id: item.orderTimestamp,
       availableOptions: item.availableOptions ?? [],
@@ -250,6 +243,7 @@ export class CartService {
 
       availableOptions2: item.availableOptions2 ?? [],
       selectedOptions2: item.selectedOptions2 ?? [],
+
       // - FURTHER INFORMATION
       tableNumber: this.tableNumber,
       isOrdered: true,
@@ -258,7 +252,6 @@ export class CartService {
       isPaid: false,
       orderTimestamp: item.orderTimestamp,
       // - METADATA
-      parentId: item.parentId,
       description: item.description,
       isVisible: item.isVisible,
       // - STATUS
@@ -268,5 +261,153 @@ export class CartService {
 
   // ----------------------------------------------------------------------------------------------
 
+  private addToDegaso(items: Item[]) {
+    const orderArray: Order[] = [];
+
+    if (!items) { return; }
+
+    for (const item of items) {
+
+
+      for (let i = 0; i < item.amount; i++) {
+        let price = Number(item.price);
+        let optionText = '';
+
+        if (item.stockChecking) {
+          this.degasoUpdateStockAmount(item);
+        }
+
+        if (item.combinedWith) {
+          for (const option of item.combinedWith) {
+            // @ts-ignore
+            price += Number(option.price);
+            // @ts-ignore
+            optionText = optionText + 'mit ' + option.name + '; ';
+          }
+        }
+
+        const order: Order = {
+          name: item.name,
+          price: price.toString(),
+          tax: item.tax,
+          kitchenRelevant: item.kitchenRelevant,
+          active: true,
+          combinationProduct: false,
+          infoText: item.description,
+          additionalInfo: optionText,
+          stockChecking: item.stockChecking,
+          customPrinterAddress: 'kitchenPrinter',
+          _id: item._id,
+          identifyForList: uuidv4(),
+          uniqueOrderArticleId: uuidv4(),
+          course: 0,
+          brangToTable: false,
+          combinedWith: item.combinedWith,
+          combinableWith: []
+        };
+
+        orderArray.push(order);
+
+
+      }
+    }
+
+    this.degasoGetActiveOrders().then( (data) => {
+      if (!data) {
+        this.degasoNewOrder(orderArray);
+      } else {
+        for (const order of data) {
+          if (order.table === this.tableNumber.toString()) {
+            this.degasoAddToOrder(orderArray, order._id);
+            return;
+          }
+        }
+        this.degasoNewOrder(orderArray);
+      }
+    });
+  }
+
+  private degasoUpdateStockAmount(product: Item) {
+    fetch('http://' + this.ipAddress + ':3434/updatestockAmount/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ stockAmount: product.stockAmount - product.amount, _id: product._id }),
+    })
+      .then(response => { })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  private degasoAddToOrder(orderArray: any, orderId) {
+    const data = {
+      orderId,
+      articles: orderArray,
+      employee: '',
+      dontPrint: false
+    };
+
+    fetch('http://' + this.ipAddress + ':3434/addToOrder/', {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => console.log('add done'))
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  private degasoNewOrder(orderArray: any[]) {
+    const data = {
+      table: this.tableNumber,
+      articles: orderArray,
+      employee: ''
+    };
+
+
+    fetch('http://' + this.ipAddress + ':3434/newOrder/', {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      // tslint:disable-next-line:no-shadowed-variable
+      .then(data => {
+        console.log('Success:', data);
+
+      });
+  }
+
+
+
+  private async degasoGetActiveOrders() {
+    return fetch('http://' + this.ipAddress + ':3434/getAllActiveOrders/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data != null) {
+          this.activeOrders = data;
+
+          console.log(this.activeOrders);
+
+          return data;
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
+  }
   //#endregion
 }

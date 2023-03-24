@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import {AlertController, ModalController, ToastController} from '@ionic/angular';
 import { LogoutSettingComponent } from './logout-setting/logout-setting.component';
 import { TableNumberPanelComponent } from './table-number-panel/table-number-panel.component';
+import {EditService} from './edit.service';
 
 // declare let KioskPlugin: any;
 
@@ -22,11 +23,13 @@ export class AdminPage {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
+  ipAddress = localStorage.getItem('ipAddress') ?? '';
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
 
-  constructor(private modalCtrl: ModalController, private router: Router) {}
+  constructor(private modalCtrl: ModalController, private router: Router, private toastController: ToastController, private alertController: AlertController, private editService: EditService) {}
 
   //#endregion
 
@@ -76,17 +79,51 @@ export class AdminPage {
 
   // ----------------------------------------------------------------------------------------------
 
-  exitKioskMode() {
-    // KioskPlugin.exitKiosk()
-    // KioskMode.enable();
-    // ActivityOptions.setLockTaskEnabled();
+  async enableEditMode() {
+    const alert = await this.alertController.create({
+      header: 'Bearbeitungsmodus',
+      message: 'Im bearbeitungsmodus können Sie durch langes klicken auf eine Kategorie oder ein Gericht/Getränk ein passendes Bild hochladen.',
+      buttons: [
+        {
+          text: 'Abbrechen',
+          role: 'cancel',
+        },
+        {
+          text: 'Aktivieren',
+          role: 'confirm',
+          handler: () => {
+            this.closeSettings();
+
+            this.editService.enableEditMode();
+          },
+        }],
+    });
+
+    await alert.present();
+
+
   }
 
   // ----------------------------------------------------------------------------------------------
 
+  onSaveIpAddress() {
+    localStorage.setItem('ipAddress', this.ipAddress );
+
+    this.presentToast('Ip Adresse gespeichert!').then();
+  }
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
+  private async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 1500,
+      position: 'bottom'
+    });
+
+    await toast.present();
+  }
 
   // ----------------------------------------------------------------------------------------------
 

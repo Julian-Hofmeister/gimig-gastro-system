@@ -6,11 +6,16 @@ import { Item } from 'src/app/items/item.model';
   templateUrl: './order-card.component.html',
   styleUrls: ['./order-card.component.scss'],
 })
-export class OrderCardComponent {
+export class OrderCardComponent implements OnInit {
   //#region [ BINDINGS ] //////////////////////////////////////////////////////////////////////////
 
   @Input() item: Item;
   @Input() disabled = false;
+
+  price = 0;
+  blankImg = '/assets/images/grey.jpg';
+
+
 
   //#endregion
 
@@ -30,6 +35,20 @@ export class OrderCardComponent {
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
+  ngOnInit() {
+
+    this.price = Number(this.item.price);
+
+    console.log('Item Options');
+    console.log(this.item.combinedWith);
+    if (this.item.combinedWith) {
+      for (const option of this.item.combinedWith) {
+        // @ts-ignore
+        this.price += Number(option.price);
+
+      }
+    }
+  }
   //#endregion
 
   //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////

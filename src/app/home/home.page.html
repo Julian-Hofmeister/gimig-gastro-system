@@ -3,11 +3,11 @@
     <!-- <img src="../assets/images/32602469.jpg" alt="" /> -->
     <img [src]="backgroundImage" alt="" />
 
-    <ion-fab vertical="top" horizontal="end" slot="fixed" (click)="openAdmin()">
+    <ion-fab vertical="top" horizontal="end" slot="fixed" (click)="openModal(adminModal)">
         <p>Tisch {{table.tableNumber}}</p>
     </ion-fab>
     <ion-fab vertical="top" horizontal="start" slot="fixed">
-        <ion-fab-button color="light" (click)="openWifiModal()">
+        <ion-fab-button color="light" (click)="openModal(wifiModal)">
             <ion-icon name="wifi-outline"></ion-icon>
         </ion-fab-button>
     </ion-fab>
@@ -17,14 +17,14 @@
                 <ion-col>
 <!--                    <h1 (click)="openAdmin()">{{table.welcomeMessage}}</h1>-->
                     <ion-row>
-                        <ion-col *ngIf="restaurant$ | async as restaurant">
+                        <ion-col *ngIf="restaurant">
                             <ion-button size="large" color="light" [routerLink]="['/','categories','categories-beverages', 'false', restaurant.mainCategory2]">{{restaurant.mainCategory2 }}</ion-button>
                             <ion-button size="large" color="light" [routerLink]="['/','categories','categories-food', 'true', restaurant.mainCategory1]">{{restaurant.mainCategory1 }}</ion-button>
                         </ion-col>
                     </ion-row>
                     <ion-row>
                         <ion-col>
-                            <ion-button size="large" color="light" *ngIf="table.ableToPay" (click)="openPayRequestModal()">ZAHLEN</ion-button>
+                            <ion-button size="large" color="light" *ngIf="table.ableToPay" (click)="openModal(paymentModal)">ZAHLEN</ion-button>
                         </ion-col>
                     </ion-row>
                 </ion-col>
@@ -32,7 +32,7 @@
         </ion-grid>
     </div>
     <ion-fab class="text-fab" vertical="bottom" horizontal="end" slot="fixed">
-        <ion-button color="light" (click)="openServiceRequestModal()">
+        <ion-button color="light" (click)="openModal(serviceModal)">
             Service
             <div class="space"></div>
 

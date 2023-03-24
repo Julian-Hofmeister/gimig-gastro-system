@@ -5,6 +5,10 @@ import { ModalController, Platform } from '@ionic/angular';
 import { TableNumberPanelComponent } from './admin/table-number-panel/table-number-panel.component';
 import { AuthService } from './authentication/auth.service';
 import { ConnectionService } from './connection.service';
+import {ItemService} from './items/item.service';
+import {CategoryService} from './categories/category.service';
+import {Item} from './items/item.model';
+import {Category} from './categories/category.model';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +27,14 @@ export class AppComponent implements OnInit {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
   tableNumber = localStorage.getItem('tableNumber');
 
+
+  ipAddress = localStorage.getItem('ipAddress');
+
+  webSocket: WebSocket;
+
+  items: Item[];
+  categories: Category[];
+
   //#endregion
 
   //#region [ CONSTRUCTORS ] //////////////////////////////////////////////////////////////////////
@@ -33,7 +45,9 @@ export class AppComponent implements OnInit {
     private connectionService: ConnectionService,
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private itemService: ItemService,
+    private categoryService: CategoryService,
   ) {
     this.connectionService.checkConnection();
   }
@@ -48,6 +62,9 @@ export class AppComponent implements OnInit {
     }
 
     this.authService.autoSignIn();
+
+    this.webSocketInit();
+
   }
 
   //#endregion
@@ -79,6 +96,20 @@ export class AppComponent implements OnInit {
       });
   }
   // ----------------------------------------------------------------------------------------------
+
+  private webSocketInit() {
+    this.webSocket = new WebSocket('ws:' + this.ipAddress + ':3434');
+
+    this.webSocket.onmessage = (message: { data: string; }) => {
+       if (message.data === 'productUpdate') {
+        // window.location.reload();
+         console.log(message);
+
+         this.items = this.itemService.getAllDegasoItems();
+         this.categories = this.categoryService.getAllDegasoCategories();
+      }
+    };
+  }
 
   //#endregion
 }

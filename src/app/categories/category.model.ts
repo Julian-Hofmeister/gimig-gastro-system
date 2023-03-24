@@ -7,5 +7,7 @@ export interface Category {
   imagePath: Observable<any>;
   isVisible: boolean;
   id: string;
+  _id: string;
   parentId: string;
+  order: number;
 }

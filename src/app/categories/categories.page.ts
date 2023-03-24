@@ -5,6 +5,9 @@ import { Observable, Subscription } from 'rxjs';
 import { CategoryService } from './category.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Category } from './category.model';
+import {EditService} from '../admin/edit.service';
+import {ItemService} from '../items/item.service';
+import {Item} from '../items/item.model';
 
 @Component({
   selector: 'app-categories',
@@ -19,14 +22,19 @@ export class CategoriesPage implements OnInit {
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
   categories$: Observable<Category[]>;
-
+  allCategories: Category[];
+  foodCategories: Category[] = [];
+  beverageCategories: Category[] = [];
+  items: Item[];
   id: string;
-
   pathAttachment: string;
-
   isFood = 'true';
-
   backgroundTitle: string;
+
+  isFinished = false;
+
+
+
 
   //#endregion
 
@@ -40,20 +48,23 @@ export class CategoriesPage implements OnInit {
     private navCtrl: NavController,
     private route: ActivatedRoute,
     private afStorage: AngularFireStorage,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private itemService: ItemService,
+
+
   ) {}
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {
+  async ngOnInit() {
     this.gertUrlData();
 
-    this.categories$ = this.categoryService.getCategories(
-      this.id,
-      this.pathAttachment
-    );
+    this.items = this.itemService.getAllDegasoItems();
+    this.allCategories = this.categoryService.getAllDegasoCategories() ;
+
+    this.filterCategories();
   }
 
   //#endregion
@@ -64,9 +75,33 @@ export class CategoriesPage implements OnInit {
 
   //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
 
+  filterCategories() {
+    const timeout = setInterval(() => {
+      if (this.allCategories && !this.isFinished) {
+        for (const category of this.allCategories){
+          for (const item of this.items) {
+            if (category.name === item.category) {
+              if (!this.foodCategories.includes(category) && !this.beverageCategories.includes(category)) {
+                if (item.kitchenRelevant) {
+                  this.foodCategories.push(category);
+                } else {
+                  this.beverageCategories.push(category);
+                }
+              }
+            }
+          }
+        }
+
+        clearInterval(timeout);
+        this.isFinished = true;
+      }
+    }, 100);
+
+  }
   //#endregion
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
+
 
   // ----------------------------------------------------------------------------------------------
 
@@ -88,9 +123,12 @@ export class CategoriesPage implements OnInit {
       this.backgroundTitle = paramMap.get('backgroundTitle');
 
       this.pathAttachment =
-        this.isFood == 'true' ? 'categories-food' : 'categories-beverages';
+        this.isFood === 'true' ? 'categories-food' : 'categories-beverages';
     });
   }
+
+  // ----------------------------------------------------------------------------------------------
+
 
   // ----------------------------------------------------------------------------------------------
 

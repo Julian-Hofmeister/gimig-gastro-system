@@ -7,11 +7,11 @@
 
     <div class="col">
         <ion-fab-button (click)="onNavigateBeverages()">
-            <ion-icon [name]="mainIcon2"></ion-icon>
+            <ion-icon [name]="restaurant.mainIcon2 ? restaurant.mainIcon2 : 'wine-outline'"></ion-icon>
         </ion-fab-button>
         <ion-fab-button (click)="onNavigateFood()">
             <!-- <ion-icon name="restaurant-outline"></ion-icon> -->
-            <ion-icon [name]="mainIcon1"></ion-icon>
+            <ion-icon [name]="restaurant.mainIcon1 ? restaurant.mainIcon1 : 'restaurant-outline'"></ion-icon>
         </ion-fab-button>
         <ion-fab-button (click)="onNavigateHome()">
             <ion-icon name="home-outline"></ion-icon>

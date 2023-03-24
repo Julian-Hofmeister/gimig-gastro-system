@@ -13,11 +13,17 @@ const routes: Routes = [
       import('./home/home.module').then((m) => m.HomePageModule),
   },
 
+  // {
+  //   path: 'items/:id/:hasFood/:backgroundTitle',
+  //   loadChildren: () =>
+  //     import('./items/items.module').then((m) => m.ItemsPageModule),
+  // },
   {
-    path: 'items/:id/:hasFood/:backgroundTitle',
+    path: 'items/:id/:backgroundTitle',
     loadChildren: () =>
       import('./items/items.module').then((m) => m.ItemsPageModule),
   },
+
   {
     path: 'categories/:id/:hasFood/:backgroundTitle',
     loadChildren: () =>

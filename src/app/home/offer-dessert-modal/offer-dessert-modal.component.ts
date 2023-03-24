@@ -91,7 +91,7 @@ export class OfferDessertModalComponent implements OnInit, OnDestroy {
   // ----------------------------------------------------------------------------------------------
 
   onAddToCart() {
-    for (let item of this.loadedItems) {
+    for (const item of this.loadedItems) {
       if (item.amount > 0) {
         console.log(item);
         this.cartService.addItemToCart(item);
@@ -115,7 +115,7 @@ export class OfferDessertModalComponent implements OnInit, OnDestroy {
       .subscribe((items) => {
         this.loadedItems = [];
 
-        for (let currentItem of items) {
+        for (const currentItem of items) {
           const imagePath = this.afStorage
             .ref(currentItem.imagePath)
             .getDownloadURL();
@@ -124,12 +124,12 @@ export class OfferDessertModalComponent implements OnInit, OnDestroy {
             name: currentItem.name,
             description: currentItem.description,
             price: currentItem.price,
-            imagePath: imagePath,
+            imagePath,
             imageRef: currentItem.imagePath,
             isVisible: currentItem.isVisible,
-            isFood: currentItem.isFood,
-            id: currentItem.id,
-            parentId: currentItem.parentId,
+            kitchenRelevant: currentItem.isFood,
+            _id: currentItem.id,
+            category: currentItem.category
           };
 
           if (fetchedItem.isVisible) {

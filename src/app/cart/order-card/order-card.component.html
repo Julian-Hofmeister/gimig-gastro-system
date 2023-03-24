@@ -1,9 +1,10 @@
-<ion-item lines="none" [ngStyle]="{ opacity: disabled ? 0.5 : 1 }" *ngIf="item.imagePath | async; let url">
+<ion-item lines="none" [ngStyle]="{ opacity: disabled ? 0.5 : 1 }" >
     <ion-card>
         <ion-grid>
             <ion-row>
                 <ion-col size="2.9">
-                    <img [src]="url" />
+                  <img *ngIf="item.imagePath | async; let url" [src]="url"  alt=""/>
+                  <img *ngIf="!(item.imagePath | async)" [src]="blankImg"  alt=""/>
                 </ion-col>
                 <ion-col size="7.1" class="content">
                     <ion-col>
@@ -19,7 +20,7 @@
                 </ion-col>
                 <ion-col size="1.5" class="bottom">
                     <p>
-                        {{ item.price * item.amount | currency: "EUR":"symbol":"":"fr" }}
+                        {{price * item.amount | currency: "EUR":"symbol":"":"fr" }}
                     </p>
                 </ion-col>
             </ion-row>

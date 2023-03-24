@@ -1,8 +1,12 @@
-<ion-item lines="none" [ngStyle]="{ opacity: category.isVisible ? 1 : 0.4 }" *ngIf="category.imagePath | async; let url" [@simpleFadeAnimation]="'in'">
+<ion-item lines="none" [ngStyle]="{ opacity: category.isVisible ? 1 : 0.4 }"  [@simpleFadeAnimation]="'in'">
     <ion-card (click)="openContent(category)">
-        <img [src]="url" />
+        <img *ngIf="(category.imagePath | async); let url" [src]="url"  alt=""/>
+        <img *ngIf="!(category.imagePath | async)" [src]="blankImg"  alt=""/>
         <div class="category-label">
-            <h2>{{ category.name }}</h2>
+          <h2>{{ category.name }}</h2>
+        </div>
+        <div class="edit-mode" (click)="editCategory()" *ngIf="editMode">
+          <ion-icon name="images-outline"></ion-icon>
         </div>
     </ion-card>
 </ion-item>

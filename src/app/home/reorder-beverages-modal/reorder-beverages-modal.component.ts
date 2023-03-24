@@ -61,7 +61,7 @@ export class ReorderBeveragesModalComponent implements OnInit {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   addBeveragesToCart() {
-    for (let item of this.orderedBeverages) {
+    for (const item of this.orderedBeverages) {
       if (item.amount > 0) {
         console.log('hiii');
         this.cartService.addItemToCart(item);
@@ -106,26 +106,25 @@ export class ReorderBeveragesModalComponent implements OnInit {
       .subscribe((orders) => {
         this.orderedBeverages = [];
 
-        for (let item of orders) {
-          const imagePath = this.afStorage.ref(item.imagePath).getDownloadURL();
+        for (const item of orders) {
 
           const fetchedItem: Item = {
             name: item.name,
             description: item.description,
             price: item.price,
-            imagePath: imagePath,
+            imagePath: this.afStorage.ref(item.imagePath).getDownloadURL(),
             imageRef: item.imagePath,
 
             isVisible: item.isVisible,
-            isFood: item.isFood,
-            id: item.id,
-            parentId: item.parentId,
+            kitchenRelevant: item.isFood,
+            _id: item.id,
             amount: item.amount ? item.amount : 1,
             isOrdered: item.isOrdered ? item.isOrdered : false,
-            itemRefId: item.itemRefId ? item.itemRefId : '',
+
+            category: item.category
           };
 
-          if (!fetchedItem.isFood) {
+          if (!fetchedItem.kitchenRelevant) {
             this.orderedBeverages.push(fetchedItem);
           }
         }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {AfterContentChecked, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { CartService } from 'src/app/cart/cart.service';
 import { ItemConfirmComponent } from '../item-confirm/item-confirm.component';
@@ -11,6 +11,8 @@ import {
 } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { Item } from '../item.model';
+import {Option} from '../option.model';
+import {transformAll} from '@angular/compiler/src/render3/r3_ast';
 
 @Component({
   selector: 'app-item-detail',
@@ -35,6 +37,10 @@ export class ItemDetailComponent implements OnInit {
   selectedOptions: string[];
   selectedOptions2: string[];
 
+  options: string[] = [];
+
+  blankImg = '/assets/images/grey.jpg';
+
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
@@ -51,7 +57,8 @@ export class ItemDetailComponent implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private cartService: CartService
+    private cartService: CartService,
+
   ) {}
 
   //#endregion
@@ -59,19 +66,27 @@ export class ItemDetailComponent implements OnInit {
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   ngOnInit() {
-    if (this.item.selectedOptions) {
-      this.selectedOptions = this.item.selectedOptions;
-    }
+    setTimeout(() => {
+      if (this.item.combinedWith) {
+        for (const option of this.item.combinedWith) {
+          // @ts-ignore
+          this.options.push(option._id);
+        }
+      }
 
-    if (this.item.selectedOptions2) {
-      this.selectedOptions2 = this.item.selectedOptions2;
-    }
+      if (this.item.selectedOptions2) {
+        this.selectedOptions2 = this.item.selectedOptions2;
+      }
 
-    this.item.description = this.item.description.replace('\n', '\n');
+      this.item.description = this.item.description ? this.item.description.replace('\n', '\n') : '';
 
-    console.log(this.item);
-    this.item.amount = this.item.amount ? this.item.amount : 1;
+      this.item.amount = this.item.amount ?? 1;
+
+      console.log(this.item.combinableWith);
+
+    }, 0);
   }
+
 
   //#endregion
 
@@ -86,8 +101,19 @@ export class ItemDetailComponent implements OnInit {
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
   increaseAmountByOne() {
-    this.item.amount =
-      this.item.amount < 25 ? this.item.amount + 1 : this.item.amount;
+
+    if (this.item.stockChecking) {
+      this.item.amount =
+        this.item.amount < this.item.stockAmount ? this.item.amount + 1 : this.item.amount;
+    } else {
+      this.item.amount =
+        this.item.amount < 25 ? this.item.amount + 1 : this.item.amount;
+    }
+
+
+
+
+
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -118,9 +144,19 @@ export class ItemDetailComponent implements OnInit {
   // ----------------------------------------------------------------------------------------------
 
   addItemToCart() {
-    this.cartService.addItemToCart(this.item);
 
-    console.log(this.item);
+    this.item.combinedWith = [];
+
+    for (const option of this.item.combinableWith) {
+      for (const id of this.options) {
+        // @ts-ignore
+        if (option._id === id) {
+          this.item.combinedWith.push(option);
+        }
+      }
+    }
+
+    this.cartService.addItemToCart(this.item);
 
     this.closeModal();
 
@@ -134,12 +170,6 @@ export class ItemDetailComponent implements OnInit {
           modalEl.present();
         });
     }
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  handleChange(ev) {
-    this.item.selectedOptions = ev.target.value;
   }
 
   //#endregion

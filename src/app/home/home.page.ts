@@ -13,8 +13,9 @@ import { ShowFeedbackModalComponent } from './show-feedback-modal/show-feedback-
 import { ShowGreetingsModalComponent } from './show-greetings-modal/show-greetings-modal.component';
 import { Table } from './table.model';
 import { TableService } from './table.service';
-import { User } from './user.model';
 import { WifiModalComponent } from './wifi-modal/wifi-modal.component';
+import {Modal} from '../shared/modal.model';
+
 
 @Component({
   selector: 'app-home',
@@ -28,18 +29,32 @@ export class HomePage implements OnInit {
   //#endregion
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
-  user: User;
 
   table: Table;
-
-  restaurant$: Observable<Restaurant>;
-
-  // ----------------------------------------------------------------------------------------------
+  restaurant: Restaurant;
+  // restaurant$: Observable<Restaurant>;
   backgroundImage: string;
-
-  // ----------------------------------------------------------------------------------------------
-
   message: string;
+
+  adminModal = {
+    component: AdminLoginComponent,
+    style: 'admin-login-css',
+  };
+
+  wifiModal = {
+    component: WifiModalComponent,
+    style: 'wifi-modal-css',
+  };
+
+  paymentModal = {
+    component: SendPayRequestComponent,
+    style: 'send-pay-request-css',
+  };
+
+  serviceModal = {
+    component: CallServiceComponent,
+    style: 'confirm-css',
+  };
 
   //#endregion
 
@@ -55,43 +70,16 @@ export class HomePage implements OnInit {
     private storage: AngularFireStorage,
     private modalCtrl: ModalController,
     private navCtrl: NavController
-  ) {}
+  ) {
+  }
 
   //#endregion
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
   async ngOnInit() {
+    this.loadRestaurant();
     this.loadTable();
-
-    this.restaurant$ = this.restaurantService.getRestaurantData();
-
-    this.restaurant$.subscribe(async (data) => {
-
-      this.backgroundImage = await this.storage
-        .ref(data.imagePath)
-        .getDownloadURL()
-        .toPromise();
-
-      localStorage.setItem('theme', data.theme);
-      localStorage.setItem('mainCategory1', data.mainCategory1);
-      localStorage.setItem('mainCategory2', data.mainCategory2);
-      localStorage.setItem('mainIcon1', data.mainIcon1);
-      localStorage.setItem('mainIcon2', data.mainIcon2);
-      localStorage.setItem('wifiName', data.wifiName);
-      localStorage.setItem('wifiPassword', data.wifiPassword);
-      localStorage.setItem('wifiQrCode', data.wifiQrCode);
-      localStorage.setItem('feedbackImage', data.feedbackImage);
-      localStorage.setItem('feedbackQrCode', data.feedbackQrCode);
-      localStorage.setItem('name', data.name);
-
-      localStorage.setItem('serviceMessage1', data.serviceMessage1 ?? '');
-      localStorage.setItem('serviceMessage2', data.serviceMessage2 ?? '');
-      localStorage.setItem('serviceMessage3', data.serviceMessage3 ?? '');
-      localStorage.setItem('serviceMessage4', data.serviceMessage4 ?? '');
-
-      this.checkMessageAction('reorderBeverages');
-    });
   }
 
   //#endregion
@@ -106,105 +94,47 @@ export class HomePage implements OnInit {
 
   //#region [ PUBLIC ] ////////////////////////////////////////////////////////////////////////////
 
-  openAdmin() {
-    this.modalCtrl
-      .create({
-        component: AdminLoginComponent,
-        cssClass: 'admin-login-css',
-      })
-      .then((modalEl) => {
-        modalEl.present().then();
-      });
+  openModal(modal: Modal) {
+    this.modalCtrl.create({
+      component: modal.component,
+      cssClass: modal.style,
+      mode: modal.mode ?? 'md',
+    }).then((modalEl) => {
+      modalEl.present().then();
+    });
   }
 
-  // ----------------------------------------------------------------------------------------------
 
-  openFeedbackPage() {
-    this.navCtrl.navigateForward('home/feedback-page').then();
-  }
-
-  // ----------------------------------------------------------------------------------------------
-  openServiceRequestModal() {
-    this.modalCtrl
-      .create({
-        component: CallServiceComponent,
-        cssClass: 'service-modal-css',
-        mode: 'md',
-        componentProps: {
-          message: !this.table.serviceRequest
-            ? 'Bedienung Rufen'
-            : 'Bedienung wurde bereits gerufen',
-        },
-      })
-      .then((modalEl) => {
-        modalEl.present().then();
-      });
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  openPayRequestModal() {
-    this.modalCtrl
-      .create({
-        component: SendPayRequestComponent,
-        cssClass: 'send-pay-request-css',
-        mode: 'md',
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  openOfferDessertModal() {
-    this.modalCtrl
-      .create({
-        component: OfferDessertModalComponent,
-        cssClass: 'offer-dessert-modal-css',
-      })
-      .then((modalEl) => {
-        modalEl.present().then();
-      });
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  openWifiModal() {
-    this.modalCtrl
-      .create({
-        component: WifiModalComponent,
-        cssClass: 'wifi-modal-css',
-        mode: 'md',
-      })
-      .then((modalEl) => {
-        modalEl.present();
-      });
-  }
 
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
   private loadTable() {
     this.tableService.getTableData().subscribe((table) => {
+      this.tableService.checkResetRequest(table);
+      this.tableService.checkPayRequest(table);
+      this.tableService.checkTableReservation(table);
+
       this.table = table;
-      this.message = this.table.message;
 
-      if (this.table.resetRequest) {
-        this.tableService.onResetTable();
+      // this.checkMessageAction(this.table.message);
+    });
+  }
 
-        console.log('RESETTING..');
-      }
+  // ----------------------------------------------------------------------------------------------
 
-      if (this.table.payRequest) {
-        setTimeout(() => {
-          this.openFeedbackPage();
-        }, 5000);
-      }
+  private loadRestaurant() {
+    this.restaurantService.getRestaurantData().subscribe( async (restaurant: Restaurant) => {
 
-      this.checkMessageAction(this.table.message);
+      this.backgroundImage = await this.storage
+        .ref(restaurant.imagePath)
+        .getDownloadURL()
+        .toPromise();
 
-      this.checkTableReservation(this.table);
+      this.restaurant = restaurant as Restaurant;
+
+      localStorage.setItem('restaurant', JSON.stringify(restaurant));
     });
   }
 
@@ -214,7 +144,7 @@ export class HomePage implements OnInit {
     if (
       message === 'reorderBeverages' ||
       message === 'offerDessert' ||
-      message === 'showFeedback' ||
+      // message === 'showFeedback' ||
       message === 'showGreetings'
     ) {
       this.modalCtrl
@@ -224,8 +154,8 @@ export class HomePage implements OnInit {
               ? ReorderBeveragesModalComponent
               : message === 'offerDessert'
               ? OfferDessertModalComponent
-              : message === 'showFeedback'
-              ? ShowFeedbackModalComponent
+              // : message === 'showFeedback'
+              // ? ShowFeedbackModalComponent
               : message === 'showGreetings'
               ? ShowGreetingsModalComponent
               : null,
@@ -233,8 +163,8 @@ export class HomePage implements OnInit {
             ? 'reorder-beverages-modal-css'
             : message === 'offerDessert'
             ? 'offer-dessert-modal-css'
-            : message === 'showFeedback'
-            ? 'show-feedback-modal-css'
+            // : message === 'showFeedback'
+            // ? 'show-feedback-modal-css'
             : message === 'showGreetings'
             ? 'show-greetings-modal-css'
             : null,
@@ -244,22 +174,8 @@ export class HomePage implements OnInit {
           modalEl.present().then();
         });
 
-      this.updateTableMessage();
+      this.tableService.updateTableMessage();
     }
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  private checkTableReservation(table: Table) {
-    if (table.isReserved) {
-      this.navCtrl.navigateForward('home/reservation-page', { state: table });
-    }
-  }
-
-  // ----------------------------------------------------------------------------------------------
-
-  private updateTableMessage() {
-    this.tableService.updateTableMessage();
   }
 
   // ----------------------------------------------------------------------------------------------

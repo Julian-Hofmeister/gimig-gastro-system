@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Restaurant } from './restaurant.model';
+import {Wifi} from '../shared/wifi.model';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +34,8 @@ export class RestaurantService {
       map((a) => {
         const data = a.payload.data() as Restaurant;
         data.id = a.payload.id;
+
+        console.log(data);
 
         return data;
       })

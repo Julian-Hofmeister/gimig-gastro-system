@@ -10,6 +10,8 @@ import { CategoriesPage } from './categories.page';
 import { CategoryCardComponent } from './category-card/category-card.component';
 import { SideNavigationModule } from '../elements/side-navigation/side-navigation.module';
 import { BackgroundLayoutModule } from '../elements/background-layout/background-layout.module';
+import {ImageModalComponent} from '../admin/image-modal/image-modal.component';
+import {ImageModalModule} from '../admin/image-modal/image-modal.module';
 
 @NgModule({
   imports: [
@@ -19,6 +21,7 @@ import { BackgroundLayoutModule } from '../elements/background-layout/background
     CategoriesPageRoutingModule,
     SideNavigationModule,
     BackgroundLayoutModule,
+    ImageModalModule
   ],
   declarations: [CategoriesPage, CategoryCardComponent],
 })

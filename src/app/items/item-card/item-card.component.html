@@ -1,9 +1,10 @@
-<ion-item lines="none" [ngStyle]="{ opacity: item.isVisible ? 1 : 0.4 }" *ngIf="item.imagePath | async; let url" [@simpleFadeAnimation]="'in'">
+<ion-item lines="none" [ngStyle]="{ opacity: item.isVisible ? 1 : 0.4 }" [@simpleFadeAnimation]="'in'">
     <ion-card>
         <ion-grid>
             <ion-row>
                 <ion-col size="2.9">
-                    <img [src]="url" />
+                    <img *ngIf="item.imagePath | async; let url" [src]="url"  alt=""/>
+                    <img *ngIf="!(item.imagePath | async)" [src]="blankImg"  alt=""/>
                 </ion-col>
                 <ion-col size="7.1" class="content">
                     <ion-label>
@@ -11,10 +12,13 @@
                     </ion-label>
                     <p>{{ item.description }}</p>
                 </ion-col>
-                <ion-col size="1.5" class="bottom" *ngIf="!item.price == 0">
+                <ion-col size="1.5" class="bottom">
                     <p>{{ item.price | currency: "EUR":"symbol":"":"fr" }}</p>
                 </ion-col>
             </ion-row>
         </ion-grid>
     </ion-card>
+  <div class="edit-mode" *ngIf="editMode">
+    <ion-icon name="images-outline"></ion-icon>
+  </div>
 </ion-item>

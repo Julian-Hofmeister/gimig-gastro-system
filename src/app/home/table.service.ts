@@ -63,33 +63,7 @@ export class TableService {
 
   // ----------------------------------------------------------------------------------------------
 
-  onResetTable() {
-    console.log(this.tablePath);
 
-    this.tablePath.update({
-      resetRequest: false,
-      ableToPay: false,
-      orderRequest: false,
-      serviceRequest: false,
-      orderTime: null,
-      paysTogether: null,
-      paysCache: null,
-      isServed: false,
-      isPaid: false,
-      isAccepted: false,
-      serviceTimestamp: null,
-      payRequestTimestamp: null,
-      isReserved: false,
-    });
-
-    this.cartService.resetCart();
-
-    setTimeout(() => {
-      window.location.reload();
-    }, 5000);
-
-    this.navCtrl.navigateBack('/home');
-  }
 
   // ----------------------------------------------------------------------------------------------
 
@@ -106,8 +80,8 @@ export class TableService {
   sendPayRequest(paysCache: boolean, paysTogether: boolean) {
     this.tablePath.update({
       payRequest: true,
-      paysCache: paysCache,
-      paysTogether: paysTogether,
+      paysCache,
+      paysTogether,
       payRequestTimestamp: Date.now(),
     });
   }
@@ -150,10 +124,67 @@ export class TableService {
     });
   }
 
+  checkTableReservation(table: Table) {
+    if (table.isReserved) {
+      this.navCtrl.navigateForward('home/reservation-page', {state: table}).then();
+    }
+  }
+
   // ----------------------------------------------------------------------------------------------
+
+  checkPayRequest(table: Table) {
+    if (table.payRequest) {
+      setTimeout(() => {
+        this.navCtrl.navigateForward('home/feedback-page').then();
+      }, 5000);
+    }
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  checkResetRequest(table: Table) {
+    if (table.resetRequest) {
+      this.onResetTable();
+    }
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  onResetTable() {
+    console.log(this.tablePath);
+
+    this.tablePath.update({
+      resetRequest: false,
+      ableToPay: false,
+      orderRequest: false,
+      serviceRequest: false,
+      orderTime: null,
+      paysTogether: null,
+      payRequest: false,
+      isOrdered: true,
+      paysCache: null,
+      isServed: false,
+      isPaid: false,
+      isAccepted: false,
+      serviceTimestamp: null,
+      payRequestTimestamp: null,
+      isReserved: false,
+    });
+
+    this.cartService.resetCart();
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 5000);
+
+    this.navCtrl.navigateBack('/home');
+  }
+
+
   //#endregion
 
   //#region [ PRIVATE ] ///////////////////////////////////////////////////////////////////////////
+
 
   // ----------------------------------------------------------------------------------------------
 

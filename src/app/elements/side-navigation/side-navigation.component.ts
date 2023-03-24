@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import {Restaurant} from "../../home/restaurant.model";
 
 @Component({
   selector: 'app-side-navigation',
@@ -14,11 +15,16 @@ export class SideNavigationComponent implements OnInit {
 
   //#region [ PROPERTIES ] /////////////////////////////////////////////////////////////////////////
 
-  mainCategory1 = localStorage.getItem('mainCategory1');
-  mainCategory2 = localStorage.getItem('mainCategory2');
-
-  mainIcon1 = localStorage.getItem('mainIcon1');
-  mainIcon2 = localStorage.getItem('mainIcon2');
+  // mainCategory1 = JSON.parse(localStorage.getItem('restaurant')).mainCategory1;
+  // mainCategory2 = JSON.parse(localStorage.getItem('restaurant')).mainCategory2;
+  //
+  // // mainIcon1 = localStorage.getItem('mainIcon1') ?? 'restaurant-outline';
+  // // mainIcon2 = localStorage.getItem('mainIcon2') ?? 'wine-outline' ;
+  //
+  // mainIcon1 = JSON.parse(localStorage.getItem('restaurant')).mainIcon1 ;
+  // mainIcon2 = JSON.parse(localStorage.getItem('restaurant')).mainIcon2 ;
+  //
+  restaurant: Restaurant = JSON.parse(localStorage.getItem('restaurant'));
 
   //#endregion
 
@@ -68,7 +74,7 @@ export class SideNavigationComponent implements OnInit {
 
   onNavigateFood() {
     this.navCtrl.navigateForward(
-      'categories/categories-food/true/' + this.mainCategory1
+      'categories/categories-food/true/' + this.restaurant.mainCategory1
     );
   }
 
@@ -76,7 +82,7 @@ export class SideNavigationComponent implements OnInit {
 
   onNavigateBeverages() {
     this.navCtrl.navigateForward(
-      'categories/categories-beverages/false/' + this.mainCategory2
+      'categories/categories-beverages/false/' + this.restaurant.mainCategory2
     );
   }
 

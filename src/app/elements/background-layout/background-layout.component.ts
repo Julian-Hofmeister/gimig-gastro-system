@@ -37,7 +37,9 @@ export class BackgroundLayoutComponent implements OnInit {
 
   //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
 
   //#endregion
 
