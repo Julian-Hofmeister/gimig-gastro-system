@@ -1,0 +1,48 @@
+{
+    "version": "1.0.0",
+    "name": "gimig-android",
+    "app-name": "gimig-android",
+    "package-name": "webview",
+    "project-type": "webview",
+    "icon": "./assets/icon/icon.png",
+    "dist-path": "./dist",
+    "permission": [
+        "android.permission.INTERNET",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.CAMERA"
+    ],
+    "description": "",
+    "main": "main.js",
+    "scripts": {
+        "start:dev": "node .",
+        "build": "androidjs build"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "androidjs": "^2.0.6",
+        "base-64": "^1.0.0",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "filereader": "^0.10.3",
+        "ip": "^1.1.5",
+        "jspdf": "^2.5.1",
+        "jspdf-autotable": "^3.5.25",
+        "local-devices": "^3.2.0",
+        "local-ipv4-address": "^0.0.2",
+        "moment": "^2.29.1",
+        "nedb": "^1.8.0",
+        "node-fetch": "^2.6.7",
+        "node-thermal-printer": "^4.1.2",
+        "path": "^0.12.7",
+        "uuid": "^8.3.2",
+        "uuid4": "^2.0.2",
+        "ws": "^8.2.3"
+    },
+    "project-name": "gimig-android",
+    "theme": {
+        "fullScreen": true
+    }
+}

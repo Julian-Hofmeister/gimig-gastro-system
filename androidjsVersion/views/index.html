@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- <meta http-equiv="refresh" content="3; url='http://localhost:3434/'" /> -->
+    <script type="text/javascript" src="../node_modules/androidjs/lib/androidjs.js"></script>
+    <style>
+      .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loader" style="margin: auto; width: 300px; height: 300px; margin-top: 30%;"></div>
+    <script>
+      // window.open('sumupmerchant://pay/1.0?affiliate-key=2b70dbf4-3344-4819-b6af-917d2dc05abc&app-id=com.degaso-cash.app&total=12&currency=EUR&title=Kartenzahlung&receipt-mobilephone=&receipt-email=&callback=localhost', '_system');
+
+      let path = app.getPath('userData');
+      front.send('save', path);
+      front.on('datastore', function(response){
+          console.log(response);
+          window.location.href = "http://localhost:3434/?role=1";
+      })
+    </script>
+  </body>
+</html>
