@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/valle/Dokumente/degaso/gimig-gastro-system/src/main.ts */"zUnb");
+module.exports = __webpack_require__(/*! /home/ju/WebstormProjects/gimig-gastro-system/src/main.ts */"zUnb");
 
 
 /***/ }),
@@ -143,14 +143,16 @@ let ItemService = class ItemService {
                             }
                         }
                     }
-                    if (!this.degasoItems.includes(item)) {
-                        if (category) {
-                            if (category === item.category) {
+                    if (!item.showOnGimig || item.showOnGimig === true) {
+                        if (!this.degasoItems.includes(item)) {
+                            if (category) {
+                                if (category === item.category) {
+                                    this.degasoItems.push(item);
+                                }
+                            }
+                            else {
                                 this.degasoItems.push(item);
                             }
-                        }
-                        else {
-                            this.degasoItems.push(item);
                         }
                     }
                 }
@@ -485,8 +487,10 @@ let CartService = class CartService {
             id: item._id,
             name: item.name,
             price: item.price,
+            tax: item.tax,
             amount: item.amount ? item.amount : 1,
             kitchenRelevant: item.kitchenRelevant,
+            customPrinterAddress: item.customPrinterAddress,
             imagePath: item.imageRef,
             isOrdered: false,
             availableOptions: (_a = item.availableOptions) !== null && _a !== void 0 ? _a : [],
@@ -511,11 +515,17 @@ let CartService = class CartService {
     }
     // ----------------------------------------------------------------------------------------------
     resetCart() {
+        console.log(this.orderList);
+        console.log(this.orderedList);
         this.orderList.forEach((item) => {
-            this.cartCollection.doc(item._id).delete();
+            if (typeof item._id !== 'string') {
+                this.cartCollection.doc(item._id).delete();
+            }
         });
         this.orderedList.forEach((order) => {
-            this.orderedCartCollection.doc(order).delete();
+            if (typeof order._id !== 'string') {
+                this.orderedCartCollection.doc(order._id).delete();
+            }
         });
     }
     // ----------------------------------------------------------------------------------------------
@@ -621,15 +631,17 @@ let CartService = class CartService {
                     infoText: item.description,
                     additionalInfo: optionText,
                     stockChecking: item.stockChecking,
-                    customPrinterAddress: 'kitchenPrinter',
+                    customPrinterAddress: item.customPrinterAddress,
                     _id: item._id,
                     identifyForList: Object(uuid__WEBPACK_IMPORTED_MODULE_4__["v4"])(),
                     uniqueOrderArticleId: Object(uuid__WEBPACK_IMPORTED_MODULE_4__["v4"])(),
                     course: 0,
                     brangToTable: false,
                     combinedWith: item.combinedWith,
-                    combinableWith: []
+                    combinableWith: [],
+                    employee: ''
                 };
+                console.log(order.customPrinterAddress);
                 orderArray.push(order);
             }
         }
@@ -858,7 +870,6 @@ let TableService = class TableService {
     }
     // ----------------------------------------------------------------------------------------------
     onResetTable() {
-        console.log(this.tablePath);
         this.tablePath.update({
             resetRequest: false,
             ableToPay: false,
@@ -879,8 +890,8 @@ let TableService = class TableService {
         this.cartService.resetCart();
         setTimeout(() => {
             window.location.reload();
-        }, 5000);
-        this.navCtrl.navigateBack('/home');
+        }, 3000);
+        // this.navCtrl.navigateBack('/home');
     }
 };
 TableService.ctorParameters = () => [

@@ -14,7 +14,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ion_router", function() { return Router; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ion_router_link", function() { return RouterLink; });
 /* harmony import */ var _index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index-7a8b7a1c.js */ "wEJo");
-/* harmony import */ var _helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers-1457892a.js */ "W6o/");
+/* harmony import */ var _helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers-dd7e4b7b.js */ "1vRN");
 /* harmony import */ var _ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ionic-global-63a97a32.js */ "E/Mt");
 /* harmony import */ var _theme_ff3fc52f_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./theme-ff3fc52f.js */ "74mu");
 
@@ -85,31 +85,11 @@ const ROUTER_INTENT_NONE = 'root';
 const ROUTER_INTENT_FORWARD = 'forward';
 const ROUTER_INTENT_BACK = 'back';
 
-// Join the non empty segments with "/".
 const generatePath = (segments) => {
   const path = segments
     .filter(s => s.length > 0)
     .join('/');
   return '/' + path;
-};
-const generateUrl = (segments, useHash, queryString) => {
-  let url = generatePath(segments);
-  if (useHash) {
-    url = '#' + url;
-  }
-  if (queryString !== undefined) {
-    url += '?' + queryString;
-  }
-  return url;
-};
-const writePath = (history, root, useHash, path, direction, state, queryString) => {
-  const url = generateUrl([...parsePath(root).segments, ...path], useHash, queryString);
-  if (direction === ROUTER_INTENT_FORWARD) {
-    history.pushState(state, '', url);
-  }
-  else {
-    history.replaceState(state, '', url);
-  }
 };
 const chainToPath = (chain) => {
   const path = [];
@@ -129,11 +109,24 @@ const chainToPath = (chain) => {
   }
   return path;
 };
-// Remove the prefix segments from the path segments.
-//
-// Return:
-// - null when the path segments do not start with the passed prefix,
-// - the path segments after the prefix otherwise.
+const writePath = (history, root, useHash, path, direction, state, queryString) => {
+  let url = generatePath([
+    ...parsePath(root),
+    ...path
+  ]);
+  if (useHash) {
+    url = '#' + url;
+  }
+  if (queryString !== undefined) {
+    url = url + '?' + queryString;
+  }
+  if (direction === ROUTER_INTENT_FORWARD) {
+    history.pushState(state, '', url);
+  }
+  else {
+    history.replaceState(state, '', url);
+  }
+};
 const removePrefix = (prefix, path) => {
   if (prefix.length > path.length) {
     return null;
@@ -142,7 +135,7 @@ const removePrefix = (prefix, path) => {
     return path;
   }
   for (let i = 0; i < prefix.length; i++) {
-    if (prefix[i] !== path[i]) {
+    if (prefix[i].length > 0 && prefix[i] !== path[i]) {
       return null;
     }
   }
@@ -152,31 +145,31 @@ const removePrefix = (prefix, path) => {
   return path.slice(prefix.length);
 };
 const readPath = (loc, root, useHash) => {
-  const prefix = parsePath(root).segments;
-  const pathname = useHash ? loc.hash.slice(1) : loc.pathname;
-  const path = parsePath(pathname).segments;
+  let pathname = loc.pathname;
+  if (useHash) {
+    const hash = loc.hash;
+    pathname = (hash[0] === '#')
+      ? hash.slice(1)
+      : '';
+  }
+  const prefix = parsePath(root);
+  const path = parsePath(pathname);
   return removePrefix(prefix, path);
 };
-// Parses the path to:
-// - segments an array of '/' separated parts,
-// - queryString (undefined when no query string).
 const parsePath = (path) => {
-  let segments = [''];
-  let queryString;
-  if (path != null) {
-    const qsStart = path.indexOf('?');
-    if (qsStart > -1) {
-      queryString = path.substr(qsStart + 1);
-      path = path.substr(0, qsStart);
-    }
-    segments = path.split('/')
-      .map(s => s.trim())
-      .filter(s => s.length > 0);
-    if (segments.length === 0) {
-      segments = [''];
-    }
+  if (path == null) {
+    return [''];
   }
-  return { segments, queryString };
+  const removeQueryString = path.split('?')[0];
+  const segments = removeQueryString.split('/')
+    .map(s => s.trim())
+    .filter(s => s.length > 0);
+  if (segments.length === 0) {
+    return [''];
+  }
+  else {
+    return segments;
+  }
 };
 
 const printRoutes = (routes) => {
@@ -193,7 +186,7 @@ const printRedirects = (redirects) => {
   console.group(`[ion-core] REDIRECTS[${redirects.length}]`);
   for (const redirect of redirects) {
     if (redirect.to) {
-      console.debug('FROM: ', `$c ${generatePath(redirect.from)}`, 'font-weight: bold', ' TO: ', `$c ${generatePath(redirect.to.segments)}`, 'font-weight: bold');
+      console.debug('FROM: ', `$c ${generatePath(redirect.from)}`, 'font-weight: bold', ' TO: ', `$c ${generatePath(redirect.to)}`, 'font-weight: bold');
     }
   }
   console.groupEnd();
@@ -207,7 +200,7 @@ const writeNavState = async (root, chain, direction, index, changed = false, ani
     if (index >= chain.length || !outlet) {
       return changed;
     }
-    await new Promise(resolve => Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_1__["c"])(outlet, resolve));
+    await new Promise(resolve => Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_1__["c"])(outlet, resolve));
     const route = chain[index];
     const result = await outlet.setRouteId(route.id, route.params, direction, animation);
     // if the outlet changed the page, reset navigation to neutral (no direction)
@@ -271,20 +264,15 @@ const searchNavNode = (root) => {
     return root;
   }
   const outlet = root.querySelector(QUERY);
-  return outlet !== null && outlet !== void 0 ? outlet : undefined;
+  return outlet ? outlet : undefined;
 };
 
-// Returns whether the given redirect matches the given path segments.
-//
-// A redirect matches when the segments of the path and redirect.from are equal.
-// Note that segments are only checked until redirect.from contains a '*' which matches any path segment.
-// The path ['some', 'path', 'to', 'page'] matches both ['some', 'path', 'to', 'page'] and ['some', 'path', '*'].
-const matchesRedirect = (path, redirect) => {
-  const { from, to } = redirect;
+const matchesRedirect = (input, route) => {
+  const { from, to } = route;
   if (to === undefined) {
     return false;
   }
-  if (from.length > path.length) {
+  if (from.length > input.length) {
     return false;
   }
   for (let i = 0; i < from.length; i++) {
@@ -292,66 +280,24 @@ const matchesRedirect = (path, redirect) => {
     if (expected === '*') {
       return true;
     }
-    if (expected !== path[i]) {
+    if (expected !== input[i]) {
       return false;
     }
   }
-  return from.length === path.length;
+  return from.length === input.length;
 };
-// Returns the first redirect matching the path segments or undefined when no match found.
-const findRouteRedirect = (path, redirects) => {
-  return redirects.find(redirect => matchesRedirect(path, redirect));
+const routeRedirect = (path, routes) => {
+  return routes.find(route => matchesRedirect(path, route));
 };
 const matchesIDs = (ids, chain) => {
   const len = Math.min(ids.length, chain.length);
-  let score = 0;
-  for (let i = 0; i < len; i++) {
-    const routeId = ids[i];
-    const routeChain = chain[i];
-    // Skip results where the route id does not match the chain at the same index
-    if (routeId.id.toLowerCase() !== routeChain.id) {
+  let i = 0;
+  for (; i < len; i++) {
+    if (ids[i].toLowerCase() !== chain[i].id) {
       break;
     }
-    if (routeId.params) {
-      const routeIdParams = Object.keys(routeId.params);
-      /**
-       * Only compare routes with the chain that have the same number of parameters.
-       */
-      if (routeIdParams.length === routeChain.path.length) {
-        /**
-         * Maps the route's params into a path based on the path variable names,
-         * to compare against the route chain format.
-         *
-         * Before:
-         * ```ts
-         * {
-         *  params: {
-         *    s1: 'a',
-         *    s2: 'b'
-         *  }
-         * }
-         * ```
-         *
-         * After:
-         * ```ts
-         * [':s1',':s2']
-         * ```
-         */
-        const pathWithParams = routeIdParams.map(key => `:${key}`);
-        for (let j = 0; j < pathWithParams.length; j++) {
-          // Skip results where the path variable is not a match
-          if (pathWithParams[j].toLowerCase() !== routeChain.path[j]) {
-            break;
-          }
-          // Weight path matches for the same index higher.
-          score++;
-        }
-      }
-    }
-    // Weight id matches
-    score++;
   }
-  return score;
+  return i;
 };
 const matchesPath = (inputPath, chain) => {
   const segments = new RouterSegments(inputPath);
@@ -406,8 +352,9 @@ const mergeParams = (a, b) => {
 const routerIDsToChain = (ids, chains) => {
   let match = null;
   let maxMatches = 0;
+  const plainIDs = ids.map(i => i.id);
   for (const chain of chains) {
-    const score = matchesIDs(ids, chain);
+    const score = matchesIDs(plainIDs, chain);
     if (score > maxMatches) {
       match = chain;
       maxMatches = score;
@@ -465,6 +412,38 @@ class RouterSegments {
   }
 }
 
+const readRedirects = (root) => {
+  return Array.from(root.children)
+    .filter(el => el.tagName === 'ION-ROUTE-REDIRECT')
+    .map(el => {
+    const to = readProp(el, 'to');
+    return {
+      from: parsePath(readProp(el, 'from')),
+      to: to == null ? undefined : parsePath(to),
+    };
+  });
+};
+const readRoutes = (root) => {
+  return flattenRouterTree(readRouteNodes(root));
+};
+const readRouteNodes = (root, node = root) => {
+  return Array.from(node.children)
+    .filter(el => el.tagName === 'ION-ROUTE' && el.component)
+    .map(el => {
+    const component = readProp(el, 'component');
+    if (component == null) {
+      throw new Error('component missing in ion-route');
+    }
+    return {
+      path: parsePath(readProp(el, 'url')),
+      id: component.toLowerCase(),
+      params: el.componentProps,
+      beforeLeave: el.beforeLeave,
+      beforeEnter: el.beforeEnter,
+      children: readRouteNodes(root, el)
+    };
+  });
+};
 const readProp = (el, prop) => {
   if (prop in el) {
     return el[prop];
@@ -474,45 +453,16 @@ const readProp = (el, prop) => {
   }
   return null;
 };
-const readRedirects = (root) => {
-  return Array.from(root.children)
-    .filter(el => el.tagName === 'ION-ROUTE-REDIRECT')
-    .map(el => {
-    const to = readProp(el, 'to');
-    return {
-      from: parsePath(readProp(el, 'from')).segments,
-      to: to == null ? undefined : parsePath(to),
-    };
-  });
-};
-const readRoutes = (root) => {
-  return flattenRouterTree(readRouteNodes(root));
-};
-const readRouteNodes = (node) => {
-  return Array.from(node.children)
-    .filter(el => el.tagName === 'ION-ROUTE' && el.component)
-    .map(el => {
-    const component = readProp(el, 'component');
-    return {
-      path: parsePath(readProp(el, 'url')).segments,
-      id: component.toLowerCase(),
-      params: el.componentProps,
-      beforeLeave: el.beforeLeave,
-      beforeEnter: el.beforeEnter,
-      children: readRouteNodes(el)
-    };
-  });
-};
 const flattenRouterTree = (nodes) => {
-  const chains = [];
+  const routes = [];
   for (const node of nodes) {
-    flattenNode([], chains, node);
+    flattenNode([], routes, node);
   }
-  return chains;
+  return routes;
 };
-const flattenNode = (chain, chains, node) => {
-  chain = chain.slice();
-  chain.push({
+const flattenNode = (chain, routes, node) => {
+  const s = chain.slice();
+  s.push({
     id: node.id,
     path: node.path,
     params: node.params,
@@ -520,11 +470,11 @@ const flattenNode = (chain, chains, node) => {
     beforeEnter: node.beforeEnter
   });
   if (node.children.length === 0) {
-    chains.push(chain);
+    routes.push(s);
     return;
   }
-  for (const child of node.children) {
-    flattenNode(chain, chains, child);
+  for (const sub of node.children) {
+    flattenNode(s, routes, sub);
   }
 };
 
@@ -538,8 +488,9 @@ const Router = class {
     this.state = 0;
     this.lastState = 0;
     /**
-     * The root path to use when matching URLs. By default, this is set to "/", but you can specify
-     * an alternate prefix for all URL paths.
+     * By default `ion-router` will match the routes at the root path ("/").
+     * That can be changed when
+     *
      */
     this.root = '/';
     /**
@@ -552,44 +503,34 @@ const Router = class {
      * Usually "hash-less" navigation works better for SEO and it's more user friendly too, but it might
      * requires additional server-side configuration in order to properly work.
      *
-     * On the other side hash-navigation is much easier to deploy, it even works over the file protocol.
+     * On the otherside hash-navigation is much easier to deploy, it even works over the file protocol.
      *
      * By default, this property is `true`, change to `false` to allow hash-less URLs.
      */
     this.useHash = true;
   }
   async componentWillLoad() {
+    console.debug('[ion-router] router will load');
     await waitUntilNavNode();
-    const canProceed = await this.runGuards(this.getPath());
-    if (canProceed !== true) {
-      if (typeof canProceed === 'object') {
-        const { redirect } = canProceed;
-        const path = parsePath(redirect);
-        this.setPath(path.segments, ROUTER_INTENT_NONE, path.queryString);
-        await this.writeNavStateRoot(path.segments, ROUTER_INTENT_NONE);
-      }
-    }
-    else {
-      await this.onRoutesChanged();
-    }
+    console.debug('[ion-router] found nav');
+    await this.onRoutesChanged();
   }
   componentDidLoad() {
-    window.addEventListener('ionRouteRedirectChanged', Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_1__["o"])(this.onRedirectChanged.bind(this), 10));
-    window.addEventListener('ionRouteDataChanged', Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_1__["o"])(this.onRoutesChanged.bind(this), 100));
+    window.addEventListener('ionRouteRedirectChanged', Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_1__["n"])(this.onRedirectChanged.bind(this), 10));
+    window.addEventListener('ionRouteDataChanged', Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_1__["n"])(this.onRoutesChanged.bind(this), 100));
   }
   async onPopState() {
     const direction = this.historyDirection();
-    let segments = this.getPath();
-    const canProceed = await this.runGuards(segments);
+    let path = this.getPath();
+    const canProceed = await this.runGuards(path);
     if (canProceed !== true) {
       if (typeof canProceed === 'object') {
-        segments = parsePath(canProceed.redirect).segments;
+        path = parsePath(canProceed.redirect);
       }
-      else {
-        return false;
-      }
+      return false;
     }
-    return this.writeNavStateRoot(segments, direction);
+    console.debug('[ion-router] URL changed -> update nav', path, direction);
+    return this.writeNavStateRoot(path, direction);
   }
   onBackButton(ev) {
     ev.detail.register(0, processNextHandler => {
@@ -620,18 +561,21 @@ const Router = class {
     if (url.startsWith('.')) {
       url = (new URL(url, window.location.href)).pathname;
     }
-    let parsedPath = parsePath(url);
-    const canProceed = await this.runGuards(parsedPath.segments);
+    console.debug('[ion-router] URL pushed -> updating nav', url, direction);
+    let path = parsePath(url);
+    let queryString = url.split('?')[1];
+    const canProceed = await this.runGuards(path);
     if (canProceed !== true) {
       if (typeof canProceed === 'object') {
-        parsedPath = parsePath(canProceed.redirect);
+        path = parsePath(canProceed.redirect);
+        queryString = canProceed.redirect.split('?')[1];
       }
       else {
         return false;
       }
     }
-    this.setPath(parsedPath.segments, direction, parsedPath.queryString);
-    return this.writeNavStateRoot(parsedPath.segments, direction, animation);
+    this.setPath(path, direction, queryString);
+    return this.writeNavStateRoot(path, direction, animation);
   }
   /**
    * Go back to previous page in the window.history.
@@ -642,6 +586,8 @@ const Router = class {
   }
   /** @internal */
   async printDebug() {
+    console.debug('CURRENT PATH', this.getPath());
+    console.debug('PREVIOUS PATH', this.previousPath);
     printRoutes(readRoutes(this.el));
     printRedirects(readRedirects(this.el));
   }
@@ -663,27 +609,25 @@ const Router = class {
       console.warn('[ion-router] router could not match path because some required param is missing');
       return false;
     }
+    console.debug('[ion-router] nav changed -> update URL', ids, path);
     this.setPath(path, direction);
     await this.safeWriteNavState(outlet, chain, ROUTER_INTENT_NONE, path, null, ids.length);
     return true;
   }
-  // This handler gets called when a `ion-route-redirect` component is added to the DOM or if the from or to property of such node changes.
   onRedirectChanged() {
     const path = this.getPath();
-    if (path && findRouteRedirect(path, readRedirects(this.el))) {
+    if (path && routeRedirect(path, readRedirects(this.el))) {
       this.writeNavStateRoot(path, ROUTER_INTENT_NONE);
     }
   }
-  // This handler gets called when a `ion-route` component is added to the DOM or if the from or to property of such node changes.
   onRoutesChanged() {
     return this.writeNavStateRoot(this.getPath(), ROUTER_INTENT_NONE);
   }
   historyDirection() {
-    var _a;
     const win = window;
     if (win.history.state === null) {
       this.state++;
-      win.history.replaceState(this.state, win.document.title, (_a = win.document.location) === null || _a === void 0 ? void 0 : _a.href);
+      win.history.replaceState(this.state, win.document.title, win.document.location && win.document.location.href);
     }
     const state = win.history.state;
     const lastState = this.lastState;
@@ -691,10 +635,12 @@ const Router = class {
     if (state > lastState || (state >= lastState && lastState > 0)) {
       return ROUTER_INTENT_FORWARD;
     }
-    if (state < lastState) {
+    else if (state < lastState) {
       return ROUTER_INTENT_BACK;
     }
-    return ROUTER_INTENT_NONE;
+    else {
+      return ROUTER_INTENT_NONE;
+    }
   }
   async writeNavStateRoot(path, direction, animation) {
     if (!path) {
@@ -703,13 +649,12 @@ const Router = class {
     }
     // lookup redirect rule
     const redirects = readRedirects(this.el);
-    const redirect = findRouteRedirect(path, redirects);
+    const redirect = routeRedirect(path, redirects);
     let redirectFrom = null;
     if (redirect) {
-      const { segments, queryString } = redirect.to;
-      this.setPath(segments, direction, queryString);
+      this.setPath(redirect.to, direction);
       redirectFrom = redirect.from;
-      path = segments;
+      path = redirect.to;
     }
     // lookup route chain
     const routes = readRoutes(this.el);
@@ -742,27 +687,24 @@ const Router = class {
     }
     return resolve;
   }
-  // Executes the beforeLeave hook of the source route and the beforeEnter hook of the target route if they exist.
-  //
-  // When the beforeLeave hook does not return true (to allow navigating) then that value is returned early and the beforeEnter is executed.
-  // Otherwise the beforeEnterHook hook of the target route is executed.
-  async runGuards(to = this.getPath(), from) {
-    if (from === undefined) {
-      from = parsePath(this.previousPath).segments;
-    }
+  async runGuards(to = this.getPath(), from = parsePath(this.previousPath)) {
     if (!to || !from) {
       return true;
     }
     const routes = readRoutes(this.el);
+    const toChain = routerPathToChain(to, routes);
     const fromChain = routerPathToChain(from, routes);
+    const beforeEnterHook = toChain && toChain[toChain.length - 1].beforeEnter;
     const beforeLeaveHook = fromChain && fromChain[fromChain.length - 1].beforeLeave;
     const canLeave = beforeLeaveHook ? await beforeLeaveHook() : true;
     if (canLeave === false || typeof canLeave === 'object') {
       return canLeave;
     }
-    const toChain = routerPathToChain(to, routes);
-    const beforeEnterHook = toChain && toChain[toChain.length - 1].beforeEnter;
-    return beforeEnterHook ? beforeEnterHook() : true;
+    const canEnter = beforeEnterHook ? await beforeEnterHook() : true;
+    if (canEnter === false || typeof canEnter === 'object') {
+      return canEnter;
+    }
+    return true;
   }
   async writeNavState(node, chain, direction, path, redirectFrom, index = 0, animation) {
     if (this.busy) {
@@ -777,6 +719,9 @@ const Router = class {
     }
     const changed = await writeNavState(node, chain, direction, index, false, animation);
     this.busy = false;
+    if (changed) {
+      console.debug('[ion-router] route changed', path);
+    }
     // emit did change
     if (routeEvent) {
       this.ionRouteDidChange.emit(routeEvent);

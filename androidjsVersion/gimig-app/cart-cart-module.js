@@ -296,6 +296,7 @@ let CartPage = class CartPage {
                     name: item.name,
                     description: item.description,
                     price: item.price,
+                    tax: item.tax,
                     imagePath: this.afStorage.ref(item.imagePath).getDownloadURL(),
                     imageRef: item.imagePath,
                     isVisible: item.isVisible,
@@ -311,7 +312,8 @@ let CartPage = class CartPage {
                     stockAmount: item.stockAmount,
                     stockChecking: item.stockChecking,
                     combinedWith: item.combinedWith,
-                    combinableWith: item.combinableWith
+                    combinableWith: item.combinableWith,
+                    customPrinterAddress: item.customPrinterAddress
                 };
                 this.loadedCartList.push(fetchedItem);
             }

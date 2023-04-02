@@ -11,7 +11,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ion_virtual_scroll", function() { return VirtualScroll; });
 /* harmony import */ var _index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index-7a8b7a1c.js */ "wEJo");
-/* harmony import */ var _helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers-1457892a.js */ "W6o/");
+/* harmony import */ var _helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers-dd7e4b7b.js */ "1vRN");
 
 
 
@@ -321,9 +321,6 @@ const VirtualScroll = class {
     this.calcCells();
     this.updateVirtualScroll();
   }
-  componentWillLoad() {
-    console.warn(`[Deprecation Warning]: ion-virtual-scroll has been deprecated and will be removed in Ionic Framework v7.0. See https://ionicframework.com/docs/angular/virtual-scroll for migration steps.`);
-  }
   async connectedCallback() {
     const contentEl = this.el.closest('ion-content');
     if (!contentEl) {
@@ -453,7 +450,7 @@ const VirtualScroll = class {
       }
     };
     if (node) {
-      Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_1__["c"])(node, update);
+      Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_1__["c"])(node, update);
     }
     else {
       update();

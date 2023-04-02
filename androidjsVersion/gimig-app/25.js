@@ -12,7 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ion_range", function() { return Range; });
 /* harmony import */ var _index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index-7a8b7a1c.js */ "wEJo");
 /* harmony import */ var _ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ionic-global-63a97a32.js */ "E/Mt");
-/* harmony import */ var _helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers-1457892a.js */ "W6o/");
+/* harmony import */ var _helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers-dd7e4b7b.js */ "1vRN");
 /* harmony import */ var _theme_ff3fc52f_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./theme-ff3fc52f.js */ "74mu");
 
 
@@ -33,7 +33,6 @@ const Range = class {
     this.didLoad = false;
     this.noUpdate = false;
     this.hasFocus = false;
-    this.inheritedAttributes = {};
     this.ratioA = 0;
     this.ratioB = 0;
     /**
@@ -42,7 +41,6 @@ const Range = class {
      * This also impacts form bindings such as `ngModel` or `v-model`.
      */
     this.debounce = 0;
-    // TODO: In Ionic Framework v6 this should initialize to this.rangeId like the other form components do.
     /**
      * The name of the control, which is submitted with the form data.
      */
@@ -87,7 +85,7 @@ const Range = class {
      */
     this.value = 0;
     this.clampBounds = (value) => {
-      return Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["k"])(this.min, value, this.max);
+      return Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["j"])(this.min, value, this.max);
     };
     this.ensureValueInBounds = (value) => {
       if (this.dualKnobs) {
@@ -103,7 +101,7 @@ const Range = class {
     this.setupGesture = async () => {
       const rangeSlider = this.rangeSlider;
       if (rangeSlider) {
-        this.gesture = (await Promise.resolve(/*! import() */).then(__webpack_require__.bind(null, /*! ./index-34cb2743.js */ "KF81"))).createGesture({
+        this.gesture = (await Promise.resolve(/*! import() */).then(__webpack_require__.bind(null, /*! ./index-f49d994d.js */ "iWo5"))).createGesture({
           el: rangeSlider,
           gestureName: 'range',
           gesturePriority: 100,
@@ -123,10 +121,10 @@ const Range = class {
         step *= -1;
       }
       if (knob === 'A') {
-        this.ratioA = Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["k"])(0, this.ratioA + step, 1);
+        this.ratioA = Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["j"])(0, this.ratioA + step, 1);
       }
       else {
-        this.ratioB = Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["k"])(0, this.ratioB + step, 1);
+        this.ratioB = Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["j"])(0, this.ratioB + step, 1);
       }
       this.updateValue();
     };
@@ -146,7 +144,7 @@ const Range = class {
     };
   }
   debounceChanged() {
-    this.ionChange = Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["f"])(this.ionChange, this.debounce);
+    this.ionChange = Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["f"])(this.ionChange, this.debounce);
   }
   minChanged() {
     if (!this.noUpdate) {
@@ -170,14 +168,6 @@ const Range = class {
     }
     value = this.ensureValueInBounds(value);
     this.ionChange.emit({ value });
-  }
-  componentWillLoad() {
-    /**
-     * If user has custom ID set then we should
-     * not assign the default incrementing ID.
-     */
-    this.rangeId = (this.el.hasAttribute('id')) ? this.el.getAttribute('id') : `ion-r-${rangeIds++}`;
-    this.inheritedAttributes = Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["i"])(this.el);
   }
   componentDidLoad() {
     this.setupGesture();
@@ -231,7 +221,7 @@ const Range = class {
     const rect = this.rect = this.rangeSlider.getBoundingClientRect();
     const currentX = detail.currentX;
     // figure out which knob they started closer to
-    let ratio = Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["k"])(0, (currentX - rect.left) / rect.width, 1);
+    let ratio = Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["j"])(0, (currentX - rect.left) / rect.width, 1);
     if (document.dir === 'rtl') {
       ratio = 1 - ratio;
     }
@@ -255,7 +245,7 @@ const Range = class {
     // figure out where the pointer is currently at
     // update the knob being interacted with
     const rect = this.rect;
-    let ratio = Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["k"])(0, (currentX - rect.left) / rect.width, 1);
+    let ratio = Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["j"])(0, (currentX - rect.left) / rect.width, 1);
     if (document.dir === 'rtl') {
       ratio = 1 - ratio;
     }
@@ -322,16 +312,7 @@ const Range = class {
     }
   }
   render() {
-    const { min, max, step, el, handleKeyboard, pressedKnob, disabled, pin, ratioLower, ratioUpper, inheritedAttributes, rangeId } = this;
-    /**
-     * Look for external label, ion-label, or aria-labelledby.
-     * If none, see if user placed an aria-label on the host
-     * and use that instead.
-     */
-    let { labelText } = Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["d"])(el, rangeId);
-    if (labelText === undefined || labelText === null) {
-      labelText = inheritedAttributes['aria-label'];
-    }
+    const { min, max, step, el, handleKeyboard, pressedKnob, disabled, pin, ratioLower, ratioUpper } = this;
     const mode = Object(_ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__["b"])(this);
     const barStart = `${ratioLower * 100}%`;
     const barEnd = `${100 - ratioUpper * 100}%`;
@@ -360,8 +341,8 @@ const Range = class {
         ticks.push(tick);
       }
     }
-    Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["e"])(true, el, this.name, JSON.stringify(this.getValue()), disabled);
-    return (Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["H"], { onFocusin: this.onFocus, onFocusout: this.onBlur, id: rangeId, class: Object(_theme_ff3fc52f_js__WEBPACK_IMPORTED_MODULE_3__["c"])(this.color, {
+    Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["e"])(true, el, this.name, JSON.stringify(this.getValue()), disabled);
+    return (Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["H"], { onFocusin: this.onFocus, onFocusout: this.onBlur, class: Object(_theme_ff3fc52f_js__WEBPACK_IMPORTED_MODULE_3__["c"])(this.color, {
         [mode]: true,
         'in-item': Object(_theme_ff3fc52f_js__WEBPACK_IMPORTED_MODULE_3__["h"])('ion-item', el),
         'range-disabled': disabled,
@@ -379,8 +360,7 @@ const Range = class {
       disabled,
       handleKeyboard,
       min,
-      max,
-      labelText
+      max
     }), this.dualKnobs && renderKnob(isRTL, {
       knob: 'B',
       pressed: pressedKnob === 'B',
@@ -390,8 +370,7 @@ const Range = class {
       disabled,
       handleKeyboard,
       min,
-      max,
-      labelText
+      max
     })), Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("slot", { name: "end" })));
   }
   get el() { return Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["i"])(this); }
@@ -403,7 +382,7 @@ const Range = class {
     "value": ["valueChanged"]
   }; }
 };
-const renderKnob = (isRTL, { knob, value, ratio, min, max, disabled, pressed, pin, handleKeyboard, labelText }) => {
+const renderKnob = (isRTL, { knob, value, ratio, min, max, disabled, pressed, pin, handleKeyboard }) => {
   const start = isRTL ? 'right' : 'left';
   const knobStyle = () => {
     const style = {};
@@ -429,19 +408,18 @@ const renderKnob = (isRTL, { knob, value, ratio, min, max, disabled, pressed, pi
       'range-knob-pressed': pressed,
       'range-knob-min': value === min,
       'range-knob-max': value === max
-    }, style: knobStyle(), role: "slider", tabindex: disabled ? -1 : 0, "aria-label": labelText, "aria-valuemin": min, "aria-valuemax": max, "aria-disabled": disabled ? 'true' : null, "aria-valuenow": value }, pin && Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { class: "range-pin", role: "presentation", part: "pin" }, Math.round(value)), Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { class: "range-knob", role: "presentation", part: "knob" })));
+    }, style: knobStyle(), role: "slider", tabindex: disabled ? -1 : 0, "aria-valuemin": min, "aria-valuemax": max, "aria-disabled": disabled ? 'true' : null, "aria-valuenow": value }, pin && Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { class: "range-pin", role: "presentation", part: "pin" }, Math.round(value)), Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { class: "range-knob", role: "presentation", part: "knob" })));
 };
 const ratioToValue = (ratio, min, max, step) => {
   let value = (max - min) * ratio;
   if (step > 0) {
     value = Math.round(value / step) * step + min;
   }
-  return Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["k"])(min, value, max);
+  return Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["j"])(min, value, max);
 };
 const valueToRatio = (value, min, max) => {
-  return Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["k"])(0, (value - min) / (max - min), 1);
+  return Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["j"])(0, (value - min) / (max - min), 1);
 };
-let rangeIds = 0;
 Range.style = {
   ios: rangeIosCss,
   md: rangeMdCss

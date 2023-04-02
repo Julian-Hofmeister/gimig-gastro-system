@@ -168,12 +168,21 @@ export class CartService {
   // ----------------------------------------------------------------------------------------------
 
   resetCart() {
+
+    console.log(this.orderList);
+    console.log(this.orderedList);
     this.orderList.forEach((item) => {
-      this.cartCollection.doc(item._id).delete();
+      if (typeof item._id !== 'string') {
+        this.cartCollection.doc(item._id).delete();
+      }
     });
 
-    this.orderedList.forEach((order) => {
-      this.orderedCartCollection.doc(order).delete();
+
+    this.orderedList.forEach((order: any) => {
+      if (typeof order._id !== 'string') {
+      this.orderedCartCollection.doc(order._id).delete();
+      }
+
     });
   }
 

@@ -14,8 +14,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ion_select_popover", function() { return SelectPopover; });
 /* harmony import */ var _index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index-7a8b7a1c.js */ "wEJo");
 /* harmony import */ var _ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ionic-global-63a97a32.js */ "E/Mt");
-/* harmony import */ var _helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers-1457892a.js */ "W6o/");
-/* harmony import */ var _overlays_a62f858b_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./overlays-a62f858b.js */ "f9PN");
+/* harmony import */ var _helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers-dd7e4b7b.js */ "1vRN");
+/* harmony import */ var _overlays_28c23c35_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./overlays-28c23c35.js */ "7OTs");
 /* harmony import */ var _theme_ff3fc52f_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./theme-ff3fc52f.js */ "74mu");
 /* harmony import */ var _hardware_back_button_4a6b37fb_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./hardware-back-button-4a6b37fb.js */ "B4Jq");
 
@@ -280,13 +280,13 @@ const Select = class {
         value,
         options: this.createPopoverOptions(this.childOpts, value)
       } });
-    return _overlays_a62f858b_js__WEBPACK_IMPORTED_MODULE_3__["c"].create(popoverOpts);
+    return _overlays_28c23c35_js__WEBPACK_IMPORTED_MODULE_3__["c"].create(popoverOpts);
   }
   async openActionSheet() {
     const mode = Object(_ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__["b"])(this);
     const interfaceOptions = this.interfaceOptions;
     const actionSheetOpts = Object.assign(Object.assign({ mode }, interfaceOptions), { buttons: this.createActionSheetButtons(this.childOpts, this.value), cssClass: ['select-action-sheet', interfaceOptions.cssClass] });
-    return _overlays_a62f858b_js__WEBPACK_IMPORTED_MODULE_3__["b"].create(actionSheetOpts);
+    return _overlays_28c23c35_js__WEBPACK_IMPORTED_MODULE_3__["b"].create(actionSheetOpts);
   }
   async openAlert() {
     const label = this.getLabel();
@@ -310,7 +310,7 @@ const Select = class {
         }
       ], cssClass: ['select-alert', interfaceOptions.cssClass,
         (this.multiple ? 'multiple-select-alert' : 'single-select-alert')] });
-    return _overlays_a62f858b_js__WEBPACK_IMPORTED_MODULE_3__["a"].create(alertOpts);
+    return _overlays_28c23c35_js__WEBPACK_IMPORTED_MODULE_3__["a"].create(alertOpts);
   }
   /**
    * Close the select interface.
@@ -323,7 +323,7 @@ const Select = class {
     return this.overlay.dismiss();
   }
   getLabel() {
-    return Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["j"])(this.el);
+    return Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["h"])(this.el);
   }
   hasValue() {
     return this.getText() !== '';
@@ -356,8 +356,8 @@ const Select = class {
   render() {
     const { disabled, el, inputId, isExpanded, name, placeholder, value } = this;
     const mode = Object(_ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__["b"])(this);
-    const { labelText, labelId } = Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["d"])(el, inputId);
-    Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["e"])(true, el, name, parseValue(value), disabled);
+    const { labelText, labelId } = Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["d"])(el, inputId);
+    Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["e"])(true, el, name, parseValue(value), disabled);
     const displayValue = this.getText();
     let addPlaceholderClass = false;
     let selectText = displayValue;
@@ -476,7 +476,7 @@ const SelectOption = class {
 let selectOptionIds = 0;
 SelectOption.style = selectOptionCss;
 
-const selectPopoverCss = ".sc-ion-select-popover-h ion-list.sc-ion-select-popover{margin-left:0;margin-right:0;margin-top:0;margin-bottom:0}.sc-ion-select-popover-h ion-list-header.sc-ion-select-popover,.sc-ion-select-popover-h ion-label.sc-ion-select-popover{margin-left:0;margin-right:0;margin-top:0;margin-bottom:0}";
+const selectPopoverCss = ".sc-ion-select-popover-h ion-list.sc-ion-select-popover{margin-left:0;margin-right:0;margin-top:-1px;margin-bottom:-1px}.sc-ion-select-popover-h ion-list-header.sc-ion-select-popover,.sc-ion-select-popover-h ion-label.sc-ion-select-popover{margin-left:0;margin-right:0;margin-top:0;margin-bottom:0}";
 
 const SelectPopover = class {
   constructor(hostRef) {
@@ -487,7 +487,7 @@ const SelectPopover = class {
   onSelect(ev) {
     const option = this.options.find(o => o.value === ev.target.value);
     if (option) {
-      Object(_overlays_a62f858b_js__WEBPACK_IMPORTED_MODULE_3__["s"])(option.handler);
+      Object(_overlays_28c23c35_js__WEBPACK_IMPORTED_MODULE_3__["s"])(option.handler);
     }
   }
   render() {

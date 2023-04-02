@@ -151,8 +151,6 @@ export class TableService {
   // ----------------------------------------------------------------------------------------------
 
   onResetTable() {
-    console.log(this.tablePath);
-
     this.tablePath.update({
       resetRequest: false,
       ableToPay: false,
@@ -177,7 +175,7 @@ export class TableService {
       window.location.reload();
     }, 3000);
 
-    this.navCtrl.navigateBack('/home');
+    // this.navCtrl.navigateBack('/home');
   }
 
 

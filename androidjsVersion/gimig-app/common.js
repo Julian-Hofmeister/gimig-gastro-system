@@ -152,22 +152,9 @@ AdminLoginComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 /***/ }),
 
-/***/ "Uxgr":
-/*!****************************************************************************************************!*\
-  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/admin/admin-login/admin-login.component.html ***!
-  \****************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-content>\n    <ion-grid>\n        <ion-row>\n            <ion-icon *ngIf=\"passwordArray.length > 0\" name=\"ellipse\"></ion-icon>\n            <ion-icon *ngIf=\"passwordArray.length > 1\" name=\"ellipse\"></ion-icon>\n            <ion-icon *ngIf=\"passwordArray.length > 2\" name=\"ellipse\"></ion-icon>\n            <ion-icon *ngIf=\"passwordArray.length < 3\" name=\"ellipse-outline\"></ion-icon>\n            <ion-icon *ngIf=\"passwordArray.length < 2\" name=\"ellipse-outline\"></ion-icon>\n            <ion-icon *ngIf=\"passwordArray.length < 1\" name=\"ellipse-outline\"></ion-icon>\n        </ion-row>\n        <br />\n        <br />\n        <ion-row>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('1')\">1</ion-button>\n            </ion-col>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('2')\">2</ion-button>\n            </ion-col>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('3')\">3</ion-button>\n            </ion-col>\n        </ion-row>\n        <ion-row>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('4')\">4</ion-button>\n            </ion-col>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('5')\">5</ion-button>\n            </ion-col>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('6')\">6</ion-button>\n            </ion-col>\n        </ion-row>\n        <ion-row>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('7')\">7</ion-button>\n            </ion-col>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('8')\">8</ion-button>\n            </ion-col>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('9')\">9</ion-button>\n            </ion-col>\n        </ion-row>\n        <ion-row>\n            <ion-col size=\"4\">\n                <ion-button fill=\"outline\" (click)=\"inputNumber('0')\">0</ion-button>\n            </ion-col>\n            <ion-col size=\"8\">\n                <ion-button class=\"confirm\" [disabled]=\"passwordArray.length < 3\" (click)=\"onSubmit(false)\">\n                    <ion-icon class=\"confirm\" name=\"checkmark-done-outline\"></ion-icon>\n                </ion-button>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n</ion-content>");
-
-/***/ }),
-
-/***/ "Zcj0":
+/***/ "JbSX":
 /*!*********************************************************************!*\
-  !*** ./node_modules/@ionic/core/dist/esm/button-active-d4bd4f74.js ***!
+  !*** ./node_modules/@ionic/core/dist/esm/button-active-4927a4c1.js ***!
   \*********************************************************************/
 /*! exports provided: c */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -177,7 +164,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return createButtonActiveGesture; });
 /* harmony import */ var _index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index-7a8b7a1c.js */ "wEJo");
 /* harmony import */ var _haptic_27b3f981_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./haptic-27b3f981.js */ "qULd");
-/* harmony import */ var _index_34cb2743_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index-34cb2743.js */ "KF81");
+/* harmony import */ var _index_f49d994d_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index-f49d994d.js */ "iWo5");
 
 
 
@@ -227,7 +214,7 @@ const createButtonActiveGesture = (el, isButton) => {
     }
     currentTouchedButton = undefined;
   };
-  return Object(_index_34cb2743_js__WEBPACK_IMPORTED_MODULE_2__["createGesture"])({
+  return Object(_index_f49d994d_js__WEBPACK_IMPORTED_MODULE_2__["createGesture"])({
     el,
     gestureName: 'buttonActiveDrag',
     threshold: 0,
@@ -239,6 +226,69 @@ const createButtonActiveGesture = (el, isButton) => {
       initialTouchedButton = undefined;
     }
   });
+};
+
+
+
+
+/***/ }),
+
+/***/ "Uxgr":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/admin/admin-login/admin-login.component.html ***!
+  \****************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-content>\n    <ion-grid>\n        <ion-row>\n            <ion-icon *ngIf=\"passwordArray.length > 0\" name=\"ellipse\"></ion-icon>\n            <ion-icon *ngIf=\"passwordArray.length > 1\" name=\"ellipse\"></ion-icon>\n            <ion-icon *ngIf=\"passwordArray.length > 2\" name=\"ellipse\"></ion-icon>\n            <ion-icon *ngIf=\"passwordArray.length < 3\" name=\"ellipse-outline\"></ion-icon>\n            <ion-icon *ngIf=\"passwordArray.length < 2\" name=\"ellipse-outline\"></ion-icon>\n            <ion-icon *ngIf=\"passwordArray.length < 1\" name=\"ellipse-outline\"></ion-icon>\n        </ion-row>\n        <br />\n        <br />\n        <ion-row>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('1')\">1</ion-button>\n            </ion-col>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('2')\">2</ion-button>\n            </ion-col>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('3')\">3</ion-button>\n            </ion-col>\n        </ion-row>\n        <ion-row>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('4')\">4</ion-button>\n            </ion-col>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('5')\">5</ion-button>\n            </ion-col>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('6')\">6</ion-button>\n            </ion-col>\n        </ion-row>\n        <ion-row>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('7')\">7</ion-button>\n            </ion-col>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('8')\">8</ion-button>\n            </ion-col>\n            <ion-col>\n                <ion-button fill=\"outline\" (click)=\"inputNumber('9')\">9</ion-button>\n            </ion-col>\n        </ion-row>\n        <ion-row>\n            <ion-col size=\"4\">\n                <ion-button fill=\"outline\" (click)=\"inputNumber('0')\">0</ion-button>\n            </ion-col>\n            <ion-col size=\"8\">\n                <ion-button class=\"confirm\" [disabled]=\"passwordArray.length < 3\" (click)=\"onSubmit(false)\">\n                    <ion-icon class=\"confirm\" name=\"checkmark-done-outline\"></ion-icon>\n                </ion-button>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n</ion-content>");
+
+/***/ }),
+
+/***/ "acej":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@ionic/core/dist/esm/framework-delegate-4392cd63.js ***!
+  \**************************************************************************/
+/*! exports provided: a, d */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return attachComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return detachComponent; });
+/* harmony import */ var _helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers-dd7e4b7b.js */ "1vRN");
+
+
+const attachComponent = async (delegate, container, component, cssClasses, componentProps) => {
+  if (delegate) {
+    return delegate.attachViewToDom(container, component, componentProps, cssClasses);
+  }
+  if (typeof component !== 'string' && !(component instanceof HTMLElement)) {
+    throw new Error('framework delegate is missing');
+  }
+  const el = (typeof component === 'string')
+    ? container.ownerDocument && container.ownerDocument.createElement(component)
+    : component;
+  if (cssClasses) {
+    cssClasses.forEach(c => el.classList.add(c));
+  }
+  if (componentProps) {
+    Object.assign(el, componentProps);
+  }
+  container.appendChild(el);
+  await new Promise(resolve => Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_0__["c"])(el, resolve));
+  return el;
+};
+const detachComponent = (delegate, element) => {
+  if (element) {
+    if (delegate) {
+      const container = element.parentElement;
+      return delegate.removeViewFromDom(container, element);
+    }
+    element.remove();
+  }
+  return Promise.resolve();
 };
 
 
@@ -487,56 +537,6 @@ const hapticSelectionEnd = () => {
  */
 const hapticImpact = (options) => {
   HapticEngine.impact(options);
-};
-
-
-
-
-/***/ }),
-
-/***/ "spDm":
-/*!**************************************************************************!*\
-  !*** ./node_modules/@ionic/core/dist/esm/framework-delegate-94e770cc.js ***!
-  \**************************************************************************/
-/*! exports provided: a, d */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return attachComponent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return detachComponent; });
-/* harmony import */ var _helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers-1457892a.js */ "W6o/");
-
-
-const attachComponent = async (delegate, container, component, cssClasses, componentProps) => {
-  if (delegate) {
-    return delegate.attachViewToDom(container, component, componentProps, cssClasses);
-  }
-  if (typeof component !== 'string' && !(component instanceof HTMLElement)) {
-    throw new Error('framework delegate is missing');
-  }
-  const el = (typeof component === 'string')
-    ? container.ownerDocument && container.ownerDocument.createElement(component)
-    : component;
-  if (cssClasses) {
-    cssClasses.forEach(c => el.classList.add(c));
-  }
-  if (componentProps) {
-    Object.assign(el, componentProps);
-  }
-  container.appendChild(el);
-  await new Promise(resolve => Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_0__["c"])(el, resolve));
-  return el;
-};
-const detachComponent = (delegate, element) => {
-  if (element) {
-    if (delegate) {
-      const container = element.parentElement;
-      return delegate.removeViewFromDom(container, element);
-    }
-    element.remove();
-  }
-  return Promise.resolve();
 };
 
 

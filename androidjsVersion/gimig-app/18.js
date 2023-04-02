@@ -12,12 +12,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ion_loading", function() { return Loading; });
 /* harmony import */ var _index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index-7a8b7a1c.js */ "wEJo");
 /* harmony import */ var _ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ionic-global-63a97a32.js */ "E/Mt");
-/* harmony import */ var _overlays_a62f858b_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./overlays-a62f858b.js */ "f9PN");
+/* harmony import */ var _overlays_28c23c35_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./overlays-28c23c35.js */ "7OTs");
 /* harmony import */ var _index_9e3fe806_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index-9e3fe806.js */ "39oe");
 /* harmony import */ var _theme_ff3fc52f_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./theme-ff3fc52f.js */ "74mu");
-/* harmony import */ var _animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./animation-822d986b.js */ "Kfhc");
+/* harmony import */ var _animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./animation-096c6391.js */ "meiF");
 /* harmony import */ var _hardware_back_button_4a6b37fb_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./hardware-back-button-4a6b37fb.js */ "B4Jq");
-/* harmony import */ var _helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./helpers-1457892a.js */ "W6o/");
+/* harmony import */ var _helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./helpers-dd7e4b7b.js */ "1vRN");
 
 
 
@@ -31,9 +31,9 @@ __webpack_require__.r(__webpack_exports__);
  * iOS Loading Enter Animation
  */
 const iosEnterAnimation = (baseEl) => {
-  const baseAnimation = Object(_animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
-  const backdropAnimation = Object(_animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
-  const wrapperAnimation = Object(_animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
+  const baseAnimation = Object(_animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
+  const backdropAnimation = Object(_animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
+  const wrapperAnimation = Object(_animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
   backdropAnimation
     .addElement(baseEl.querySelector('ion-backdrop'))
     .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
@@ -58,9 +58,9 @@ const iosEnterAnimation = (baseEl) => {
  * iOS Loading Leave Animation
  */
 const iosLeaveAnimation = (baseEl) => {
-  const baseAnimation = Object(_animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
-  const backdropAnimation = Object(_animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
-  const wrapperAnimation = Object(_animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
+  const baseAnimation = Object(_animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
+  const backdropAnimation = Object(_animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
+  const wrapperAnimation = Object(_animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
   backdropAnimation
     .addElement(baseEl.querySelector('ion-backdrop'))
     .fromTo('opacity', 'var(--backdrop-opacity)', 0);
@@ -81,9 +81,9 @@ const iosLeaveAnimation = (baseEl) => {
  * Md Loading Enter Animation
  */
 const mdEnterAnimation = (baseEl) => {
-  const baseAnimation = Object(_animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
-  const backdropAnimation = Object(_animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
-  const wrapperAnimation = Object(_animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
+  const baseAnimation = Object(_animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
+  const backdropAnimation = Object(_animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
+  const wrapperAnimation = Object(_animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
   backdropAnimation
     .addElement(baseEl.querySelector('ion-backdrop'))
     .fromTo('opacity', 0.01, 'var(--backdrop-opacity)')
@@ -108,9 +108,9 @@ const mdEnterAnimation = (baseEl) => {
  * Md Loading Leave Animation
  */
 const mdLeaveAnimation = (baseEl) => {
-  const baseAnimation = Object(_animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
-  const backdropAnimation = Object(_animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
-  const wrapperAnimation = Object(_animation_822d986b_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
+  const baseAnimation = Object(_animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
+  const backdropAnimation = Object(_animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
+  const wrapperAnimation = Object(_animation_096c6391_js__WEBPACK_IMPORTED_MODULE_5__["c"])();
   backdropAnimation
     .addElement(baseEl.querySelector('ion-backdrop'))
     .fromTo('opacity', 'var(--backdrop-opacity)', 0);
@@ -166,11 +166,11 @@ const Loading = class {
      */
     this.animated = true;
     this.onBackdropTap = () => {
-      this.dismiss(undefined, _overlays_a62f858b_js__WEBPACK_IMPORTED_MODULE_2__["B"]);
+      this.dismiss(undefined, _overlays_28c23c35_js__WEBPACK_IMPORTED_MODULE_2__["B"]);
     };
   }
   connectedCallback() {
-    Object(_overlays_a62f858b_js__WEBPACK_IMPORTED_MODULE_2__["e"])(this.el);
+    Object(_overlays_28c23c35_js__WEBPACK_IMPORTED_MODULE_2__["e"])(this.el);
   }
   componentWillLoad() {
     if (this.spinner === undefined) {
@@ -182,7 +182,7 @@ const Loading = class {
    * Present the loading overlay after it has been created.
    */
   async present() {
-    await Object(_overlays_a62f858b_js__WEBPACK_IMPORTED_MODULE_2__["d"])(this, 'loadingEnter', iosEnterAnimation, mdEnterAnimation, undefined);
+    await Object(_overlays_28c23c35_js__WEBPACK_IMPORTED_MODULE_2__["d"])(this, 'loadingEnter', iosEnterAnimation, mdEnterAnimation, undefined);
     if (this.duration > 0) {
       this.durationTimeout = setTimeout(() => this.dismiss(), this.duration + 10);
     }
@@ -200,26 +200,26 @@ const Loading = class {
     if (this.durationTimeout) {
       clearTimeout(this.durationTimeout);
     }
-    return Object(_overlays_a62f858b_js__WEBPACK_IMPORTED_MODULE_2__["f"])(this, data, role, 'loadingLeave', iosLeaveAnimation, mdLeaveAnimation);
+    return Object(_overlays_28c23c35_js__WEBPACK_IMPORTED_MODULE_2__["f"])(this, data, role, 'loadingLeave', iosLeaveAnimation, mdLeaveAnimation);
   }
   /**
    * Returns a promise that resolves when the loading did dismiss.
    */
   onDidDismiss() {
-    return Object(_overlays_a62f858b_js__WEBPACK_IMPORTED_MODULE_2__["g"])(this.el, 'ionLoadingDidDismiss');
+    return Object(_overlays_28c23c35_js__WEBPACK_IMPORTED_MODULE_2__["g"])(this.el, 'ionLoadingDidDismiss');
   }
   /**
    * Returns a promise that resolves when the loading will dismiss.
    */
   onWillDismiss() {
-    return Object(_overlays_a62f858b_js__WEBPACK_IMPORTED_MODULE_2__["g"])(this.el, 'ionLoadingWillDismiss');
+    return Object(_overlays_28c23c35_js__WEBPACK_IMPORTED_MODULE_2__["g"])(this.el, 'ionLoadingWillDismiss');
   }
   render() {
-    const { message, spinner, htmlAttributes } = this;
+    const { message, spinner } = this;
     const mode = Object(_ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__["b"])(this);
-    return (Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["H"], Object.assign({ tabindex: "-1" }, htmlAttributes, { style: {
+    return (Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["H"], { onIonBackdropTap: this.onBackdropTap, tabindex: "-1", style: {
         zIndex: `${40000 + this.overlayIndex}`
-      }, onIonBackdropTap: this.onBackdropTap, class: Object.assign(Object.assign({}, Object(_theme_ff3fc52f_js__WEBPACK_IMPORTED_MODULE_4__["g"])(this.cssClass)), { [mode]: true, 'loading-translucent': this.translucent }) }), Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("ion-backdrop", { visible: this.showBackdrop, tappable: this.backdropDismiss }), Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { tabindex: "0" }), Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { class: "loading-wrapper ion-overlay-wrapper", role: "dialog" }, spinner && (Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { class: "loading-spinner" }, Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("ion-spinner", { name: spinner, "aria-hidden": "true" }))), message && Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { class: "loading-content", innerHTML: Object(_index_9e3fe806_js__WEBPACK_IMPORTED_MODULE_3__["s"])(message) })), Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { tabindex: "0" })));
+      }, class: Object.assign(Object.assign({}, Object(_theme_ff3fc52f_js__WEBPACK_IMPORTED_MODULE_4__["g"])(this.cssClass)), { [mode]: true, 'loading-translucent': this.translucent }) }, Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("ion-backdrop", { visible: this.showBackdrop, tappable: this.backdropDismiss }), Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { tabindex: "0" }), Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { class: "loading-wrapper ion-overlay-wrapper", role: "dialog" }, spinner && (Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { class: "loading-spinner" }, Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("ion-spinner", { name: spinner, "aria-hidden": "true" }))), message && Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { class: "loading-content", innerHTML: Object(_index_9e3fe806_js__WEBPACK_IMPORTED_MODULE_3__["s"])(message) })), Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { tabindex: "0" })));
   }
   get el() { return Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["i"])(this); }
 };

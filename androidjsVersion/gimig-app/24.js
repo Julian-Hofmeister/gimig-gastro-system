@@ -13,7 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ion_radio_group", function() { return RadioGroup; });
 /* harmony import */ var _index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index-7a8b7a1c.js */ "wEJo");
 /* harmony import */ var _ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ionic-global-63a97a32.js */ "E/Mt");
-/* harmony import */ var _helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers-1457892a.js */ "W6o/");
+/* harmony import */ var _helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers-dd7e4b7b.js */ "1vRN");
 /* harmony import */ var _theme_ff3fc52f_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./theme-ff3fc52f.js */ "74mu");
 
 
@@ -78,13 +78,13 @@ const Radio = class {
     const radioGroup = this.radioGroup = this.el.closest('ion-radio-group');
     if (radioGroup) {
       this.updateState();
-      Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["a"])(radioGroup, 'ionChange', this.updateState);
+      Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["a"])(radioGroup, 'ionChange', this.updateState);
     }
   }
   disconnectedCallback() {
     const radioGroup = this.radioGroup;
     if (radioGroup) {
-      Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["b"])(radioGroup, 'ionChange', this.updateState);
+      Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["b"])(radioGroup, 'ionChange', this.updateState);
       this.radioGroup = null;
     }
   }
@@ -100,7 +100,7 @@ const Radio = class {
   render() {
     const { inputId, disabled, checked, color, el, buttonTabindex } = this;
     const mode = Object(_ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__["b"])(this);
-    const { label, labelId, labelText } = Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["d"])(el, inputId);
+    const { label, labelId, labelText } = Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["d"])(el, inputId);
     return (Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["h"])(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["H"], { "aria-checked": `${checked}`, "aria-hidden": disabled ? 'true' : null, "aria-labelledby": label ? labelId : null, role: "radio", tabindex: buttonTabindex, onFocus: this.onFocus, onBlur: this.onBlur, class: Object(_theme_ff3fc52f_js__WEBPACK_IMPORTED_MODULE_3__["c"])(color, {
         [mode]: true,
         'in-item': Object(_theme_ff3fc52f_js__WEBPACK_IMPORTED_MODULE_3__["h"])('ion-item', el),
@@ -195,7 +195,7 @@ const RadioGroup = class {
     }
     // Get all radios inside of the radio group and then
     // filter out disabled radios since we need to skip those
-    const radios = this.getRadios().filter(radio => !radio.disabled);
+    const radios = Array.from(this.el.querySelectorAll('ion-radio')).filter(radio => !radio.disabled);
     // Only move the radio if the current focus is in the radio group
     if (ev.target && radios.includes(ev.target)) {
       const index = radios.findIndex(radio => radio === ev.target);
@@ -222,11 +222,10 @@ const RadioGroup = class {
         }
       }
       // Update the radio group value when a user presses the
-      // space bar on top of a selected radio
+      // space bar on top of a selected radio (only applies
+      // to radios in a select popover)
       if (['Space'].includes(ev.code)) {
-        this.value = (this.allowEmptySelection && this.value !== undefined)
-          ? undefined
-          : current.value;
+        this.value = current.value;
         // Prevent browsers from jumping
         // to the bottom of the screen
         ev.preventDefault();

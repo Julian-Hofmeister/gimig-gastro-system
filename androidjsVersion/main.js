@@ -45,6 +45,11 @@ expressApp.use(express.static(__dirname + '/gimig-app/'));
 expressApp.get('/', (req, res) => {
     res.sendFile('./index.html', { root: __dirname + '/gimig-app/' })
 });
+
+expressApp.all('/*', function(req, res, next) {
+  // Just send the index.html for other files to support HTML5Mode
+  res.sendFile('index.html', { root: __dirname + '/gimig-app/' });
+});
 //##################################################################################
 //##################################################################################
 // androidjs specific

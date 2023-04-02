@@ -76,7 +76,7 @@ const ReorderGroup = class {
     if (contentEl) {
       this.scrollEl = await contentEl.getScrollElement();
     }
-    this.gesture = (await Promise.resolve(/*! import() */).then(__webpack_require__.bind(null, /*! ./index-34cb2743.js */ "KF81"))).createGesture({
+    this.gesture = (await Promise.resolve(/*! import() */).then(__webpack_require__.bind(null, /*! ./index-f49d994d.js */ "iWo5"))).createGesture({
       el: this.el,
       gestureName: 'reorder',
       gesturePriority: 110,
@@ -238,15 +238,16 @@ const ReorderGroup = class {
   }
   itemIndexForTop(deltaY) {
     const heights = this.cachedHeights;
+    let i = 0;
     // TODO: since heights is a sorted array of integers, we can do
     // speed up the search using binary search. Remember that linear-search is still
     // faster than binary-search for small arrays (<64) due CPU branch misprediction.
-    for (let i = 0; i < heights.length; i++) {
+    for (i = 0; i < heights.length; i++) {
       if (heights[i] > deltaY) {
-        return i;
+        break;
       }
     }
-    return heights.length - 1;
+    return i;
   }
   /********* DOM WRITE ********* */
   reorderMove(fromIndex, toIndex) {

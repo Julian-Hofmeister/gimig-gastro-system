@@ -13,7 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ion_slides", function() { return Slides; });
 /* harmony import */ var _index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index-7a8b7a1c.js */ "wEJo");
 /* harmony import */ var _ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ionic-global-63a97a32.js */ "E/Mt");
-/* harmony import */ var _helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers-1457892a.js */ "W6o/");
+/* harmony import */ var _helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers-dd7e4b7b.js */ "1vRN");
 
 
 
@@ -60,6 +60,7 @@ const Slides = class {
     this.ionSlideTouchEnd = Object(_index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__["e"])(this, "ionSlideTouchEnd", 7);
     this.swiperReady = false;
     this.swiper = new Promise(resolve => { this.readySwiper = resolve; });
+    this.didInit = false;
     /**
      * Options to pass to the swiper instance.
      * See http://idangero.us/swiper/api/ for valid options
@@ -77,17 +78,13 @@ const Slides = class {
   async optionsChanged() {
     if (this.swiperReady) {
       const swiper = await this.getSwiper();
-      if (swiper === null || swiper === void 0 ? void 0 : swiper.params) {
-        Object.assign(swiper.params, this.options);
-        await this.update();
-      }
+      Object.assign(swiper.params, this.options);
+      await this.update();
     }
   }
-  componentWillLoad() {
-    console.warn(`[Deprecation Warning]: ion-slides has been deprecated and will be removed in Ionic Framework v7.0. We recommend using the framework-specific integrations that Swiper.js provides, allowing for faster bug fixes and an improved developer experience. See https://ionicframework.com/docs/api/slides#migration for more information including migration steps.`);
-  }
   connectedCallback() {
-    {
+    // tslint:disable-next-line: strict-type-predicates
+    if (typeof MutationObserver !== 'undefined') {
       const mut = this.mutationO = new MutationObserver(() => {
         if (this.swiperReady) {
           this.update();
@@ -97,8 +94,11 @@ const Slides = class {
         childList: true,
         subtree: true
       });
-      Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["c"])(this.el, () => {
-        this.initSwiper();
+      Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["c"])(this.el, () => {
+        if (!this.didInit) {
+          this.didInit = true;
+          this.initSwiper();
+        }
       });
     }
   }
@@ -107,6 +107,21 @@ const Slides = class {
       this.mutationO.disconnect();
       this.mutationO = undefined;
     }
+    /**
+     * We need to synchronously destroy
+     * swiper otherwise it is possible
+     * that it will be left in a
+     * destroyed state if connectedCallback
+     * is called multiple times
+     */
+    const swiper = this.syncSwiper;
+    if (swiper !== undefined) {
+      swiper.destroy(true, true);
+      this.swiper = new Promise(resolve => { this.readySwiper = resolve; });
+      this.swiperReady = false;
+      this.syncSwiper = undefined;
+    }
+    this.didInit = false;
   }
   /**
    * Update the underlying slider implementation. Call this if you've added or removed
@@ -254,10 +269,11 @@ const Slides = class {
     const finalOptions = this.normalizeOptions();
     // init swiper core
     // @ts-ignore
-    const { Swiper } = await __webpack_require__.e(/*! import() | swiper-bundle-6c5e7804-js */ "swiper-bundle-6c5e7804-js").then(__webpack_require__.bind(null, /*! ./swiper.bundle-6c5e7804.js */ "PduG"));
+    const { Swiper } = await __webpack_require__.e(/*! import() | swiper-bundle-44a9b1f9-js */ "swiper-bundle-44a9b1f9-js").then(__webpack_require__.bind(null, /*! ./swiper.bundle-44a9b1f9.js */ "F/jJ"));
     await waitForSlides(this.el);
     const swiper = new Swiper(this.el, finalOptions);
     this.swiperReady = true;
+    this.syncSwiper = swiper;
     this.readySwiper(swiper);
   }
   normalizeOptions() {
@@ -367,8 +383,6 @@ const Slides = class {
         init: () => {
           setTimeout(() => {
             this.ionSlidesDidLoad.emit();
-            // Forces the swiper instance to update after initializing.
-            this.update();
           }, 20);
         },
         slideChangeTransitionStart: this.ionSlideWillChange.emit,
@@ -410,7 +424,7 @@ const Slides = class {
   }; }
 };
 const waitForSlides = (el) => {
-  return Promise.all(Array.from(el.querySelectorAll('ion-slide')).map(s => new Promise(resolve => Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_2__["c"])(s, resolve))));
+  return Promise.all(Array.from(el.querySelectorAll('ion-slide')).map(s => new Promise(resolve => Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_2__["c"])(s, resolve))));
 };
 Slides.style = {
   ios: slidesIosCss,
