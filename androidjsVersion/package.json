@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "gimig-android",
     "app-name": "gimig-android",
-    "package-name": "webview",
+    "package-name": "test",
     "project-type": "webview",
     "icon": "./assets/icon/icon.png",
     "dist-path": "./dist",
