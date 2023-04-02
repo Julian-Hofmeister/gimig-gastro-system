@@ -132,8 +132,10 @@ export class CartService {
       id: item._id,
       name: item.name,
       price: item.price,
+      tax: item.tax,
       amount: item.amount ? item.amount : 1,
       kitchenRelevant: item.kitchenRelevant,
+      customPrinterAddress: item.customPrinterAddress,
       imagePath: item.imageRef,
       isOrdered: false,
       availableOptions: item.availableOptions ?? [],
@@ -268,7 +270,6 @@ export class CartService {
 
     for (const item of items) {
 
-
       for (let i = 0; i < item.amount; i++) {
         let price = Number(item.price);
         let optionText = '';
@@ -286,6 +287,7 @@ export class CartService {
           }
         }
 
+
         const order: Order = {
           name: item.name,
           price: price.toString(),
@@ -296,16 +298,18 @@ export class CartService {
           infoText: item.description,
           additionalInfo: optionText,
           stockChecking: item.stockChecking,
-          customPrinterAddress: 'kitchenPrinter',
+          customPrinterAddress: item.customPrinterAddress,
           _id: item._id,
           identifyForList: uuidv4(),
           uniqueOrderArticleId: uuidv4(),
           course: 0,
           brangToTable: false,
           combinedWith: item.combinedWith,
-          combinableWith: []
+          combinableWith: [],
+          employee: ''
         };
 
+        console.log(order.customPrinterAddress);
         orderArray.push(order);
 
 

@@ -20,4 +20,7 @@ export interface Order {
     discount?: string;
     combinableWith: [];
     combinedWith: [];
+  showOnGimig?: boolean;
+  employee?: string;
+
 }

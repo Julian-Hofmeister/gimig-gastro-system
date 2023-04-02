@@ -115,7 +115,7 @@ export class CallServiceComponent implements OnInit{
         // tslint:disable-next-line:no-shadowed-variable
         .then(data => {
           console.log('Success:', data);
-          // this.removeCall(data._id);
+          this.removeCall(data._id);
         });
     }
   //#endregion

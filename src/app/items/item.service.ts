@@ -95,6 +95,7 @@ export class ItemService {
 
             item.isVisible = item.active;
 
+
             item.combinableWith = [];
             for (const product of this.degasoCombiProducts) {
               for (const option of product.availableProducts) {
@@ -107,13 +108,15 @@ export class ItemService {
             }
 
 
-            if (!this.degasoItems.includes(item)) {
-              if (category) {
-                if (category === item.category) {
+            if (!item.showOnGimig || item.showOnGimig === true) {
+              if (!this.degasoItems.includes(item)) {
+                if (category) {
+                  if (category === item.category) {
+                    this.degasoItems.push(item);
+                  }
+                } else {
                   this.degasoItems.push(item);
                 }
-              } else {
-                this.degasoItems.push(item);
               }
             }
           }

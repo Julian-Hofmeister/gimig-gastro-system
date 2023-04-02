@@ -175,7 +175,7 @@ export class TableService {
 
     setTimeout(() => {
       window.location.reload();
-    }, 5000);
+    }, 3000);
 
     this.navCtrl.navigateBack('/home');
   }

@@ -28,5 +28,9 @@ export interface Item {
   active?: boolean;
   combinableWith?: [];
   combinedWith?: [];
+  customPrinterAddress?: string;
+
+  showOnGimig?: boolean;
+
 
 }
