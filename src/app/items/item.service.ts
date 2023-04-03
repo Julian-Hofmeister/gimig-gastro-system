@@ -108,7 +108,7 @@ export class ItemService {
             }
 
 
-            if (!item.showOnGimig || item.showOnGimig === true) {
+            if (item.showOnGimig == undefined || item.showOnGimig === true) {
               if (!this.degasoItems.includes(item)) {
                 if (category) {
                   if (category === item.category) {

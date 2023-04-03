@@ -14,9 +14,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_7a8b7a1c_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index-7a8b7a1c.js */ "wEJo");
 /* harmony import */ var _ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ionic-global-63a97a32.js */ "E/Mt");
 /* harmony import */ var _cubic_bezier_eea9a7a9_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cubic-bezier-eea9a7a9.js */ "bC4P");
-/* harmony import */ var _helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helpers-dd7e4b7b.js */ "1vRN");
-/* harmony import */ var _index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./index-c3ff7f2e.js */ "k4ps");
-/* harmony import */ var _framework_delegate_4392cd63_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./framework-delegate-4392cd63.js */ "acej");
+/* harmony import */ var _helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helpers-1457892a.js */ "W6o/");
+/* harmony import */ var _index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./index-a7711c1e.js */ "qb1Q");
+/* harmony import */ var _framework_delegate_94e770cc_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./framework-delegate-94e770cc.js */ "spDm");
 
 
 
@@ -37,14 +37,14 @@ class ViewController {
     this.state = VIEW_STATE_ATTACHED;
     if (!this.element) {
       const component = this.component;
-      this.element = await Object(_framework_delegate_4392cd63_js__WEBPACK_IMPORTED_MODULE_5__["a"])(this.delegate, container, component, ['ion-page', 'ion-page-invisible'], this.params);
+      this.element = await Object(_framework_delegate_94e770cc_js__WEBPACK_IMPORTED_MODULE_5__["a"])(this.delegate, container, component, ['ion-page', 'ion-page-invisible'], this.params);
     }
   }
   /**
    * DOM WRITE
    */
   _destroy() {
-    Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(this.state !== VIEW_STATE_DESTROYED, 'view state must be ATTACHED');
+    Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(this.state !== VIEW_STATE_DESTROYED, 'view state must be ATTACHED');
     const element = this.element;
     if (element) {
       if (this.delegate) {
@@ -159,12 +159,12 @@ const Nav = class {
   }
   async componentDidLoad() {
     this.rootChanged();
-    this.gesture = (await __webpack_require__.e(/*! import() | swipe-back-ee838cf8-js */ "swipe-back-ee838cf8-js").then(__webpack_require__.bind(null, /*! ./swipe-back-ee838cf8.js */ "IYAk"))).createSwipeBackGesture(this.el, this.canStart.bind(this), this.onStart.bind(this), this.onMove.bind(this), this.onEnd.bind(this));
+    this.gesture = (await __webpack_require__.e(/*! import() | swipe-back-1bbd08e0-js */ "swipe-back-1bbd08e0-js").then(__webpack_require__.bind(null, /*! ./swipe-back-1bbd08e0.js */ "TWyq"))).createSwipeBackGesture(this.el, this.canStart.bind(this), this.onStart.bind(this), this.onMove.bind(this), this.onEnd.bind(this));
     this.swipeGestureChanged();
   }
   disconnectedCallback() {
     for (const view of this.views) {
-      Object(_index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__["l"])(view.element, _index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__["d"]);
+      Object(_index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__["l"])(view.element, _index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__["d"]);
       view._destroy();
     }
     if (this.gesture) {
@@ -585,8 +585,8 @@ const Nav = class {
       ti.opts.delegate = this.delegate;
     }
     if (ti.removeView !== undefined) {
-      Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(ti.removeStart !== undefined, 'removeView needs removeStart');
-      Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(ti.removeCount !== undefined, 'removeView needs removeCount');
+      Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(ti.removeStart !== undefined, 'removeView needs removeStart');
+      Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(ti.removeCount !== undefined, 'removeView needs removeCount');
       const index = this.views.indexOf(ti.removeView);
       if (index < 0) {
         throw new Error('removeView was not found');
@@ -615,7 +615,7 @@ const Nav = class {
     if (!insertViews) {
       return;
     }
-    Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(insertViews.length > 0, 'length can not be zero');
+    Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(insertViews.length > 0, 'length can not be zero');
     const viewControllers = convertToViews(insertViews);
     if (viewControllers.length === 0) {
       throw new Error('invalid views to insert');
@@ -654,9 +654,9 @@ const Nav = class {
     return undefined;
   }
   postViewInit(enteringView, leavingView, ti) {
-    Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(leavingView || enteringView, 'Both leavingView and enteringView are null');
-    Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(ti.resolve, 'resolve must be valid');
-    Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(ti.reject, 'reject must be valid');
+    Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(leavingView || enteringView, 'Both leavingView and enteringView are null');
+    Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(ti.resolve, 'resolve must be valid');
+    Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(ti.reject, 'reject must be valid');
     const opts = ti.opts;
     const insertViews = ti.insertViews;
     const removeStart = ti.removeStart;
@@ -664,8 +664,8 @@ const Nav = class {
     let destroyQueue;
     // there are views to remove
     if (removeStart !== undefined && removeCount !== undefined) {
-      Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(removeStart >= 0, 'removeStart can not be negative');
-      Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(removeCount >= 0, 'removeCount can not be negative');
+      Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(removeStart >= 0, 'removeStart can not be negative');
+      Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(removeCount >= 0, 'removeCount can not be negative');
       destroyQueue = [];
       for (let i = 0; i < removeCount; i++) {
         const view = this.views[i + removeStart];
@@ -679,7 +679,7 @@ const Nav = class {
     const finalBalance = this.views.length +
       (insertViews !== undefined ? insertViews.length : 0) -
       (removeCount !== undefined ? removeCount : 0);
-    Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(finalBalance >= 0, 'final balance can not be negative');
+    Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(finalBalance >= 0, 'final balance can not be negative');
     if (finalBalance === 0) {
       console.warn(`You can't remove all the pages in the navigation stack. nav.pop() is probably called too many times.`, this, this.el);
       throw new Error('navigation stack needs at least one root page');
@@ -705,9 +705,9 @@ const Nav = class {
     // let's make sure, callbacks are zoned
     if (destroyQueue && destroyQueue.length > 0) {
       for (const view of destroyQueue) {
-        Object(_index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__["l"])(view.element, _index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__["b"]);
-        Object(_index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__["l"])(view.element, _index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__["c"]);
-        Object(_index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__["l"])(view.element, _index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__["d"]);
+        Object(_index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__["l"])(view.element, _index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__["b"]);
+        Object(_index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__["l"])(view.element, _index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__["c"]);
+        Object(_index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__["l"])(view.element, _index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__["d"]);
       }
       // once all lifecycle events has been delivered, we can safely detroy the views
       for (const view of destroyQueue) {
@@ -725,9 +725,9 @@ const Nav = class {
     const mode = Object(_ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__["b"])(this);
     const enteringEl = enteringView.element;
     const leavingEl = leavingView && leavingView.element;
-    const animationOpts = Object.assign({ mode, showGoBack: this.canGoBackSync(enteringView), baseEl: this.el, animationBuilder: this.animation || opts.animationBuilder || _ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__["c"].get('navAnimation'), progressCallback, animated: this.animated && _ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__["c"].getBoolean('animated', true), enteringEl,
-      leavingEl }, opts);
-    const { hasCompleted } = await Object(_index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__["t"])(animationOpts);
+    const animationOpts = Object.assign(Object.assign({ mode, showGoBack: this.canGoBackSync(enteringView), baseEl: this.el, progressCallback, animated: this.animated && _ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__["c"].getBoolean('animated', true), enteringEl,
+      leavingEl }, opts), { animationBuilder: opts.animationBuilder || this.animation || _ionic_global_63a97a32_js__WEBPACK_IMPORTED_MODULE_1__["c"].get('navAnimation') });
+    const { hasCompleted } = await Object(_index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__["t"])(animationOpts);
     return this.transitionFinish(hasCompleted, enteringView, leavingView, opts);
   }
   transitionFinish(hasCompleted, enteringView, leavingView, opts) {
@@ -749,11 +749,11 @@ const Nav = class {
     if (existingIndex > -1) {
       // this view is already in the stack!!
       // move it to its new location
-      Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(view.nav === this, 'view is not part of the nav');
+      Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(view.nav === this, 'view is not part of the nav');
       views.splice(index, 0, views.splice(existingIndex, 1)[0]);
     }
     else {
-      Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(!view.nav, 'nav is used');
+      Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(!view.nav, 'nav is used');
       // this is a new view to add to the stack
       // create the new entering view
       view.nav = this;
@@ -762,10 +762,10 @@ const Nav = class {
     }
   }
   removeView(view) {
-    Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(view.state === VIEW_STATE_ATTACHED || view.state === VIEW_STATE_DESTROYED, 'view state should be loaded or destroyed');
+    Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(view.state === VIEW_STATE_ATTACHED || view.state === VIEW_STATE_DESTROYED, 'view state should be loaded or destroyed');
     const views = this.views;
     const index = views.indexOf(view);
-    Object(_helpers_dd7e4b7b_js__WEBPACK_IMPORTED_MODULE_3__["l"])(index > -1, 'view must be part of the stack');
+    Object(_helpers_1457892a_js__WEBPACK_IMPORTED_MODULE_3__["m"])(index > -1, 'view must be part of the stack');
     if (index >= 0) {
       views.splice(index, 1);
     }
@@ -801,13 +801,13 @@ const Nav = class {
         if (i > activeViewIndex) {
           // this view comes after the active view
           // let's unload it
-          Object(_index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__["l"])(element, _index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__["d"]);
+          Object(_index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__["l"])(element, _index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__["d"]);
           this.destroyView(view);
         }
         else if (i < activeViewIndex) {
           // this view comes before the active view
           // and it is not a portal then ensure it is hidden
-          Object(_index_c3ff7f2e_js__WEBPACK_IMPORTED_MODULE_4__["s"])(element, true);
+          Object(_index_a7711c1e_js__WEBPACK_IMPORTED_MODULE_4__["s"])(element, true);
         }
       }
     }

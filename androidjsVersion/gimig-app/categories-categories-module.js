@@ -42,22 +42,78 @@ let CategoriesPage = class CategoriesPage {
         this.foodCategories = [];
         this.beverageCategories = [];
         this.isFood = 'true';
+        this.allItems = [];
         this.isFinished = false;
+        this.ipAddress = localStorage.getItem('ipAddress');
+        this.restaurant = JSON.parse(localStorage.getItem('restaurant'));
     }
     //#endregion
     //#region [ LIFECYCLE ] /////////////////////////////////////////////////////////////////////////
     ngOnInit() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.gertUrlData();
-            this.items = this.itemService.getAllDegasoItems();
-            this.allCategories = this.categoryService.getAllDegasoCategories();
-            this.filterCategories();
+            this.getAllDegasoData();
+            this.items = yield this.itemService.getAllDegasoItems();
+            // this.allCategories = await this.categoryService.getAllDegasoCategories() ;
+            // this.filterCategories();
         });
     }
     //#endregion
     //#region [ EMITTER ] ///////////////////////////////////////////////////////////////////////////
     //#endregion
     //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
+    getAllDegasoData() {
+        fetch('http://' + this.ipAddress + ':3434/getAllProducts/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(itemData => {
+            if (itemData != null) {
+                this.allItems = itemData;
+                this.allCategories = [];
+                this.foodCategories = [];
+                fetch('http://' + this.ipAddress + ':3434/getAllCategorys/', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                    if (data != null) {
+                        data.sort((n1, n2) => n1.order - n2.order);
+                        for (const category of data) {
+                            try {
+                                category.imagePath = this.afStorage
+                                    .ref('/' + this.restaurant.id + '/' + category._id).getDownloadURL();
+                            }
+                            catch (e) {
+                                console.log(e);
+                            }
+                            if (!this.allCategories.includes(category)) {
+                                this.allCategories.push(category);
+                                this.allItems.forEach(item => {
+                                    if (item.kitchenRelevant && item.category == category.name) {
+                                        if (!this.foodCategories.includes(category) && !this.beverageCategories.includes(category)) {
+                                            this.foodCategories.push(category);
+                                        }
+                                    }
+                                    if (!item.kitchenRelevant && item.category == category.name) {
+                                        if (!this.foodCategories.includes(category) && !this.beverageCategories.includes(category)) {
+                                            this.beverageCategories.push(category);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
     filterCategories() {
         const timeout = setInterval(() => {
             if (this.allCategories && !this.isFinished) {
@@ -398,7 +454,7 @@ CategoryCardComponent = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"background-layout float-right\"></div>\n\n<ion-content>\n    <app-background-layout slot=\"fixed\" [title]=\"backgroundTitle\"></app-background-layout>\n    <app-side-navigation slot=\"fixed\"></app-side-navigation>\n    <!-- <div class=\"spin\" *ngIf=\"!categories$\">\n        <ion-spinner class=\"spinner-large\" name=\"bubbles\" color=\"primary\"></ion-spinner>\n    </div> -->\n    <ion-grid>\n        <ion-row>\n            <ion-col size=\"8\" offset=\"2\">\n                <ion-list *ngFor=\"let category of (isFood === 'true') ? foodCategories : beverageCategories\">\n                    <app-category-card [category]=\"category\" [backgroundTitle]=\"backgroundTitle\"></app-category-card>\n                </ion-list>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n</ion-content>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"background-layout float-right\"></div>\n\n<ion-content>\n    <app-background-layout slot=\"fixed\" [title]=\"backgroundTitle\"></app-background-layout>\n    <app-side-navigation slot=\"fixed\"></app-side-navigation>\n    <!-- <div class=\"spin\" *ngIf=\"!categories$\">\n        <ion-spinner class=\"spinner-large\" name=\"bubbles\" color=\"primary\"></ion-spinner>\n    </div> -->\n    <ion-grid>\n        <ion-row>\n            <ion-col size=\"8\" offset=\"2\">\n                <ng-container *ngIf=\"isFood === 'true'\">\n                    <ion-list *ngFor=\"let category of foodCategories\">\n                        <app-category-card [category]=\"category\" [backgroundTitle]=\"backgroundTitle\"></app-category-card>\n                    </ion-list>\n                </ng-container>\n\n                <ng-container *ngIf=\"isFood === 'false'\">\n                    <ion-list *ngFor=\"let category of beverageCategories\">\n                        <app-category-card [category]=\"category\" [backgroundTitle]=\"backgroundTitle\"></app-category-card>\n                    </ion-list>\n                </ng-container>\n            </ion-col>\n        </ion-row>\n    </ion-grid>\n</ion-content>\n");
 
 /***/ }),
 

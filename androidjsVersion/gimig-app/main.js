@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/ju/WebstormProjects/gimig-gastro-system/src/main.ts */"zUnb");
+module.exports = __webpack_require__(/*! /home/valle/Dokumente/degaso/gimig-gastro-system/src/main.ts */"zUnb");
 
 
 /***/ }),
@@ -143,7 +143,7 @@ let ItemService = class ItemService {
                             }
                         }
                     }
-                    if (!item.showOnGimig || item.showOnGimig === true) {
+                    if (item.showOnGimig == undefined || item.showOnGimig === true) {
                         if (!this.degasoItems.includes(item)) {
                             if (category) {
                                 if (category === item.category) {

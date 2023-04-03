@@ -9,9 +9,17 @@
     <ion-grid>
         <ion-row>
             <ion-col size="8" offset="2">
-                <ion-list *ngFor="let category of (isFood === 'true') ? foodCategories : beverageCategories">
-                    <app-category-card [category]="category" [backgroundTitle]="backgroundTitle"></app-category-card>
-                </ion-list>
+                <ng-container *ngIf="isFood === 'true'">
+                    <ion-list *ngFor="let category of foodCategories">
+                        <app-category-card [category]="category" [backgroundTitle]="backgroundTitle"></app-category-card>
+                    </ion-list>
+                </ng-container>
+
+                <ng-container *ngIf="isFood === 'false'">
+                    <ion-list *ngFor="let category of beverageCategories">
+                        <app-category-card [category]="category" [backgroundTitle]="backgroundTitle"></app-category-card>
+                    </ion-list>
+                </ng-container>
             </ion-col>
         </ion-row>
     </ion-grid>

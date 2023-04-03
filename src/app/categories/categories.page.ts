@@ -8,6 +8,7 @@ import { Category } from './category.model';
 import {EditService} from '../admin/edit.service';
 import {ItemService} from '../items/item.service';
 import {Item} from '../items/item.model';
+import { Restaurant } from '../home/restaurant.model';
 
 @Component({
   selector: 'app-categories',
@@ -30,8 +31,13 @@ export class CategoriesPage implements OnInit {
   pathAttachment: string;
   isFood = 'true';
   backgroundTitle: string;
+  allItems = [];
 
   isFinished = false;
+
+  ipAddress = localStorage.getItem('ipAddress');
+
+  restaurant = JSON.parse(localStorage.getItem('restaurant')) as Restaurant;
 
 
 
@@ -60,11 +66,12 @@ export class CategoriesPage implements OnInit {
 
   async ngOnInit() {
     this.gertUrlData();
+    this.getAllDegasoData();
 
-    this.items = this.itemService.getAllDegasoItems();
-    this.allCategories = this.categoryService.getAllDegasoCategories() ;
+    this.items = await this.itemService.getAllDegasoItems();
+    // this.allCategories = await this.categoryService.getAllDegasoCategories() ;
 
-    this.filterCategories();
+    // this.filterCategories();
   }
 
   //#endregion
@@ -74,6 +81,69 @@ export class CategoriesPage implements OnInit {
   //#endregion
 
   //#region [ RECEIVER ] ///////////////////////////////////////////////////////////////////////////
+
+  getAllDegasoData() {
+
+    fetch('http://' + this.ipAddress + ':3434/getAllProducts/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(itemData => {
+      if (itemData != null) {
+
+        this.allItems = itemData;
+        this.allCategories = [];
+        this.foodCategories = [];
+      
+        fetch('http://' + this.ipAddress + ':3434/getAllCategorys/', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+  
+          if (data != null) {
+  
+            data.sort((n1, n2) => n1.order - n2.order);
+            for (const category of data) {
+              try{
+                category.imagePath = this.afStorage
+                  .ref('/' + this.restaurant.id + '/' + category._id).getDownloadURL();
+  
+              } catch (e) {
+                console.log(e);
+              }
+  
+              if (!this.allCategories.includes(category)) {
+                this.allCategories.push(category);
+                this.allItems.forEach(item => {
+                  if(item.kitchenRelevant && item.category == category.name) {
+                    if (!this.foodCategories.includes(category) && !this.beverageCategories.includes(category)) {
+                      this.foodCategories.push(category)
+                    }
+                  }
+                  if(!item.kitchenRelevant && item.category == category.name) {
+                    if (!this.foodCategories.includes(category) && !this.beverageCategories.includes(category)) {
+                      this.beverageCategories.push(category)
+                    }
+                  }
+                });
+  
+              }
+            }
+          }
+        });
+      }
+    });
+
+
+
+  }
 
   filterCategories() {
     const timeout = setInterval(() => {
